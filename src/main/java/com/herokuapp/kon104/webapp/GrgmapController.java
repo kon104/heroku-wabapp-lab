@@ -12,22 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GrgmapController
 {
 
-	@Value("${spring.thymeleaf.cache:}")
-	private String springThymeleafCache;
-
-	@Value("${spring.devtools.restart.enabled:}")
-	private String springDevtoolsRestartEnabled;
-
-	@Value("${server.port:}")
-	private String serverPort;
+	private String gmapApiKey = "AIzaSyBCYBPbwRyLV_urAoagNVlNn2T3BHspQW4";
 
 	@RequestMapping("/grgmap")
 	public String index(Model model)
 	{
-		model.addAttribute("stcache", springThymeleafCache);
-		model.addAttribute("devrest", springDevtoolsRestartEnabled);
-		model.addAttribute("sport", serverPort);
-		model.addAttribute("message", "HelloThymeleaf!!");
+		model.addAttribute("gmapApiKey", gmapApiKey);
+
 		return "grgmap";
 	}
 }
