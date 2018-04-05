@@ -59,7 +59,6 @@ var dRend;
 
 function initMap() {
 
-
 	var centerLat = /*[[${lat}]]*/ 35.45481104743612;
 	var centerLng = /*[[${lng}]]*/ 139.63120803716913;
 	var homeLat = centerLat;
@@ -93,15 +92,30 @@ function initMap() {
 
 	var markerHome = createPieceMarker(map_ov, homeLat, homeLng, "宅");
 	var markerGrge = createPieceMarker(map_ov, garageLat, garageLng, "駐");
-	render(markerHome, markerGrge);
 
+	var contentHome = '<div id="hm-way2go">---</div><div id="hm-direct">---</div>';
+	var infoHome = new google.maps.InfoWindow({content: contentHome});
+	infoHome.open(map_ov, markerHome);
+
+	var contentGrge = '<div id="gr-way2go">2. ---</div><div id="gr-direct">1. ---</div>';
+	var infoGrge = new google.maps.InfoWindow({content: contentGrge});
+	infoGrge.open(map_ov, markerGrge);
+
+	render(dServ, dRend, markerHome, markerGrge);
+
+	markerHome.addListener('click', function(){
+		infoHome.open(map_ov, markerHome);
+		render(dServ, dRend, markerHome, markerGrge);
+	});
+	markerGrge.addListener('click', function(){
+		infoGrge.open(map_ov, markerGrge);
+		render(dServ, dRend, markerHome, markerGrge);
+	});
 	markerHome.addListener("dragend", function(arg) {
-		consoleMarkerPos(arg);
-		render(markerHome, markerGrge);
+		render(dServ, dRend, markerHome, markerGrge);
 	});
 	markerGrge.addListener("dragend", function(arg) {
-		consoleMarkerPos(arg);
-		render(markerHome, markerGrge);
+		render(dServ, dRend, markerHome, markerGrge);
 	});
 
 
@@ -189,22 +203,29 @@ function createPieceMarker(map, lat, lng, caption) {
 	return marker;
 }
 
-function consoleMarkerPos(argument) {
-	try{
-		argument = typeof argument == "object" ? JSON.stringify( argument ) : argument;
-	}catch(e){}
-	console.log(argument) ;
-}
-function render(markerHome, markerGrge) {
+function render(serv, rend, markerHome, markerGrge) {
 	var request = {
 		origin: markerHome.getPosition(),
 		destination: markerGrge.getPosition(),
 		travelMode: google.maps.DirectionsTravelMode.WALKING,
 	};
-	
-	dServ.route(request, function(result, status){
+	serv.route(request, function(result, status){
 		if (status == google.maps.DirectionsStatus.OK) {
-			dRend.setDirections(result);
+			rend.setDirections(result);
+			var distWay2Go = result.routes[0].legs[0].distance.value;
+			var elemHW = document.getElementById("hm-way2go");
+			var elemGW = document.getElementById("gr-way2go");
+			if (elemHW != null) elemHW.innerHTML = distWay2Go;
+			if (elemGW != null) elemGW.innerHTML = distWay2Go;
+
+			var distDirect = Math.round(
+				google.maps.geometry.spherical.computeDistanceBetween(
+				markerHome.getPosition(), markerGrge.getPosition()));
+			var elemHD = document.getElementById("hm-direct");
+			var elemGD = document.getElementById("gr-direct");
+			if (elemHD != null) elemHD.innerHTML = distDirect;
+			if (elemGD != null) elemGD.innerHTML = distDirect;
+
 		}
 	});
 }
@@ -212,7 +233,7 @@ function render(markerHome, markerGrge) {
 /*]]>*/
 </script>
 
-<script th:src="'https://maps.googleapis.com/maps/api/js?libraries=places&amp;callback=initMap&amp;key=' + ${gmapApiKey} + '&amp;libraries=drawing,places'"></script>
+<script th:src="'https://maps.googleapis.com/maps/api/js?libraries=places&amp;callback=initMap&amp;key=' + ${gmapApiKey} + '&amp;libraries=drawing,places,geometry'"></script>
 
 
 </body>
