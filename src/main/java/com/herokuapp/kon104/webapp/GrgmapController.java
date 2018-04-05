@@ -14,9 +14,12 @@ public class GrgmapController
 
 	private String gmapApiKey = "AIzaSyBCYBPbwRyLV_urAoagNVlNn2T3BHspQW4";
 
+
 	@RequestMapping("/grgmap")
 	public String index(Model model)
 	{
+		model.addAttribute("lat", 35.47131841901187);
+		model.addAttribute("lng", 139.4283853703149);
 		model.addAttribute("gmapApiKey", gmapApiKey);
 
 		return "grgmap";

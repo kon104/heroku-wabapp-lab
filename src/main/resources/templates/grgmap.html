@@ -47,7 +47,8 @@
 
 </div>
 
-<script>
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
 
 var map_ov;
 var map_zm;
@@ -56,25 +57,23 @@ var markerGrge;
 var dServ; 
 var dRend;
 
-//	var map;
 function initMap() {
-/*
-	// display the map
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {
-			lat: 34.79960279193115,
-			lng: 135.35992562770844
-		},
-		zoom: 15
-	});
-*/
+
+
+	var centerLat = /*[[${lat}]]*/ 35.45481104743612;
+	var centerLng = /*[[${lng}]]*/ 139.63120803716913;
+	var homeLat = centerLat;
+	var homeLng = centerLng - 0.0005;
+	var garageLat = centerLat;
+	var garageLng = centerLng + 0.0005;
 
 	map_ov = new google.maps.Map(document.getElementById('map_ov'), {
-		center: {
-			lat: 35.47131841901187,
-			lng: 139.4283853703149
-		},
-		zoom: 17
+        center: {
+            lat: centerLat,
+            lng: centerLng,
+        },  
+		zoom: 17,
+		scaleControl: true,
 	});
 	behaviorSearchBox(map_ov);
 
@@ -91,27 +90,11 @@ function initMap() {
 			strokeOpacity: 0.6,
 		}
 	});
-	var markerHome = new google.maps.Marker( {
-		map: map_ov ,
-		position: map_ov.getCenter() ,
-		draggable: true ,
-		label: {
-			text: "宅",
-			color: "#FFFFFF",
-		}
-	});
-	var markerGrge = new google.maps.Marker( {
-		map: map_ov ,
-		position: map_ov.getCenter() ,
-		draggable: true ,
-		label: {
-			text: "駐",
-			color: "#FFFFFF",
-		}
-//		icon: 'https://maps.google.com/mapfiles/kml/shapes/cabs.png',
-//		icon: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot.png',
-//		icon: 'http://maps.google.com/mapfiles/kml/pal4/icon15.png',
-	});
+
+	var markerHome = createPieceMarker(map_ov, homeLat, homeLng, "宅");
+	var markerGrge = createPieceMarker(map_ov, garageLat, garageLng, "駐");
+	render(markerHome, markerGrge);
+
 	markerHome.addListener("dragend", function(arg) {
 		consoleMarkerPos(arg);
 		render(markerHome, markerGrge);
@@ -190,6 +173,22 @@ function initMap() {
 
 }
 
+function createPieceMarker(map, lat, lng, caption) {
+	var marker = new google.maps.Marker( {
+		map: map,
+		position: {
+			lat: lat,
+			lng: lng,
+		},
+		draggable: true ,
+		label: {
+			text: caption,
+			color: "#FFFFFF",
+		}
+	});
+	return marker;
+}
+
 function consoleMarkerPos(argument) {
 	try{
 		argument = typeof argument == "object" ? JSON.stringify( argument ) : argument;
@@ -210,6 +209,7 @@ function render(markerHome, markerGrge) {
 	});
 }
 
+/*]]>*/
 </script>
 
 <script th:src="'https://maps.googleapis.com/maps/api/js?libraries=places&amp;callback=initMap&amp;key=' + ${gmapApiKey} + '&amp;libraries=drawing,places'"></script>
