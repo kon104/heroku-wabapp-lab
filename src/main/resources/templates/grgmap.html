@@ -1,11 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
 <link href="/css/grgmap.css" th:href="@{/css/grgmap.css}" rel="stylesheet"></link>
 <link href="/css/searchbox.css" th:href="@{/css/searchbox.css}" rel="stylesheet"></link>
+<!--
+<link href="/css/pagePiling-menu.css" th:href="@{/css/pagePiling-menu.css}" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pagePiling.js/1.5.5/jquery.pagepiling.css" />
+-->
+
 <script type="text/javascript" src="/js/searchbox.js" th:src="@{/js/searchbox.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<!--
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pagePiling.js/1.5.5/jquery.pagepiling.js"></script>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
 
 <style>
+
+.section {
+    margin-top: 60px;
+}
+
+.mainboard{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:left;
+	width:800px;
+}
+
 #container{
     display: flex;
 }
@@ -19,12 +43,12 @@
 	height: 100%;
 }
 #map_ov{
-    width: 600px;
-	height: 350px;
+    width: 550px;
+	height: 400px;
 }
 #map_zm{
-    width: 600px;
-	height: 350px;
+    width: 550px;
+	height: 400px;
 }
 #bar{
 	height: 10px;
@@ -35,21 +59,91 @@
 </head>
 <body>
 
-<div id="container">
+<ul id="menu">
+    <li data-menuanchor="step1" class="active"><a href="#step1">Step 1</a></li>
+    <li data-menuanchor="step2"><a href="#step2">Step 2</a></li>
+    <li data-menuanchor="step3"><a href="#step3">Step 3</a></li>
+</ul>
 
-	<div id="side">
+<div id="pagepiling">
+    <div class="section" id="section1">
+		<div class="mainboard">
+			<h3>所在図</h3>
+			<div id="map_ov"></div>
+			<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+		</div>
 	</div>
-	<div id="main">
-		<div id="map_ov"></div>
-		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
-		<div id="bar"></div>
-		<div id="map_zm"></div>
+    <div class="section">
+		<div class="mainboard">
+			<h3>配置図</h3>
+			<div id="map_zm"></div>
+		</div>
 	</div>
+    <div class="section">
+		<div class="mainboard">
+			<h3>保管場所証明申請書ダウンロード</h3>
+			<div>Some section: 3</div>
 
+			<form name="test">
+				<input type="button" value="Test" onClick="kakunin()"></input>
+			</form>
+
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
+
+function kakunin() {
+	var txtbox = document.getElementById('pac-input');
+	txtbox.style.display ="none";
+	html2canvas(document.getElementById('map_ov'), {
+		useCORS: true,
+		onrendered: function(canvas){
+			var type = 'image/png';
+			var imgData = canvas.toDataURL(type);
+			var bin = atob(imgData.split(',')[1]);
+			var buffer = new Uint8Array(bin.length);
+			for (var i = 0; i < bin.length; i++) {
+				buffer[i] = bin.charCodeAt(i);
+			}
+			var blob = new Blob([buffer.buffer], {type: type});
+			saveAs(
+				blob,
+				"location.png"
+			);
+			txtbox.style.display ="block";
+		}
+	});
+}
+
+/*
+$(document).ready(function() {
+	// Plugin intialization
+    $('#pagepiling').pagepiling({
+        direction: 'horizontal',
+        verticalCentered: false,
+        menu: '#menu',
+        anchors: ['step1', 'step2', 'step3'],
+        sectionsColor: ['white', '#31B404', '#39C'],
+        navigation: {
+            'position': 'right',
+            'tooltips': ['Step 1', 'Step 2', 'Step 3']
+        },
+        afterRender: function(){
+            $('#pp-nav').addClass('custom');
+        },
+        afterLoad: function(anchorLink, index){
+            if(index>1){
+                $('#pp-nav').removeClass('custom');
+            }else{
+                $('#pp-nav').addClass('custom');
+            }
+        }
+    });
+});
+*/
 
 var map_ov;
 var map_zm;
