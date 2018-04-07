@@ -29,6 +29,7 @@
 #bar{
 	height: 10px;
 }
+
 </style>
 
 </head>
@@ -59,12 +60,14 @@ var dRend;
 
 function initMap() {
 
+	const DIFF_DIST_FROM_CENTER = 0.0008;
+
 	var centerLat = /*[[${lat}]]*/ 35.45481104743612;
 	var centerLng = /*[[${lng}]]*/ 139.63120803716913;
 	var homeLat = centerLat;
-	var homeLng = centerLng - 0.0005;
+	var homeLng = centerLng - DIFF_DIST_FROM_CENTER;
 	var garageLat = centerLat;
-	var garageLng = centerLng + 0.0005;
+	var garageLng = centerLng + DIFF_DIST_FROM_CENTER;
 
 	map_ov = new google.maps.Map(document.getElementById('map_ov'), {
         center: {
@@ -73,6 +76,8 @@ function initMap() {
         },  
 		zoom: 17,
 		scaleControl: true,
+		clickableIcons: false,
+		rotateControlOptions: true,
 	});
 	behaviorSearchBox(map_ov);
 
@@ -84,7 +89,7 @@ function initMap() {
 		draggable: true,
 		suppressMarkers: true,
 		polylineOptions: {
-			strokeWeight: 7,
+			strokeWeight: 5,
 			strokeColor: "black",
 			strokeOpacity: 0.6,
 		}
@@ -93,11 +98,13 @@ function initMap() {
 	var markerHome = createPieceMarker(map_ov, homeLat, homeLng, "宅");
 	var markerGrge = createPieceMarker(map_ov, garageLat, garageLng, "駐");
 
-	var contentHome = '<div id="hm-way2go">---</div><div id="hm-direct">---</div>';
+	var contentHome = '<table><tr><th>道程距離</th><td><div id="hm-way2go">---</div><td></tr>'
+		+ '<tr><th>直線距離</th><td><div id="hm-direct">---</div><td></tr></table>';
 	var infoHome = new google.maps.InfoWindow({content: contentHome});
 	infoHome.open(map_ov, markerHome);
 
-	var contentGrge = '<div id="gr-way2go">2. ---</div><div id="gr-direct">1. ---</div>';
+	var contentGrge = '<table><tr><th>道程距離</th><td><div id="gr-way2go">---</div><td></tr>'
+		+ '<tr><th>直線距離</th><td><div id="gr-direct">---</div><td></tr></table>';
 	var infoGrge = new google.maps.InfoWindow({content: contentGrge});
 	infoGrge.open(map_ov, markerGrge);
 
@@ -116,6 +123,7 @@ function initMap() {
 	});
 	markerGrge.addListener("dragend", function(arg) {
 		render(dServ, dRend, markerHome, markerGrge);
+		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 
 
@@ -129,29 +137,39 @@ function initMap() {
 	// 2nd map
 	//----------
 	map_zm = new google.maps.Map(document.getElementById('map_zm'), {
-		center: {
-			lat: 35.47131841901187,
-			lng: 139.4283853703149
-		},
-		zoom: 17
+		center: markerGrge.getPosition(),
+		zoom: 21,
+		scaleControl: true,
+//		mapTypeId: google.maps.MapTypeId.SATELLITE,
+		styles: [{
+			stylers: [{
+				saturation: -100
+			}]
+		}]
 	});
+
 
 	var drawingManager = new google.maps.drawing.DrawingManager({
 		drawingMode: google.maps.drawing.OverlayType.PAN,
 		drawingControl: true,                            
 		drawingControlOptions: {
 			position: google.maps.ControlPosition.TOP_CENTER, 
-			drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
-//			drawingModes: ['circle']
+			drawingModes: [
+				google.maps.drawing.OverlayType.MARKER,
+				google.maps.drawing.OverlayType.CIRCLE,
+				google.maps.drawing.OverlayType.POLYGON,
+				google.maps.drawing.OverlayType.POLYLINE,
+				google.maps.drawing.OverlayType.RECTANGLE,
+			],
 		},
-/*
 		markerOptions: {
-			icon: {
-				url: '../common/img/ms/pin_02.png',
-				scaledSize: new google.maps.Size(40, 40)
-			}
+//			icon: {
+//				url: '../common/img/ms/pin_02.png',
+//				scaledSize: new google.maps.Size(40, 40),
+//			}
+			draggable: true,
+			title: 'あいうえお',
 		},
-*/
 		circleOptions: {
 			clickable: false,
 			editable: true,
@@ -187,6 +205,7 @@ function initMap() {
 
 }
 
+// {{{ func
 function createPieceMarker(map, lat, lng, caption) {
 	var marker = new google.maps.Marker( {
 		map: map,
@@ -202,7 +221,9 @@ function createPieceMarker(map, lat, lng, caption) {
 	});
 	return marker;
 }
+// }}}
 
+// {{{ func
 function render(serv, rend, markerHome, markerGrge) {
 	var request = {
 		origin: markerHome.getPosition(),
@@ -212,15 +233,17 @@ function render(serv, rend, markerHome, markerGrge) {
 	serv.route(request, function(result, status){
 		if (status == google.maps.DirectionsStatus.OK) {
 			rend.setDirections(result);
-			var distWay2Go = result.routes[0].legs[0].distance.value;
+			var distWay2Go = (result.routes[0].legs[0].distance.value)
+				.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') + ' m';
 			var elemHW = document.getElementById("hm-way2go");
 			var elemGW = document.getElementById("gr-way2go");
 			if (elemHW != null) elemHW.innerHTML = distWay2Go;
 			if (elemGW != null) elemGW.innerHTML = distWay2Go;
 
-			var distDirect = Math.round(
+			var distDirect = (Math.round(
 				google.maps.geometry.spherical.computeDistanceBetween(
-				markerHome.getPosition(), markerGrge.getPosition()));
+				markerHome.getPosition(), markerGrge.getPosition())))
+				.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') + ' m';
 			var elemHD = document.getElementById("hm-direct");
 			var elemGD = document.getElementById("gr-direct");
 			if (elemHD != null) elemHD.innerHTML = distDirect;
@@ -229,6 +252,12 @@ function render(serv, rend, markerHome, markerGrge) {
 		}
 	});
 }
+// }}}
+
+function synchronizeCenter2Zoom(marker, map) {
+	map.setCenter(marker.getPosition());
+}
+
 
 /*]]>*/
 </script>
