@@ -29,11 +29,25 @@
     margin-top: 60px;
 }
 
-#map_ov{
+#section0 {
+	background-size: cover;
+	background-image: url(/images/cars.jpg);
+}
+#section1 {
+	background-color: #31B404;
+}
+#section2 {
+	background-color: #58ACFA;
+}
+#section3 {
+	background-color: #FACC2E;
+}
+
+#map_ov {
     width: 500px;
 	height: 500px;
 }
-#map_zm{
+#map_zm {
     width: 500px;
 	height: 500px;
 }
@@ -46,26 +60,26 @@
 $(document).ready(function() {
 	// Plugin intialization
     $('#pagepiling').pagepiling({
-        direction: 'horizontal',
-        verticalCentered: false,
-        menu: '#menu',
-        anchors: ['home', 'step1', 'step2', 'step3'],
-        sectionsColor: ['white', '#31B404', '#39C', '#FACC2E'],
-        navigation: {
-            'position': 'right',
-            'tooltips': ['Home', 'Step 1', 'Step 2', 'Step3']
-        },
-        afterRender: function(){
-            $('#pp-nav').addClass('custom');
-        },
-        afterLoad: function(anchorLink, index){
-            if(index>1){
-                $('#pp-nav').removeClass('custom');
-            }else{
-                $('#pp-nav').addClass('custom');
-            }
-        }
-    });
+		direction: 'horizontal',
+		verticalCentered: false,
+		menu: '#menu',
+		anchors: ['home', 'step1', 'step2', 'step3'],
+//		sectionsColor: ['white', '#31B404', '#39C', '#FACC2E'],
+		navigation: {
+			'position': 'right',
+			'tooltips': ['Home', 'Step 1', 'Step 2', 'Step3']
+		},
+		afterRender: function(){
+			$('#pp-nav').addClass('custom');
+		},
+		afterLoad: function(anchorLink, index){
+			if(index>1){
+				$('#pp-nav').removeClass('custom');
+			}else{
+				$('#pp-nav').addClass('custom');
+			}
+		}
+	});
 });
 
 /*]]>*/
@@ -82,11 +96,11 @@ $(document).ready(function() {
 </ul>
 
 <div id="pagepiling">
-    <div class="section">
+    <div class="section" id="section0">
 		<h3>保管場所の所在図・配置図の作成を支援します</h3>
 		<div>abc...</div>
 	</div>
-    <div class="section">
+    <div class="section" id="section1">
 		<h3>Step 1: 所在図を書きましょう</h3>
 		<form name="downloadbtn_ov">
 			<div><input type="button" value="地図を画像でダウンロード" onClick="download_mapov()"></input></div>
@@ -94,16 +108,15 @@ $(document).ready(function() {
 		<div id="map_ov"></div>
 		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
 	</div>
-    <div class="section">
+    <div class="section" id="section2">
 		<h3>Step 2: 配置図を書きましょう</h3>
 		<form name="downloadbtn_zm">
 			<div><input type="button" value="地図を画像でダウンロード" onClick="download_mapzm()"></input></div>
 		</form>
 		<div id="map_zm"></div>
 	</div>
-    <div class="section">
+    <div class="section" id="section3">
 		<h3>Step 3: 保管場所証明申請書をダウンロードしましょう</h3>
-		<div>Some section: 3</div>
 <!--
 		<table>
 			<tr th:each="entry : ${appforms}">
@@ -264,7 +277,9 @@ var markerGrge;
 var dServ; 
 var dRend;
 
-function initMap() {
+// {{{ function initMap()
+function initMap()
+{
 
 	const DIFF_DIST_FROM_CENTER = 0.0008;
 
@@ -314,21 +329,24 @@ function initMap() {
 	var infoGrge = new google.maps.InfoWindow({content: contentGrge});
 	infoGrge.open(map_ov, markerGrge);
 
-	render(dServ, dRend, markerHome, markerGrge);
+	renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 
 	markerHome.addListener('click', function(){
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 		infoHome.open(map_ov, markerHome);
-		render(dServ, dRend, markerHome, markerGrge);
 	});
 	markerGrge.addListener('click', function(){
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 		infoGrge.open(map_ov, markerGrge);
-		render(dServ, dRend, markerHome, markerGrge);
 	});
 	markerHome.addListener("dragend", function(arg) {
-		render(dServ, dRend, markerHome, markerGrge);
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+		var pref = distMarker2Pref(markerHome, getPrefName);
+console.log(pref);
+		document.getElementById("srchInput").value = pref;
 	});
 	markerGrge.addListener("dragend", function(arg) {
-		render(dServ, dRend, markerHome, markerGrge);
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 
@@ -410,9 +428,11 @@ function initMap() {
 	drawingManager.setMap(map_zm);
 
 }
+// }}}
 
-// {{{ func
-function createPieceMarker(map, lat, lng, caption) {
+// {{{ function createPieceMarker(map, lat, lng, caption)
+function createPieceMarker(map, lat, lng, caption)
+{
 	var marker = new google.maps.Marker( {
 		map: map,
 		position: {
@@ -429,8 +449,9 @@ function createPieceMarker(map, lat, lng, caption) {
 }
 // }}}
 
-// {{{ func
-function render(serv, rend, markerHome, markerGrge) {
+// {{{ function renderPoint2Point(serv, rend, markerHome, markerGrge)
+function renderPoint2Point(serv, rend, markerHome, markerGrge)
+{
 	var request = {
 		origin: markerHome.getPosition(),
 		destination: markerGrge.getPosition(),
@@ -460,7 +481,43 @@ function render(serv, rend, markerHome, markerGrge) {
 }
 // }}}
 
-function synchronizeCenter2Zoom(marker, map) {
+
+function distMarker2Pref(marker, callback)
+{
+	var pref = "";
+	var geocoder = new google.maps.Geocoder();
+	geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
+		if (status === google.maps.GeocoderStatus.OK) {
+			if (results[1]) {
+				callback(results);
+/*
+				var results = geocodeResults[0].address_components.filter(function(component) {
+					return component.types.indexOf("administrative_area_level_1") > -1;
+				});
+				pref = results[0].long_name;
+				return pref;
+*/
+			}
+		}
+	});
+	return "";
+}
+
+var getPrefName = function(geocodeResults)
+{
+	var results = geocodeResults[0].address_components.filter(function(component) {
+		return component.types.indexOf("administrative_area_level_1") > -1;
+	});
+	pref = results[0].long_name;
+console.log(pref);
+	return pref;
+}
+
+
+
+
+function synchronizeCenter2Zoom(marker, map)
+{
 	map.setCenter(marker.getPosition());
 }
 
