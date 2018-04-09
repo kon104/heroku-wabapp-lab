@@ -97,8 +97,8 @@ $(document).ready(function() {
 
 <div id="pagepiling">
     <div class="section" id="section0">
-		<h3>保管場所の所在図・配置図の作成を支援します</h3>
-		<div>abc...</div>
+		<h2 style="color: white;">車庫証明書の取得に向けて...<br/>保管場所の所在図・配置図の作成を支援します</h2>
+		<img src="/images/logo.png" />
 	</div>
     <div class="section" id="section1">
 		<h3>Step 1: 所在図を書きましょう</h3>
@@ -111,7 +111,7 @@ $(document).ready(function() {
     <div class="section" id="section2">
 		<h3>Step 2: 配置図を書きましょう</h3>
 		<form name="downloadbtn_zm">
-			<div><input type="button" value="地図を画像でダウンロード" onClick="download_mapzm()"></input></div>
+			<div><input type="button" value="地図を画像でダウンロード" onClick="download_mapzm()"></input>&nbsp;<input type="button" value="図形削除" onClick="delete_shape()"></input></div>
 		</form>
 		<div id="map_zm"></div>
 	</div>
@@ -269,6 +269,14 @@ function download_map2img(mapid, filename) {
 	});
 }
 
+function delete_shape() {
+	if (drawings.length > 0) {
+		var shape = drawings[drawings.length - 1];
+		shape.setMap(null);
+		shape = null;
+		drawings.pop();
+	}
+}
 
 var map_ov;
 var map_zm;
@@ -276,6 +284,8 @@ var markerHome;
 var markerGrge;
 var dServ; 
 var dRend;
+
+var drawings = [];
 
 // {{{ function initMap()
 function initMap()
@@ -341,9 +351,7 @@ function initMap()
 	});
 	markerHome.addListener("dragend", function(arg) {
 		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
-		var pref = distMarker2Pref(markerHome, getPrefName);
-console.log(pref);
-		document.getElementById("srchInput").value = pref;
+		convMarker2Geocode(markerHome, annexPref2Search);
 	});
 	markerGrge.addListener("dragend", function(arg) {
 		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
@@ -390,15 +398,18 @@ console.log(pref);
 //			icon: {
 //				url: '../common/img/ms/pin_02.png',
 //				scaledSize: new google.maps.Size(40, 40),
-//			}
+//			},
+//			label: 'hello world',
 			clickable: true,
-			draggable: true,
-			label: 'あいうえお',
 			editable: true,
+			draggable: true,
+			geodesic: true,
 		},
 		circleOptions: {
 			clickable: true,
-			editable: true,
+//			editable: true,
+			draggable: true,
+			geodesic: true,
 			zIndex: 1
 		},
 		polygonOptions: {
@@ -406,7 +417,9 @@ console.log(pref);
 //			fillOpacity: 1,
 //			strokeWeight: 5,
 			clickable: true,
-			editable: true,
+//			editable: true,
+			draggable: true,
+			geodesic: true,
 			zIndex: 1
 		},
 		rectangleOptions: {
@@ -414,18 +427,43 @@ console.log(pref);
 //			fillOpacity: 1,
 //			strokeWeight: 5,
 			clickable: true,
-			editable: true,
+//			editable: true,
+			draggable: true,
+			geodesic: true,
 			zIndex: 1
 		},
 		polylineOptions: {
 //			strokeColor: '#ff0000',
 //			strokeWeight: 5,
 			clickable: true,
-			editable: true,
+//			editable: true,
+			draggable: true,
+			geodesic: true,
 			zIndex: 1
 		}
 	});
 	drawingManager.setMap(map_zm);
+
+	google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+		var type = event.type;
+		var shape = event.overlay;
+		drawings.push(shape);
+//		console.log(type);
+		if (type == 'marker') {
+			shape.addListener('click', function() {
+				console.log("### [" + shape.label + "]");
+				var iw = new google.maps.InfoWindow({content: "2222222222"});
+				iw.open(map_zm, shape);
+			});
+			var statement = prompt("表示する文字を入力してください");
+			var iw = new google.maps.InfoWindow({content: statement});
+//			iw.setPosition(shape.getPosition());
+//			iw.pixelOffset = new google.maps.Size(100, 100);
+//			iw.zindex = 1;
+			iw.open(map_zm, shape);
+		} 
+	});
+
 
 }
 // }}}
@@ -481,36 +519,25 @@ function renderPoint2Point(serv, rend, markerHome, markerGrge)
 }
 // }}}
 
-
-function distMarker2Pref(marker, callback)
+function convMarker2Geocode(marker, callback)
 {
-	var pref = "";
 	var geocoder = new google.maps.Geocoder();
 	geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
 			if (results[1]) {
 				callback(results);
-/*
-				var results = geocodeResults[0].address_components.filter(function(component) {
-					return component.types.indexOf("administrative_area_level_1") > -1;
-				});
-				pref = results[0].long_name;
-				return pref;
-*/
 			}
 		}
 	});
-	return "";
 }
 
-var getPrefName = function(geocodeResults)
+var annexPref2Search = function(geocodeResults)
 {
 	var results = geocodeResults[0].address_components.filter(function(component) {
 		return component.types.indexOf("administrative_area_level_1") > -1;
 	});
 	pref = results[0].long_name;
-console.log(pref);
-	return pref;
+	document.getElementById("srchInput").value = pref;
 }
 
 
