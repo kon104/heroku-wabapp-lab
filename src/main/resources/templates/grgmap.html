@@ -448,18 +448,15 @@ function initMap()
 		var type = event.type;
 		var shape = event.overlay;
 		drawings.push(shape);
-//		console.log(type);
 		if (type == 'marker') {
+			shape.setIcon("http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin_maps.png");
 			shape.addListener('click', function() {
-				console.log("### [" + shape.label + "]");
-				var iw = new google.maps.InfoWindow({content: "2222222222"});
+				var statement = prompt("表示する文字を入力してください");
+				var iw = new google.maps.InfoWindow({content: statement});
 				iw.open(map_zm, shape);
 			});
 			var statement = prompt("表示する文字を入力してください");
 			var iw = new google.maps.InfoWindow({content: statement});
-//			iw.setPosition(shape.getPosition());
-//			iw.pixelOffset = new google.maps.Size(100, 100);
-//			iw.zindex = 1;
 			iw.open(map_zm, shape);
 		} 
 	});
