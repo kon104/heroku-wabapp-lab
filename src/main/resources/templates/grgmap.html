@@ -268,18 +268,36 @@ function download_mapzm() {
 }
 
 function download_map2img(mapid, filename) {
+
+	if (window.chrome || window.safari) {
+		var transform = $(".gm-style>div:first>div").css("transform");
+		var comp = transform.split(","); //split up the transform matrix
+		var mapleft = parseFloat(comp[4]); //get left value
+		var maptop = parseFloat(comp[5]); //get top value
+		$(".gm-style>div:first>div").css({ //get the map container. not sure if stable
+			"transform": "none",
+			"left": mapleft,
+			"top": maptop,
+		});
+	}
+
 	var txtbox = document.getElementById('pac-input');
 	txtbox.style.display = "none";
 
 	var test = document.getElementById("test-canvas");
 
 	html2canvas(document.getElementById(mapid), {
-//		allowTaint: true,
 		canvas: test,
 		useCORS: true,
-//		windowWidth: 500,
-//		windowHeight: 500,
 		}).then(function(canvas) {
+
+		if (window.chrome || window.safari) {
+			$(".gm-style>div:first>div").css({
+				left: 0,
+				top: 0,
+				"transform": transform
+			});
+		}
 
 		var type = 'image/png';
 		var imgData = canvas.toDataURL(type);
