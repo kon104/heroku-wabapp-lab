@@ -8,32 +8,10 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
-<!--
-<link href="/css/pagePiling-menu.css" th:href="@{/css/pagePiling-menu.css}" rel="stylesheet"></link>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pagePiling.js/1.5.5/jquery.pagepiling.css" />
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pagePiling.js/1.5.5/jquery.pagepiling.js"></script>
--->
-
-<!--
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/scrollify/1.0.19/jquery.scrollify.js"></script>
--->
-<!--
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.6/jquery.fullpage.css" />
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.6/jquery.fullpage.js"></script>
--->
-
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
--->
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
 
 <style>
-
-.section {
-    margin-top: 60px;
-}
 
 #section0 {
 	background-size: cover;
@@ -58,36 +36,50 @@
 	height: 500px;
 }
 
+#scrolltop {
+	background: rgba(0,0,0,.7);
+	text-align: center;
+	color: #fff;
+	padding: 10px;
+	position: fixed;
+	right: 15px;
+	z-index: 100;
+}
+
 </style>
 
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 
-$(document).ready(function() {
-/*
-	// Plugin intialization
-    $('#pagepiling').pagepiling({
-		direction: 'horizontal',
-		verticalCentered: false,
-		menu: '#menu',
-		anchors: ['home', 'step1', 'step2', 'step3'],
-//		sectionsColor: ['white', '#31B404', '#39C', '#FACC2E'],
-		navigation: {
-			'position': 'right',
-			'tooltips': ['Home', 'Step 1', 'Step 2', 'Step3']
-		},
-		afterRender: function(){
-			$('#pp-nav').addClass('custom');
-		},
-		afterLoad: function(anchorLink, index){
-			if(index>1){
-				$('#pp-nav').removeClass('custom');
-			}else{
-				$('#pp-nav').addClass('custom');
-			}
+$(function(){
+
+	// menu
+	$('a[href*="#"].anchor-link').on('click', function() {
+		var speed = 400;
+		var href= $(this).attr("href");
+		var target = $(href == "#" || href == "" ? 'html' : href);
+		var position = target.offset().top;
+		$('body,html').animate({scrollTop:position}, speed, 'swing');
+		return false;
+	});
+
+	// top button
+	var threshold = 200
+	var topBtn = $('#scrolltop');
+	topBtn.css('bottom', '-100px');
+	$(window).on('scroll', function() {
+		if ($(this).scrollTop() > threshold) {
+			topBtn.stop().animate({'bottom' : '30px'}, 200);
+		} else {
+			topBtn.stop().animate({'bottom' : '-100px'}, 200);
 		}
 	});
-*/
+	topBtn.on('click', function() {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 500);
+		return false;
+	});
 });
 
 /*]]>*/
@@ -96,179 +88,68 @@ $(document).ready(function() {
 </head>
 <body>
 
-<ul id="menu">
-    <li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
-    <li data-menuanchor="step1"><a href="#step1">Step 1</a></li>
-    <li data-menuanchor="step2"><a href="#step2">Step 2</a></li>
-    <li data-menuanchor="step3"><a href="#step3">Step 3</a></li>
+<ul class="anchor-nav">
+	<li><a href="#section0" class="anchor-link">Home</a></li>
+	<li><a href="#section1" class="anchor-link">Step 1</a></li>
+	<li><a href="#section2" class="anchor-link">Step 2</a></li>
+	<li><a href="#section3" class="anchor-link">Step 3</a></li>
 </ul>
 
-<div id="pagepiling">
-    <div class="section" id="section0">
-		<h2 style="color: white;">車庫証明書の取得に向けて...<br/>保管場所の所在図・配置図の作成を支援します</h2>
-		<img src="/images/logo.png" />
-	</div>
-    <div class="section" id="section1">
-		<h3>Step 1: 所在図を書きましょう</h3>
-		<form name="downloadbtn_ov">
-			<div><input type="button" value="地図を画像でダウンロード" onClick="download_mapov()"></input></div>
-		</form>
-		<div id="map_ov"></div>
-		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
-	</div>
-    <div class="section" id="section2">
-		<h3>Step 2: 配置図を書きましょう</h3>
-		<form name="downloadbtn_zm">
-<!--
-			<div><input type="button" value="地図を画像でダウンロード" onClick="download_mapzm()"></input>&nbsp;<input type="button" value="図形削除" onClick="delete_shape()"></input></div>
--->
-			<div><input type="button" id="btn_map_zm" value="地図を画像でダウンロード"></input>&nbsp;<input type="button" value="図形削除" onClick="delete_shape()"></input></div>
-		</form>
-		<div id="map_zm"></div>
-	</div>
-    <div class="section" id="section3">
-		<h3>Step 3: 保管場所証明申請書をダウンロードしましょう</h3>
-
-<canvas id="test-canvas" width="500" height="500"></canvas>
-
-<!--
-		<table>
-			<tr th:each="entry : ${appforms}">
-				<td th:text="${entry.code}"></td>
-				<td><a th:href="${entry.url}" th:text="${entry.name}"></a></td>
-			</tr>
-		</table>
--->
-
-<div id="srchBox">
-<style type="text/css">
-#srchBox
-{
-width:498px;
-_width:496px;
-margin-bottom:10px;
-background-color:#FACC2E;
-border-style:solid;
-border-width:1px;
-border-color:#EEEEEE;
-color:#000000;
-text-align:left;
-}
-#srchBox *
-{
-margin:0;
-padding:0;
-font-size:13px;
-*font-size:small;
-*font:x-small;
-}
-#srchBox a img
-{
-border:none;
-}
-#srchBox #srch
-{
-padding:10px 10px 0 10px;
-}
-#srchBox #srch #srchForm
-{
-white-space:nowrap;
-}
-#srchBox #srchInput
-{
-width:388px;
-margin-right:6px;
-vertical-align:bottom;
-}
-#srchBox #srchBtn
-{
-width:80px;
-}
-*html #srchBox #srchBtn
-{
-padding-top:2px;
-}
-*:first-child+html #srchBox #srchBtn
-{
-padding-top:2px;
-}
-#srchBox ul
-{
-margin-top:6px;
-text-align:left;
-}
-#srchBox li
-{
-list-style-type:none;
-display:inline;
-zoom:1;
-padding-right:10px;
-}
-#srchBox li input
-{
-zoom:1;
-margin-right:2px;
-_margin:-4px 0 -4px -4px;
-vertical-align:middle;
-border:0;
-}
-*:+html #srchBox li input
-{
-margin:-4px 0 -4px -4px;
-}
-#srchBox #srchLogo
-{
-margin:6px 6px 6px 0;
-text-align:right;
-}
-#srchBox #srchLogo a
-{
-color:#666666;
-text-decoration:none;
-font-size:85%;
-}
-#srchBox #srchLogo a:hover
-{
-text-decoration:underline;
-}
-
-</style>
-<form action="https://custom.search.yahoo.co.jp/search" method="get" id="srch" target="yjserp">
-<p id="srchForm">
-<input type="text" name="p" id="srchInput" /><input type="submit" value="検索" id="srchBtn" />
-<input type="hidden" id="fr" name="fr" value="cse" />
-<input type="hidden" id="ei" name="ei" value="UTF-8" />
-<input type="hidden" id="csid" name="csid" value="SG7sRdZGBtnbPry4IXlWQXvoUe1bYGlhYTCk.dAusg--" />
-</p>
-</form>
-<p id="srchLogo"><a href="https://www.yahoo.co.jp"><img src="https://s.yimg.jp/images/search/customsearch/yjlogo/yjlogo_type1_ffd700.gif" width="124" height="20" alt="powered by Yahoo! JAPAN" /></a></p>
-<img src="https://custom.search.yahoo.co.jp/images/window/SG7sRdZGBtnbPry4IXlWQXvoUe1bYGlhYTCk.dAusg--.gif" />
+<div class="section" id="section0">
+	<h2 style="color: white;">車庫証明書の取得に向けて...<br/>保管場所の所在図・配置図の作成を支援します</h2>
+	<img src="/images/logo.png" />
 </div>
-<!-- /#srchBox -->
 
-	</div>
+<div class="section" id="section1">
+	<h3>Step 1: 所在図を書きましょう</h3>
+	<div><input type="button" id="btn_map_ov" value="地図を画像でダウンロード"></input></div>
+	<div id="map_ov"></div>
+	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
 </div>
+
+<div class="section" id="section2">
+	<h3>Step 2: 配置図を書きましょう</h3>
+	<div><input type="button" id="btn_map_zm" value="地図を画像でダウンロード"></input>&nbsp;<input type="button" id="btn_delete_shape" value="図形削除"></input></div>
+	<div id="map_zm"></div>
+</div>
+
+<div class="section" id="section3">
+	<h3>Step 3: 保管場所証明申請書をダウンロードしましょう</h3>
+	<div th:replace="/grgmap-search::srchBox"></div>
+<!--
+	<table>
+		<tr th:each="entry : ${appforms}">
+			<td th:text="${entry.code}"></td>
+			<td><a th:href="${entry.url}" th:text="${entry.name}"></a></td>
+		</tr>
+	</table>
+-->
+</div>
+
 
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 
+var drawings = [];
+
+var btn_map_ov = document.getElementById("btn_map_ov");
+btn_map_ov.addEventListener("click" , function(event) {
+	download_map2img('map_ov', 'location.png');
+}, false);
+
 var btn_map_zm = document.getElementById("btn_map_zm");
 btn_map_zm.addEventListener("click" , function(event) {
-	event.preventDefault();
 	download_map2img('map_zm', 'allocation.png');
 }, false);
 
+var btn_del_sh = document.getElementById("btn_delete_shape");
+btn_del_sh.addEventListener("click" , function(event) {
+	delete_shape(drawings)
+}, false);
 
-function download_mapov() {
-	download_map2img('map_ov', 'location.png');
-}
-
-function download_mapzm() {
-	download_map2img('map_zm', 'allocation.png');
-}
-
-function download_map2img(mapid, filename) {
-
+// {{{ function download_map2img(mapid, filename)
+function download_map2img(mapid, filename)
+{
 	if (window.chrome || window.safari) {
 		var transform = $(".gm-style>div:first>div").css("transform");
 		var comp = transform.split(","); //split up the transform matrix
@@ -284,10 +165,7 @@ function download_map2img(mapid, filename) {
 	var txtbox = document.getElementById('pac-input');
 	txtbox.style.display = "none";
 
-	var test = document.getElementById("test-canvas");
-
 	html2canvas(document.getElementById(mapid), {
-		canvas: test,
 		useCORS: true,
 		}).then(function(canvas) {
 
@@ -310,72 +188,44 @@ function download_map2img(mapid, filename) {
 		saveAs(blob, filename);
 		txtbox.style.display = "block";
 	});
-
-/*
-	html2canvas(document.getElementById(mapid), {
-		useCORS: true,
-		onrendered: function(canvas){
-			var type = 'image/png';
-			var imgData = canvas.toDataURL(type);
-			var bin = atob(imgData.split(',')[1]);
-			var buffer = new Uint8Array(bin.length);
-			for (var i = 0; i < bin.length; i++) {
-				buffer[i] = bin.charCodeAt(i);
-			}
-			var blob = new Blob([buffer.buffer], {type: type});
-			saveAs(blob, filename);
-			txtbox.style.display = "block";
-		}
-	});
-*/
 }
+// }}}
 
-function delete_shape() {
-	if (drawings.length > 0) {
-		var shape = drawings[drawings.length - 1];
+// {{{ function delete_shape(shapes)
+function delete_shape(shapes)
+{
+	if (shapes.length > 0) {
+		var shape = shapes[shapes.length - 1];
 		shape.setMap(null);
 		shape = null;
-		drawings.pop();
+		shapes.pop();
 	}
 }
-
-var map_ov;
-var map_zm;
-var markerHome;
-var markerGrge;
-var dServ; 
-var dRend;
-
-var drawings = [];
+// }}}
 
 // {{{ function initMap()
 function initMap()
 {
-
 	const DIFF_DIST_FROM_CENTER = 0.0008;
 
 	var centerLat = /*[[${lat}]]*/ 35.45481104743612;
 	var centerLng = /*[[${lng}]]*/ 139.63120803716913;
-	var homeLat = centerLat;
-	var homeLng = centerLng - DIFF_DIST_FROM_CENTER;
-	var garageLat = centerLat;
-	var garageLng = centerLng + DIFF_DIST_FROM_CENTER;
+	var centerPos = {lat: centerLat, lng: centerLng};
+	var homePos   = {lat: centerLat, lng: (centerLng - DIFF_DIST_FROM_CENTER)};
+	var garagePos = {lat: centerLat, lng: (centerLng + DIFF_DIST_FROM_CENTER)};
 
-	map_ov = new google.maps.Map(document.getElementById('map_ov'), {
-        center: {
-            lat: centerLat,
-            lng: centerLng,
-        },  
-		zoom: 17,
-		scaleControl: true,
-		clickableIcons: false,
-		rotateControlOptions: true,
-	});
+	//----------
+	// map
+	//----------
+	var map_ov = createMapOverview('map_ov', centerPos);
+	var map_zm = createMapZoom('map_zm', garagePos);
 	behaviorSearchBox(map_ov);
 
-
-	dServ = new google.maps.DirectionsService(); 
-	dRend = new google.maps.DirectionsRenderer({
+	//----------
+	// setting configurations of 1st map
+	//----------
+	var dServ = new google.maps.DirectionsService(); 
+	var dRend = new google.maps.DirectionsRenderer({
 		map: map_ov,
 		preserveViewport: true,
 		draggable: true,
@@ -387,16 +237,14 @@ function initMap()
 		}
 	});
 
-	var markerHome = createPieceMarker(map_ov, homeLat, homeLng, "宅");
-	var markerGrge = createPieceMarker(map_ov, garageLat, garageLng, "駐");
+	var markerHome = createPieceMarker(map_ov, homePos, "宅");
+	var markerGrge = createPieceMarker(map_ov, garagePos, "駐");
 
-	var contentHome = '<table><tr><th>道程距離</th><td><div id="hm-way2go">---</div><td></tr>'
-		+ '<tr><th>直線距離</th><td><div id="hm-direct">---</div><td></tr></table>';
+	var contentHome = makeBollowContent('hm');
 	var infoHome = new google.maps.InfoWindow({content: contentHome});
 	infoHome.open(map_ov, markerHome);
 
-	var contentGrge = '<table><tr><th>道程距離</th><td><div id="gr-way2go">---</div><td></tr>'
-		+ '<tr><th>直線距離</th><td><div id="gr-direct">---</div><td></tr></table>';
+	var contentGrge = makeBollowContent('gr');
 	var infoGrge = new google.maps.InfoWindow({content: contentGrge});
 	infoGrge.open(map_ov, markerGrge);
 
@@ -410,27 +258,60 @@ function initMap()
 		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 		infoGrge.open(map_ov, markerGrge);
 	});
-	markerHome.addListener("dragend", function(arg) {
+	markerHome.addListener('dragend', function(arg) {
 		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 		convMarker2Geocode(markerHome, annexPref2Search);
 	});
-	markerGrge.addListener("dragend", function(arg) {
+	markerGrge.addListener('dragend', function(arg) {
 		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 
-
-
-
-
-
-
-
 	//----------
-	// 2nd map
+	// setting configurations of 2nd map
 	//----------
-	map_zm = new google.maps.Map(document.getElementById('map_zm'), {
-		center: markerGrge.getPosition(),
+	var drawingManager = createDrawingManager();
+	drawingManager.setMap(map_zm);
+
+	google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+		var type = event.type;
+		var shape = event.overlay;
+		drawings.push(shape);
+		if (type == 'marker') {
+//			shape.setIcon("http://maps.google.com/mapfiles/kml/paddle/wht-blank-lv.png");
+			shape.addListener('click', function() {
+				var statement = prompt("表示する文字を入力してください");
+				var iw = new google.maps.InfoWindow({content: statement});
+				iw.open(map_zm, shape);
+			});
+			var statement = prompt("表示する文字を入力してください");
+			var iw = new google.maps.InfoWindow({content: statement});
+			iw.open(map_zm, shape);
+		} 
+	});
+
+}
+// }}}
+
+// {{{ function createMapOverview(name, position)
+function createMapOverview(name, position)
+{
+	var map = new google.maps.Map(document.getElementById(name), {
+        center: position,
+		zoom: 17,
+		scaleControl: true,
+		clickableIcons: false,
+		rotateControlOptions: true,
+	});
+	return map;
+}
+// }}}
+
+// {{{ function createMapZoom(name, position)
+function createMapZoom(name, position)
+{
+	map = new google.maps.Map(document.getElementById(name), {
+		center: position,
 		zoom: 21,
 		scaleControl: true,
 //		mapTypeId: google.maps.MapTypeId.SATELLITE,
@@ -440,9 +321,88 @@ function initMap()
 			}]
 		}]
 	});
+	return map;
+}
+// }}}
 
+// {{{ function createPieceMarker(map, position, caption)
+function createPieceMarker(map, position, caption)
+{
+	var marker = new google.maps.Marker( {
+		map: map,
+		position: position,
+		draggable: true ,
+		label: {
+			text: caption,
+			color: "#FFFFFF",
+		}
+	});
+	return marker;
+}
+// }}}
 
-	var drawingManager = new google.maps.drawing.DrawingManager({
+// {{{ function makeBollowContent(prefix)
+function makeBollowContent(prefix)
+{
+	var content
+		= '<table>'
+		+ '<tr><th>道程距離</th><td><div id="' + prefix + '-way2go">---</div><td></tr>'
+		+ '<tr><th>直線距離</th><td><div id="' + prefix + '-direct">---</div><td></tr>'
+		+ '</table>';
+	return content;
+}
+// }}}
+
+// {{{ function renderPoint2Point(serv, rend, markerHome, markerGrge)
+function renderPoint2Point(serv, rend, markerHome, markerGrge)
+{
+	var request = {
+		origin: markerHome.getPosition(),
+		destination: markerGrge.getPosition(),
+		travelMode: google.maps.DirectionsTravelMode.WALKING,
+	};
+	serv.route(request, function(result, status){
+		if (status == google.maps.DirectionsStatus.OK) {
+			rend.setDirections(result);
+			var distWay2Go = (result.routes[0].legs[0].distance.value)
+				.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') + ' m';
+			var elemHW = document.getElementById("hm-way2go");
+			var elemGW = document.getElementById("gr-way2go");
+			if (elemHW != null) elemHW.innerHTML = distWay2Go;
+			if (elemGW != null) elemGW.innerHTML = distWay2Go;
+
+			var distDirect = (Math.round(
+				google.maps.geometry.spherical.computeDistanceBetween(
+				markerHome.getPosition(), markerGrge.getPosition())))
+				.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') + ' m';
+			var elemHD = document.getElementById("hm-direct");
+			var elemGD = document.getElementById("gr-direct");
+			if (elemHD != null) elemHD.innerHTML = distDirect;
+			if (elemGD != null) elemGD.innerHTML = distDirect;
+
+		}
+	});
+}
+// }}}
+
+// {{{ function convMarker2Geocode(marker, callback)
+function convMarker2Geocode(marker, callback)
+{
+	var geocoder = new google.maps.Geocoder();
+	geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
+		if (status === google.maps.GeocoderStatus.OK) {
+			if (results[1]) {
+				callback(results);
+			}
+		}
+	});
+}
+// }}}
+
+// {{{ function createDrawingManager()
+function createDrawingManager()
+{
+	var manager = new google.maps.drawing.DrawingManager({
 		drawingMode: google.maps.drawing.OverlayType.PAN,
 		drawingControl: true,                            
 		drawingControlOptions: {
@@ -456,11 +416,9 @@ function initMap()
 			],
 		},
 		markerOptions: {
-//			icon: {
-//				url: '../common/img/ms/pin_02.png',
-//				scaledSize: new google.maps.Size(40, 40),
-//			},
-//			label: 'hello world',
+			icon: {
+				url: 'http://maps.google.com/mapfiles/kml/paddle/wht-blank-lv.png',
+			},
 			clickable: true,
 			editable: true,
 			draggable: true,
@@ -503,92 +461,17 @@ function initMap()
 			zIndex: 1
 		}
 	});
-	drawingManager.setMap(map_zm);
 
-	google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-		var type = event.type;
-		var shape = event.overlay;
-		drawings.push(shape);
-		if (type == 'marker') {
-//			shape.setIcon("http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin_maps.png");
-			shape.setIcon("http://maps.google.com/mapfiles/kml/paddle/wht-blank-lv.png");
-			shape.addListener('click', function() {
-				var statement = prompt("表示する文字を入力してください");
-				var iw = new google.maps.InfoWindow({content: statement});
-				iw.open(map_zm, shape);
-			});
-			var statement = prompt("表示する文字を入力してください");
-			var iw = new google.maps.InfoWindow({content: statement});
-			iw.open(map_zm, shape);
-		} 
-	});
-
-
+	return manager;
 }
 // }}}
 
-// {{{ function createPieceMarker(map, lat, lng, caption)
-function createPieceMarker(map, lat, lng, caption)
+// {{{ function synchronizeCenter2Zoom(marker, map)
+function synchronizeCenter2Zoom(marker, map)
 {
-	var marker = new google.maps.Marker( {
-		map: map,
-		position: {
-			lat: lat,
-			lng: lng,
-		},
-		draggable: true ,
-		label: {
-			text: caption,
-			color: "#FFFFFF",
-		}
-	});
-	return marker;
+	map.setCenter(marker.getPosition());
 }
 // }}}
-
-// {{{ function renderPoint2Point(serv, rend, markerHome, markerGrge)
-function renderPoint2Point(serv, rend, markerHome, markerGrge)
-{
-	var request = {
-		origin: markerHome.getPosition(),
-		destination: markerGrge.getPosition(),
-		travelMode: google.maps.DirectionsTravelMode.WALKING,
-	};
-	serv.route(request, function(result, status){
-		if (status == google.maps.DirectionsStatus.OK) {
-			rend.setDirections(result);
-			var distWay2Go = (result.routes[0].legs[0].distance.value)
-				.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') + ' m';
-			var elemHW = document.getElementById("hm-way2go");
-			var elemGW = document.getElementById("gr-way2go");
-			if (elemHW != null) elemHW.innerHTML = distWay2Go;
-			if (elemGW != null) elemGW.innerHTML = distWay2Go;
-
-			var distDirect = (Math.round(
-				google.maps.geometry.spherical.computeDistanceBetween(
-				markerHome.getPosition(), markerGrge.getPosition())))
-				.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') + ' m';
-			var elemHD = document.getElementById("hm-direct");
-			var elemGD = document.getElementById("gr-direct");
-			if (elemHD != null) elemHD.innerHTML = distDirect;
-			if (elemGD != null) elemGD.innerHTML = distDirect;
-
-		}
-	});
-}
-// }}}
-
-function convMarker2Geocode(marker, callback)
-{
-	var geocoder = new google.maps.Geocoder();
-	geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
-		if (status === google.maps.GeocoderStatus.OK) {
-			if (results[1]) {
-				callback(results);
-			}
-		}
-	});
-}
 
 var annexPref2Search = function(geocodeResults)
 {
@@ -599,20 +482,12 @@ var annexPref2Search = function(geocodeResults)
 	document.getElementById("srchInput").value = pref;
 }
 
-
-
-
-function synchronizeCenter2Zoom(marker, map)
-{
-	map.setCenter(marker.getPosition());
-}
-
-
 /*]]>*/
 </script>
 
 <script th:src="'https://maps.googleapis.com/maps/api/js?callback=initMap&amp;key=' + ${gmapApiKey} + '&amp;libraries=drawing,places,geometry&amp;v=3.30'"></script>
 
+<div id="scrolltop">Top</div>
 
 </body>
 </html>
