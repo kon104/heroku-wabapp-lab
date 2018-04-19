@@ -132,6 +132,8 @@ $(function(){
 
 var drawings = [];
 
+var activeShape;
+
 var btn_map_ov = document.getElementById("btn_map_ov");
 btn_map_ov.addEventListener("click" , function(event) {
 	download_map2img('map_ov', 'location.png');
@@ -277,21 +279,51 @@ function initMap()
 		var type = event.type;
 		var shape = event.overlay;
 		drawings.push(shape);
-		if (type == 'marker') {
-//			shape.setIcon("http://maps.google.com/mapfiles/kml/paddle/wht-blank-lv.png");
+
+		if (type == google.maps.drawing.OverlayType.MARKER) {
+			var statement = prompt("表示する文字を入力してください");
+			var iw = new google.maps.InfoWindow({content: statement});
+			iw.open(map_zm, shape);
+			unselectShape();
 			shape.addListener('click', function() {
 				var statement = prompt("表示する文字を入力してください");
 				var iw = new google.maps.InfoWindow({content: statement});
 				iw.open(map_zm, shape);
+				unselectShape();
 			});
-			var statement = prompt("表示する文字を入力してください");
-			var iw = new google.maps.InfoWindow({content: statement});
-			iw.open(map_zm, shape);
-		} 
+		} else {
+			unselectShape();
+			selectShape(shape);
+			shape.addListener('click', function() {
+				unselectShape();
+				selectShape(shape);
+			});
+		}
 	});
+	google.maps.event.addListener(drawingManager, 'drawingmode_changed', unselectShape);
+	google.maps.event.addListener(map_zm, 'click', unselectShape);
 
 }
 // }}}
+
+function unselectShape()
+{
+	if (activeShape != null) {
+		activeShape.setEditable(false);
+		activeShape = null;
+	}
+}
+
+function selectShape(shape)
+{
+	shape.setEditable(true);
+	activeShape = shape;
+}
+
+
+
+
+
 
 // {{{ function createMapOverview(name, position)
 function createMapOverview(name, position)
@@ -426,7 +458,7 @@ function createDrawingManager()
 		},
 		circleOptions: {
 			clickable: true,
-//			editable: true,
+			editable: true,
 			draggable: true,
 			geodesic: true,
 			zIndex: 1
@@ -436,7 +468,7 @@ function createDrawingManager()
 //			fillOpacity: 1,
 //			strokeWeight: 5,
 			clickable: true,
-//			editable: true,
+			editable: true,
 			draggable: true,
 			geodesic: true,
 			zIndex: 1
@@ -446,7 +478,7 @@ function createDrawingManager()
 //			fillOpacity: 1,
 //			strokeWeight: 5,
 			clickable: true,
-//			editable: true,
+			editable: true,
 			draggable: true,
 			geodesic: true,
 			zIndex: 1
@@ -455,7 +487,7 @@ function createDrawingManager()
 //			strokeColor: '#ff0000',
 //			strokeWeight: 5,
 			clickable: true,
-//			editable: true,
+			editable: true,
 			draggable: true,
 			geodesic: true,
 			zIndex: 1
