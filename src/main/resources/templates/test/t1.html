@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+<!--
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+-->
+<script type="text/javascript" src="/js/html2canvas-1.0.0-alpha.12.js"></script>
+
+<style>
+#map {
+    width: 300px;
+	height: 300px;
+}
+</style>
+
+</head>
+<body>
+
+<form name="downloadbtn_ov">
+	<div><input type="button" id="btn_map" value="地図を画像でダウンロード"></input></div>
+</form>
+<div id="map"></div>
+<hr />
+<canvas id="test-canvas" width="300" height="300"></canvas>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+
+var btn_map_zm = document.getElementById("btn_map");
+btn_map_zm.addEventListener("click" , function(event) {
+	event.preventDefault();
+	download_map2img('map', 'location.png');
+}, false);
+
+function download_map2img(mapid, filename) {
+
+	if (window.chrome) {
+		var transform = $(".gm-style>div:first>div").css("transform");
+		var comp = transform.split(","); //split up the transform matrix
+		var mapleft = parseFloat(comp[4]); //get left value
+		var maptop = parseFloat(comp[5]); //get top value
+		$(".gm-style>div:first>div").css({ //get the map container. not sure if stable
+			"transform": "none",
+			"left": mapleft,
+			"top": maptop,
+		});
+	}
+
+	var test = document.getElementById("test-canvas");
+
+	html2canvas(document.getElementById(mapid), {
+		canvas: test,
+		useCORS: true,
+//		logging: true,
+		}).then(function(canvas) {
+
+			if (window.chrome) {
+				$(".gm-style>div:first>div").css({
+					left: 0,
+					top: 0,
+					"transform": transform
+				});
+			}
+
+			var type = 'image/png';
+			var imgData = canvas.toDataURL(type);
+			var bin = atob(imgData.split(',')[1]);
+			var buffer = new Uint8Array(bin.length);
+			for (var i = 0; i < bin.length; i++) {
+				buffer[i] = bin.charCodeAt(i);
+			}
+			var blob = new Blob([buffer.buffer], {type: type});
+			saveAs(blob, filename);
+	});
+
+/*
+	html2canvas(document.getElementById(mapid), {
+		useCORS: true,
+		onrendered: function(canvas){
+			var type = 'image/png';
+			var imgData = canvas.toDataURL(type);
+			var bin = atob(imgData.split(',')[1]);
+			var buffer = new Uint8Array(bin.length);
+			for (var i = 0; i < bin.length; i++) {
+				buffer[i] = bin.charCodeAt(i);
+			}
+			var blob = new Blob([buffer.buffer], {type: type});
+			saveAs(blob, filename);
+			txtbox.style.display = "block";
+		}
+	});
+*/
+}
+
+// {{{ function initMap()
+function initMap()
+{
+	var map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+            lat: 35.45481104743612,
+            lng: 139.63120803716913,
+        },  
+		zoom: 17,
+		scaleControl: true,
+		clickableIcons: false,
+		rotateControlOptions: true,
+	});
+}
+// }}}
+
+/*]]>*/
+</script>
+
+<!--
+<script th:src="'https://maps.googleapis.com/maps/api/js?callback=initMap&amp;key=AIzaSyBCYBPbwRyLV_urAoagNVlNn2T3BHspQW4&amp;libraries=drawing,places,geometry&amp;v=3.30'"></script>
+-->
+
+<script th:src="'https://maps.googleapis.com/maps/api/js?callback=initMap&amp;key=AIzaSyBCYBPbwRyLV_urAoagNVlNn2T3BHspQW4&amp;libraries=drawing,places,geometry&amp;v=3.31'"></script>
+
+</body>
+</html>

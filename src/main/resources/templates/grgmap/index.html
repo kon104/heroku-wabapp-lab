@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<link href="/css/grgmap.css" th:href="@{/css/grgmap.css}" rel="stylesheet"></link>
+<link href="/css/searchbox.css" th:href="@{/css/searchbox.css}" rel="stylesheet"></link>
+<script type="text/javascript" src="/js/searchbox.js" th:src="@{/js/searchbox.js}"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+
+<style>
+
+#section0 {
+	background-size: cover;
+	background-image: url(/images/cars.jpg);
+}
+#section1 {
+	background-color: #31B404;
+}
+#section2 {
+	background-color: #58ACFA;
+}
+#section3 {
+	background-color: #FACC2E;
+}
+
+#map_ov {
+    width: 500px;
+	height: 500px;
+}
+#map_zm {
+    width: 500px;
+	height: 500px;
+}
+
+#scrolltop {
+	background: rgba(0,0,0,.7);
+	text-align: center;
+	color: #fff;
+	padding: 10px;
+	position: fixed;
+	right: 15px;
+	z-index: 100;
+}
+
+</style>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+
+$(function(){
+
+	// menu
+	$('a[href*="#"].anchor-link').on('click', function() {
+		var speed = 400;
+		var href= $(this).attr("href");
+		var target = $(href == "#" || href == "" ? 'html' : href);
+		var position = target.offset().top;
+		$('body,html').animate({scrollTop:position}, speed, 'swing');
+		return false;
+	});
+
+	// top button
+	var threshold = 200
+	var topBtn = $('#scrolltop');
+	topBtn.css('bottom', '-100px');
+	$(window).on('scroll', function() {
+		if ($(this).scrollTop() > threshold) {
+			topBtn.stop().animate({'bottom' : '30px'}, 200);
+		} else {
+			topBtn.stop().animate({'bottom' : '-100px'}, 200);
+		}
+	});
+	topBtn.on('click', function() {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 500);
+		return false;
+	});
+});
+
+/*]]>*/
+</script>
+
+</head>
+<body>
+
+<div>
+	<p th:text="'#tmpDir = ' + ${tmpdir}"></p>
+	<p th:text="'#tmpPath = ' + ${tmppath}"></p>
+</div>
+
+<ul class="anchor-nav">
+	<li><a href="#section0" class="anchor-link">Home</a></li>
+	<li><a href="#section1" class="anchor-link">Step 1</a></li>
+	<li><a href="#section2" class="anchor-link">Step 2</a></li>
+	<li><a href="#section3" class="anchor-link">Step 3</a></li>
+</ul>
+
+<div class="section" id="section0">
+	<h2 style="color: white;">車庫証明書の取得に向けて...<br/>保管場所の所在図・配置図の作成を支援します</h2>
+	<img src="/images/logo.png" />
+</div>
+
+<div class="section" id="section1">
+	<h3>Step 1: 所在図を書きましょう</h3>
+	<div><input type="button" id="btn_map_ov" value="地図を画像でダウンロード"></input></div>
+	<div id="map_ov"></div>
+	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+</div>
+
+<div class="section" id="section2">
+	<h3>Step 2: 配置図を書きましょう</h3>
+	<div><input type="button" id="btn_map_zm" value="地図を画像でダウンロード"></input>&nbsp;<input type="button" id="btn_delete_shape" value="図形削除"></input></div>
+	<div id="map_zm"></div>
+</div>
+
+<div class="section" id="section3">
+	<h3>Step 3: 保管場所証明申請書をダウンロードしましょう</h3>
+	<div th:replace="/grgmap/websearch::srchBox"></div>
+<!--
+	<table>
+		<tr th:each="entry : ${appforms}">
+			<td th:text="${entry.code}"></td>
+			<td><a th:href="${entry.url}" th:text="${entry.name}"></a></td>
+		</tr>
+	</table>
+-->
+</div>
+
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+
+var btn_map_ov = document.getElementById("btn_map_ov");
+btn_map_ov.addEventListener("click" , function(event) {
+	download_map2img('map_ov', 'location.png');
+}, false);
+
+var btn_map_zm = document.getElementById("btn_map_zm");
+btn_map_zm.addEventListener("click" , function(event) {
+	download_map2img('map_zm', 'allocation.png');
+}, false);
+
+var btn_del_sh = document.getElementById("btn_delete_shape");
+btn_del_sh.addEventListener("click" , function(event) {
+	deleteShape();
+}, false);
+
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/grgmap.js" th:src="@{/js/grgmap.js}"></script>
+<script th:src="'https://maps.googleapis.com/maps/api/js?callback=initMap&amp;key=' + ${gmapApiKey} + '&amp;libraries=drawing,places,geometry&amp;v=3.30'"></script>
+
+<div id="scrolltop">Top</div>
+
+</body>
+</html>
