@@ -2,13 +2,11 @@
 
 var activeDraw = {shape: null, type: null};
 
-// {{{ function initMap()
-function initMap()
+// {{{ function initMapFully(centerLat, centerLng)
+function initMapFully(centerLat, centerLng)
 {
 	const DIFF_DIST_FROM_CENTER = 0.0008;
 
-	var centerLat = /*[[${lat}]]*/ 35.45481104743612;
-	var centerLng = /*[[${lng}]]*/ 139.63120803716913;
 	var centerPos = {lat: centerLat, lng: centerLng};
 	var homePos   = {lat: centerLat, lng: (centerLng - DIFF_DIST_FROM_CENTER)};
 	var garagePos = {lat: centerLat, lng: (centerLng + DIFF_DIST_FROM_CENTER)};
