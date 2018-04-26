@@ -97,11 +97,11 @@ function initMapFully(centerLat, centerLng)
 function download_map2img(mapid, filename)
 {
 	if (window.chrome || window.safari) {
-		var transform = $(".gm-style>div:first>div").css("transform");
-		var comp = transform.split(","); //split up the transform matrix
-		var mapleft = parseFloat(comp[4]); //get left value
-		var maptop = parseFloat(comp[5]); //get top value
-		$(".gm-style>div:first>div").css({ //get the map container. not sure if stable
+		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
+		var comp = transform.split(",");	//split up the transform matrix
+		var mapleft = parseFloat(comp[4]);	//get left value
+		var maptop = parseFloat(comp[5]);	//get top value
+		$("#" + mapid + ">*>.gm-style>div:first>div").css({ //get the map container. not sure if stable
 			"transform": "none",
 			"left": mapleft,
 			"top": maptop,
@@ -116,7 +116,7 @@ function download_map2img(mapid, filename)
 		}).then(function(canvas) {
 
 		if (window.chrome || window.safari) {
-			$(".gm-style>div:first>div").css({
+			$("#" + mapid + ">*>.gm-style>div:first>div").css({
 				left: 0,
 				top: 0,
 				"transform": transform
@@ -193,12 +193,7 @@ function createMapZoom(name, position)
 		center: position,
 		zoom: 21,
 		scaleControl: true,
-//		mapTypeId: google.maps.MapTypeId.SATELLITE,
-		styles: [{
-			stylers: [{
-				saturation: -100
-			}]
-		}]
+		clickableIcons: false,
 	});
 	return map;
 }
