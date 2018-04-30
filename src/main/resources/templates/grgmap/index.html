@@ -35,6 +35,15 @@
 	height: 500px;
 }
 
+#btn_delete_shape {
+	margin-top: 5px;
+	background-color: #248;
+}
+#btn_delete_shape:hover {
+	background-color: #24d;
+}
+
+
 #scrolltop {
 	background: rgba(0,0,0,.7);
 	text-align: center;
@@ -50,6 +59,7 @@
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 
+// {{{ $(function(){
 $(function(){
 
 	// menu
@@ -80,6 +90,7 @@ $(function(){
 		return false;
 	});
 });
+// }}}
 
 /*]]>*/
 </script>
@@ -119,7 +130,12 @@ $(function(){
 
 <div class="section" id="section3">
 	<h3>Step 3: 保管場所証明申請書をダウンロードしましょう</h3>
-	<div th:replace="/grgmap/websearch::srchBox"></div>
+	<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor">
+		<div><input type="file" name="img_ov" size="30" /></div>
+		<div><input type="file" name="img_zm" size="30" /></div>
+		<div><input type="submit" value="upload" /></div>
+	</form>
+	<div th:replace="grgmap/websearch::srchBox"></div>
 <!--
 	<table>
 		<tr th:each="entry : ${appforms}">
