@@ -10,6 +10,8 @@
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
 
+<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"></link>
+
 <style>
 
 #section0 {
@@ -35,12 +37,56 @@
 	height: 500px;
 }
 
-#btn_delete_shape {
+#map_zm_mytool {
 	margin-top: 5px;
-	background-color: #248;
 }
+
+#shp_color_group input[type="radio"] {
+	display: none;
+}
+
+#shp_color_group label {
+	background-color: #ffffff;
+	border-top: solid 1px #999999;
+	border-bottom: solid 1px #999999;
+	border-right: solid 1px #999999;
+	padding: 5px;
+}
+
+#shp_color_group > label:first-of-type {
+  border-left: solid 1px #999999;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+#shp_color_group > label:last-of-type {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+#shp_color_group input[type="radio"]:checked + label {
+	background-color: #cccccc;
+}
+
+#shp_color_group .lbl_shp_black {
+	color: #585858;
+}
+#shp_color_group .lbl_shp_blue {
+	color: #2E9AFE;
+}
+#shp_color_group .lbl_shp_red {
+	color: #FE2E2E;
+}
+
+#btn_delete_shape {
+	color: #828282;
+	background-color: #FFFFFF;
+	padding: 4px 7px 5px 7px;
+}
+
 #btn_delete_shape:hover {
-	background-color: #24d;
+	color: #343434;
+	background-color: #EBEBEB;
 }
 
 
@@ -117,14 +163,22 @@ $(function(){
 
 <div class="section" id="section1">
 	<h3>Step 1: 所在図を書きましょう</h3>
-	<div><input type="button" id="btn_map_ov" value="地図を画像でダウンロード"></input></div>
+	<div><button id="btn_map_ov">地図を画像でダウンロード</button></div>
 	<div id="map_ov"></div>
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
 </div>
 
 <div class="section" id="section2">
 	<h3>Step 2: 配置図を書きましょう</h3>
-	<div><input type="button" id="btn_map_zm" value="地図を画像でダウンロード"></input>&nbsp;<input type="button" id="btn_delete_shape" value="図形削除"></input></div>
+	<div><button id="btn_map_zm">地図を画像でダウンロード</button></div>
+	<div id="map_zm_mytool">
+		<span id="shp_color_group">
+			<input type="radio" name="shp_color" value="black" id="shp_black" checked="checked"><label for="shp_black" class="lbl_shp_black"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="bule" id="shp_blue"><label for="shp_blue" class="lbl_shp_blue"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="red" id="shp_red"><label for="shp_red" class="lbl_shp_red"><i class="fas fa-paint-brush"></i></label></input>
+		</span>
+		<span><button id="btn_delete_shape"><i class="fas fa-eraser"></i></button></span>
+	</div>
+<!--
+-->
 	<div id="map_zm"></div>
 </div>
 
@@ -159,6 +213,23 @@ var btn_map_zm = document.getElementById("btn_map_zm");
 btn_map_zm.addEventListener("click" , function(event) {
 	download_map2img('map_zm', 'allocation.png');
 }, false);
+
+var chk_shp_black = document.getElementById("shp_black");
+chk_shp_black.addEventListener("change", function(event) {
+	change_shape_color(event);
+}, false);
+
+var chk_shp_blue = document.getElementById("shp_blue");
+chk_shp_blue.addEventListener("change", function(event) {
+	change_shape_color(event);
+}, false);
+
+var chk_shp_red = document.getElementById("shp_red");
+chk_shp_red.addEventListener("change", function(event) {
+	change_shape_color(event);
+}, false);
+
+
 
 var btn_del_sh = document.getElementById("btn_delete_shape");
 btn_del_sh.addEventListener("click" , function(event) {

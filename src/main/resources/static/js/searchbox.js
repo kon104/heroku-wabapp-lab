@@ -1,15 +1,15 @@
 
 
-function behaviorSearchBox(map)
+function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend)
 {
 	// Create the search box and link it to the UI element.
 	var input = document.getElementById('pac-input');
 	var searchBox = new google.maps.places.SearchBox(input);
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	map_ov.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
 	// Bias the SearchBox results towards current map's viewport.
-	map.addListener('bounds_changed', function() {
-		searchBox.setBounds(map.getBounds());
+	map_ov.addListener('bounds_changed', function() {
+		searchBox.setBounds(map_ov.getBounds());
 	});
 
 	var markers = [];
@@ -45,7 +45,7 @@ function behaviorSearchBox(map)
 
 			// Create a marker for each place.
 			markers.push(new google.maps.Marker({
-				map: map,
+				map: map_ov,
 				icon: icon,
 				title: place.name,
 				position: place.geometry.location
@@ -58,6 +58,10 @@ function behaviorSearchBox(map)
 				bounds.extend(place.geometry.location);
 			}
 		});
-		map.fitBounds(bounds);
+		map_ov.fitBounds(bounds);
+
+		initMarker(map_ov, markerHome, markerGrge);
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 }

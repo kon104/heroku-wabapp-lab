@@ -25,6 +25,13 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+
 
 /**
  * Garage Map
@@ -34,6 +41,8 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 @RequestMapping("/grgmap")
 public class GrgmapController
 {
+
+	private static final Logger logger = LoggerFactory.getLogger(GrgmapController.class);
 
 	private String gmapApiKey = "AIzaSyBCYBPbwRyLV_urAoagNVlNn2T3BHspQW4";
 //	private String gmapApiKey = "AIzaSyCErcdJQ5Pc1jP5pKhaKsBMruAM0GE8tnI";
@@ -148,20 +157,63 @@ public class GrgmapController
 	// }}}
 
 	// {{{ public ResponseEntity<byte[]> pdfeditor()
-	@RequestMapping(value = "/pdfeditor", method = RequestMethod.GET)
+	@RequestMapping(value = "/pdfeditor", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public ResponseEntity<byte[]> pdfeditor()
+	public ResponseEntity<byte[]> pdfeditor(
+		@RequestParam("img_ov") MultipartFile img_ov,
+		@RequestParam("img_zm") MultipartFile img_zm)
 	{
+
+		File imgOvFile = null;
+		File imgZmFile = null;
+
+		if (img_ov.isEmpty()) {
+			String imgOvPath = "static/images/location.png";
+			Resource imgOvRes = resourceLoader.getResource("classpath:" + imgOvPath);
+			try {
+				imgOvFile = imgOvRes.getFile();
+			} catch(IOException e) {
+				System.err.println(e.getMessage());
+			}
+		} else {
+			try {
+				String imgOvPath = System.getProperty("java.io.tmpdir") + "zzz1.png";
+				imgOvFile = new File(imgOvPath);
+				byte[] imgOvByte = img_ov.getBytes();
+				BufferedOutputStream imgOvStream = new BufferedOutputStream(new FileOutputStream(imgOvFile));
+				imgOvStream.write(imgOvByte);
+				imgOvStream.close();
+			} catch(IOException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+		if (img_zm.isEmpty()) {
+			String imgZmPath = "static/images/allocation.png";
+			Resource imgZmRes = resourceLoader.getResource("classpath:" + imgZmPath);
+			try {
+				imgZmFile = imgZmRes.getFile();
+			} catch(IOException e) {
+				System.err.println(e.getMessage());
+			}
+		} else {
+			try {
+				String imgZmPath = System.getProperty("java.io.tmpdir") + "zzz2.png";
+				imgZmFile = new File(imgZmPath);
+				byte[] imgZmByte = img_zm.getBytes();
+				BufferedOutputStream imgZmStream = new BufferedOutputStream(new FileOutputStream(imgZmFile));
+				imgZmStream.write(imgZmByte);
+				imgZmStream.close();
+			} catch(IOException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+
 		byte[] pdfBytes = null;
 		FileInputStream is = null;
 		String pdfPath = "static/images/kanagawa.pdf";
 		Resource pdfRes = resourceLoader.getResource("classpath:" + pdfPath);
-
-		String imgOvPath = "static/images/location.png";
-		Resource imgOvRes = resourceLoader.getResource("classpath:" + imgOvPath);
-		String imgZmPath = "static/images/allocation.png";
-		Resource imgZmRes = resourceLoader.getResource("classpath:" + imgZmPath);
-
 
 		try {
 			File file = pdfRes.getFile();
@@ -171,8 +223,8 @@ public class GrgmapController
 			PDPage page = pdfDoc.getPage(0);
 			PDPageContentStream cs = new PDPageContentStream(pdfDoc, page, PDPageContentStream.AppendMode.APPEND, true);
 
-			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvRes.getFile(), pdfDoc);
-			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmRes.getFile(), pdfDoc);
+			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, pdfDoc);
+			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, pdfDoc);
 
 			float scale = 0.34f;
 			cs.drawImage(imgOv, 70, 170, imgOv.getWidth() * scale, imgOv.getHeight() * scale);

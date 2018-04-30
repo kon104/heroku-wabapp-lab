@@ -1,22 +1,18 @@
 
 
+var drawingManager = null;
 var activeDraw = {shape: null, type: null};
 
 // {{{ function initMapFully(centerLat, centerLng)
 function initMapFully(centerLat, centerLng)
 {
-	const DIFF_DIST_FROM_CENTER = 0.0008;
-
 	var centerPos = {lat: centerLat, lng: centerLng};
-	var homePos   = {lat: centerLat, lng: (centerLng - DIFF_DIST_FROM_CENTER)};
-	var garagePos = {lat: centerLat, lng: (centerLng + DIFF_DIST_FROM_CENTER)};
 
 	//----------
 	// map
 	//----------
 	var map_ov = createMapOverview('map_ov', centerPos);
-	var map_zm = createMapZoom('map_zm', garagePos);
-	behaviorSearchBox(map_ov);
+	var map_zm = createMapZoom('map_zm', centerPos);
 
 	//----------
 	// setting configurations of 1st map
@@ -34,19 +30,25 @@ function initMapFully(centerLat, centerLng)
 		}
 	});
 
-	var markerHome = createPieceMarker(map_ov, homePos, "宅");
-	var markerGrge = createPieceMarker(map_ov, garagePos, "駐");
-
-	var contentHome = makeBollowContent('hm');
-	var infoHome = new google.maps.InfoWindow({content: contentHome});
-	infoHome.open(map_ov, markerHome);
-
-	var contentGrge = makeBollowContent('gr');
-	var infoGrge = new google.maps.InfoWindow({content: contentGrge});
-	infoGrge.open(map_ov, markerGrge);
-
+	//----------
+	// created markes.
+	//----------
+	var markerHome = createPieceMarker(map_ov, '宅');
+	var markerGrge = createPieceMarker(map_ov, '駐');
+	var infoHome = makeBollowInfo(map_ov, markerHome, 'hm');
+	var infoGrge = makeBollowInfo(map_ov, markerGrge, 'gr');
+	initMarker(map_ov, markerHome, markerGrge);
 	renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+	behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend);
 
+	//----------
+	// setting configurations of 2nd map
+	//----------
+	synchronizeCenter2Zoom(markerGrge, map_zm);
+
+	//----------
+	// assigned events to markers.
+	//----------
 	markerHome.addListener('click', function(){
 		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
 		infoHome.open(map_ov, markerHome);
@@ -67,8 +69,10 @@ function initMapFully(centerLat, centerLng)
 	//----------
 	// setting configurations of 2nd map
 	//----------
-	var drawingManager = createDrawingManager();
+	drawingManager = createDrawingManager();
 	drawingManager.setMap(map_zm);
+	var mytool = document.getElementById('map_zm_mytool');
+	map_zm.controls[google.maps.ControlPosition.TOP].push(mytool);
 
 	google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 		drawingManager.setDrawingMode(null);
@@ -161,6 +165,28 @@ function unselectShape()
 }
 // }}}
 
+// {{{ function change_shape_color(event)
+function change_shape_color(event)
+{
+	var color = '#000000';
+	if (event.target.id === 'shp_blue') {
+		color = '#0000ff';
+	} else
+	if (event.target.id === 'shp_red') {
+		color = '#ff0000';
+	}
+
+	drawingManager.setOptions({circleOptions: {fillColor: color, strokeColor: color}});
+	drawingManager.setOptions({polygonOptions: {fillColor: color, strokeColor: color}});
+	drawingManager.setOptions({rectangleOptions: {fillColor: color, strokeColor: color}});
+	drawingManager.setOptions({polylineOptions: {fillColor: color, strokeColor: color}});
+
+	if ((activeDraw.shape != null) && (activeDraw.type != google.maps.drawing.OverlayType.MARKER)) {
+		activeDraw.shape.setOptions({fillColor: color, strokeColor: color});
+	}
+}
+// }}}
+
 // {{{ function deleteShape()
 function deleteShape()
 {
@@ -200,11 +226,10 @@ function createMapZoom(name, position)
 // }}}
 
 // {{{ function createPieceMarker(map, position, caption)
-function createPieceMarker(map, position, caption)
+function createPieceMarker(map, caption)
 {
 	var marker = new google.maps.Marker( {
 		map: map,
-		position: position,
 		draggable: true ,
 		label: {
 			text: caption,
@@ -215,15 +240,36 @@ function createPieceMarker(map, position, caption)
 }
 // }}}
 
-// {{{ function makeBollowContent(prefix)
-function makeBollowContent(prefix)
+// {{{ function makeBollowInfo(prefix)
+function makeBollowInfo(map, marker, prefix)
 {
 	var content
 		= '<table>'
-		+ '<tr><th>道程距離</th><td><div id="' + prefix + '-way2go">---</div><td></tr>'
 		+ '<tr><th>直線距離</th><td><div id="' + prefix + '-direct">---</div><td></tr>'
+		+ '<tr><th>道程距離</th><td><div id="' + prefix + '-way2go">---</div><td></tr>'
 		+ '</table>';
-	return content;
+	var info = new google.maps.InfoWindow({content: content});
+	info.open(map, marker);
+
+	return info;
+}
+// }}}
+
+// {{{ function initMarker(map, markerH, markerG)
+function initMarker(map, markerH, markerG)
+{
+	const DIFF_DIST_FROM_CENTER = 0.001;
+	var mapPos = map.getCenter();
+	var homePos = {
+		lat: mapPos.lat(),
+		lng: (mapPos.lng() - DIFF_DIST_FROM_CENTER),
+	};
+	var gragPos = {
+		lat: mapPos.lat(),
+		lng: (mapPos.lng() + DIFF_DIST_FROM_CENTER),
+	};
+	markerH.setPosition(homePos);
+	markerG.setPosition(gragPos);
 }
 // }}}
 
@@ -353,7 +399,7 @@ var annexPref2Search = function(geocodeResults)
 		return component.types.indexOf("administrative_area_level_1") > -1;
 	});
 	pref = results[0].long_name;
-	document.getElementById("srchInput").value = pref;
+//	document.getElementById("srchInput").value = pref;
 }
 
 
