@@ -37,8 +37,9 @@ function initMapFully(centerLat, centerLng)
 	var markerGrge = createPieceMarker(map_ov, '駐');
 	var infoHome = makeBollowInfo(map_ov, markerHome, 'hm');
 	var infoGrge = makeBollowInfo(map_ov, markerGrge, 'gr');
+	var plineMarkers = new google.maps.Polyline({map: map_ov, strokeColor: '#0000ff', strokeWeight: 1});
 	initMarker(map_ov, markerHome, markerGrge);
-	renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+	renderPoint2Point(dServ, dRend, markerHome, markerGrge, plineMarkers);
 	behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend);
 
 	//----------
@@ -50,19 +51,19 @@ function initMapFully(centerLat, centerLng)
 	// assigned events to markers.
 	//----------
 	markerHome.addListener('click', function(){
-		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge, plineMarkers);
 		infoHome.open(map_ov, markerHome);
 	});
 	markerGrge.addListener('click', function(){
-		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge, plineMarkers);
 		infoGrge.open(map_ov, markerGrge);
 	});
 	markerHome.addListener('dragend', function(arg) {
-		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge, plineMarkers);
 		convMarker2Geocode(markerHome, annexPref2Search);
 	});
 	markerGrge.addListener('dragend', function(arg) {
-		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+		renderPoint2Point(dServ, dRend, markerHome, markerGrge, plineMarkers);
 		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 
@@ -273,8 +274,8 @@ function initMarker(map, markerH, markerG)
 }
 // }}}
 
-// {{{ function renderPoint2Point(serv, rend, markerHome, markerGrge)
-function renderPoint2Point(serv, rend, markerHome, markerGrge)
+// {{{ function renderPoint2Point(serv, rend, markerHome, markerGrge, polyline)
+function renderPoint2Point(serv, rend, markerHome, markerGrge, polyline)
 {
 	var request = {
 		origin: markerHome.getPosition(),
@@ -302,6 +303,10 @@ function renderPoint2Point(serv, rend, markerHome, markerGrge)
 
 		}
 	});
+	var paths = new Array();
+	paths[0] = markerHome.getPosition();
+	paths[1] = markerGrge.getPosition();
+	polyline.setOptions({path: paths});
 }
 // }}}
 
