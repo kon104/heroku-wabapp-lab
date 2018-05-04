@@ -125,6 +125,7 @@ function initMapFully(centerLat, centerLng)
 function download_map2img(mapid, filename)
 {
 	if (window.chrome || window.safari) {
+alert("caase 1");
 		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
 		var comp = transform.split(",");	//split up the transform matrix
 		var mapleft = parseFloat(comp[4]);	//get left value
@@ -135,6 +136,7 @@ function download_map2img(mapid, filename)
 			"top": maptop,
 		});
 	}
+else {alert("case 2");}
 
 	var txtbox = document.getElementById('pac-input');
 	txtbox.style.display = "none";
