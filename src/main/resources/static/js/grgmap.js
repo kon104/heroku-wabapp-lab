@@ -124,13 +124,7 @@ function initMapFully(centerLat, centerLng)
 // {{{ function download_map2img(mapid, filename)
 function download_map2img(mapid, filename)
 {
-	const ua = navigator.userAgent;
-	if (window.chrome || window.safari ||
-		(ua.indexOf('iPhone') >= 0) ||
-		(ua.indexOf('iPad') >= 0) ||
-		(ua.indexOf('iPod') >= 0)) {
-alert("caase 1");
-console.log(window);
+	if (isControlTransform()) {
 		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
 		var comp = transform.split(",");	//split up the transform matrix
 		var mapleft = parseFloat(comp[4]);	//get left value
@@ -141,7 +135,6 @@ console.log(window);
 			"top": maptop,
 		});
 	}
-else {alert("case 2");}
 
 	var txtbox = document.getElementById('pac-input');
 	txtbox.style.display = "none";
@@ -149,11 +142,7 @@ else {alert("case 2");}
 	html2canvas(document.getElementById(mapid), {
 		useCORS: true,
 		}).then(function(canvas) {
-
-		if (window.chrome || window.safari ||
-			(ua.indexOf('iPhone') >= 0) ||
-			(ua.indexOf('iPad') >= 0) ||
-			(ua.indexOf('iPod') >= 0)) {
+		if (isControlTransform()) {
 			$("#" + mapid + ">*>.gm-style>div:first>div").css({
 				left: 0,
 				top: 0,
@@ -172,6 +161,19 @@ else {alert("case 2");}
 		saveAs(blob, filename);
 		txtbox.style.display = "block";
 	});
+}
+// }}}
+
+// {{{ function isControlTransform()
+function isControlTransform()
+{
+	const ua = navigator.userAgent;
+	var judge =
+		(window.chrome || window.safari ||
+		(ua.indexOf('iPhone') >= 0) ||
+		(ua.indexOf('iPad') >= 0) ||
+		(ua.indexOf('iPod') >= 0));
+	return judge;
 }
 // }}}
 
