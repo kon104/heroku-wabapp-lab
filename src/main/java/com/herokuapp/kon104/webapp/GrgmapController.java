@@ -160,8 +160,8 @@ public class GrgmapController
 	@RequestMapping(value = "/pdfeditor", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public ResponseEntity<byte[]> pdfeditor(
-		@RequestParam("img_ov") MultipartFile img_ov,
-		@RequestParam("img_zm") MultipartFile img_zm)
+		@RequestParam("file_mapov") MultipartFile img_ov,
+		@RequestParam("file_mapzm") MultipartFile img_zm)
 	{
 
 		File imgOvFile = null;

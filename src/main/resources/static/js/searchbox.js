@@ -1,6 +1,6 @@
 
 
-function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend)
+function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend, plineMarkers)
 {
 	// Create the search box and link it to the UI element.
 	var input = document.getElementById('pac-input');
@@ -61,7 +61,8 @@ function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend)
 		map_ov.fitBounds(bounds);
 
 		initMarker(map_ov, markerHome, markerGrge);
-		renderPoint2Point(dServ, dRend, markerHome, markerGrge);
+		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
+		renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
 		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 }
