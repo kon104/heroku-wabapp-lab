@@ -124,6 +124,11 @@ function initMapFully(centerLat, centerLng)
 // {{{ function download_map2img(mapid, filename)
 function download_map2img(mapid, filename)
 {
+	var txtbox = document.getElementById('pac-input');
+	txtbox.style.display = "none";
+	var map_zm = drawingManager.getMap();
+	drawingManager.setMap(null);
+
 	if (isControlTransform()) {
 		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
 		var comp = transform.split(",");	//split up the transform matrix
@@ -136,20 +141,9 @@ function download_map2img(mapid, filename)
 		});
 	}
 
-	var txtbox = document.getElementById('pac-input');
-	txtbox.style.display = "none";
-
 	html2canvas(document.getElementById(mapid), {
 		useCORS: true,
 		}).then(function(canvas) {
-		if (isControlTransform()) {
-			$("#" + mapid + ">*>.gm-style>div:first>div").css({
-				left: 0,
-				top: 0,
-				"transform": transform
-			});
-		}
-
 		var type = 'image/png';
 		var imgData = canvas.toDataURL(type);
 		var bin = atob(imgData.split(',')[1]);
@@ -159,7 +153,17 @@ function download_map2img(mapid, filename)
 		}
 		var blob = new Blob([buffer.buffer], {type: type});
 		saveAs(blob, filename);
+
+		if (isControlTransform()) {
+			$("#" + mapid + ">*>.gm-style>div:first>div").css({
+				left: 0,
+				top: 0,
+				"transform": transform
+			});
+		}
+
 		txtbox.style.display = "block";
+		drawingManager.setMap(map_zm);
 	});
 }
 // }}}
