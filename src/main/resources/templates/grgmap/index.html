@@ -4,7 +4,10 @@
 
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!--
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+-->
+<meta name="viewport" content="width=640" />
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
@@ -146,22 +149,27 @@ $(function(){
 
 <div class="section" id="section0">
 	<h2>Welcome!!</h2>
+<!--
 	<img src="/images/logo.png" />
 	<div>
 		<p th:text="'#tmpDir = ' + ${tmpdir}"></p>
 		<p th:text="'#tmpPath = ' + ${tmppath}"></p>
 	</div>
+-->
 </div>
 
 <div class="section" id="section1">
 	<h2>所在図を作ろう</h2>
 	<div id="map_ov"></div>
+<!--
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
 	<div><button id="btn_map_ov">描き終えたら地図を画像で保存</button></div>
+-->
 </div>
 
 <div class="section" id="section2">
 	<h2>配置図を作ろう</h2>
+<!--
 	<div id="map_zm_mytool">
 		<span id="shp_color_group">
 			<input type="radio" name="shp_color" value="black" id="shp_black" checked="checked"><label for="shp_black" class="lbl_shp_black"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="bule" id="shp_blue"><label for="shp_blue" class="lbl_shp_blue"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="red" id="shp_red"><label for="shp_red" class="lbl_shp_red"><i class="fas fa-paint-brush"></i></label></input>
@@ -170,10 +178,12 @@ $(function(){
 	</div>
 	<div id="map_zm"></div>
 	<div><button id="btn_map_zm">描き終えたら地図を画像で保存</button></div>
+-->
 </div>
 
 <div class="section" id="section3">
 	<h2>申請書を作ろう</h2>
+<!--
 	<div>
 		<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor">
 		<div><input type="submit" value="upload" /></div>
@@ -189,6 +199,7 @@ $(function(){
 	</div>
 	<div><button id="btn_test1">テスト1</button></div>
 	<div th:replace="grgmap/websearch::srchBox"></div>
+-->
 <!--
 	<table>
 		<tr th:each="entry : ${appforms}">
