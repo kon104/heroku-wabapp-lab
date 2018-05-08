@@ -121,6 +121,65 @@ function initMapFully(centerLat, centerLng)
 }
 // }}}
 
+// {{{ function putin_mapimg(mapid)
+function putin_mapimg(mapid)
+{
+	var txtbox = document.getElementById('pac-input');
+	txtbox.style.display = "none";
+	var map_zm = drawingManager.getMap();
+	drawingManager.setMap(null);
+
+	if (isControlTransform()) {
+		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
+		var comp = transform.split(",");	//split up the transform matrix
+		var mapleft = parseFloat(comp[4]);	//get left value
+		var maptop = parseFloat(comp[5]);	//get top value
+		$("#" + mapid + ">*>.gm-style>div:first>div").css({ //get the map container. not sure if stable
+			"transform": "none",
+			"left": mapleft,
+			"top": maptop,
+		});
+	}
+
+	html2canvas(document.getElementById(mapid), {
+		useCORS: true,
+		}).then(function(canvas) {
+		var type = 'image/png';
+		var imgData = canvas.toDataURL(type);
+		var imgData2 = imgData.split(',')[1];
+//		var bin = atob(imgData2]);
+//		var buffer = new Uint8Array(bin.length);
+//		for (var i = 0; i < bin.length; i++) {
+//			buffer[i] = bin.charCodeAt(i);
+//		}
+//		var blob = new Blob([buffer.buffer], {type: type});
+//		saveAs(blob, filename);
+
+		var hidden = document.getElementById('img_' + mapid);
+		var thumb = document.getElementById('thumb_' + mapid);
+		if (thumb.hasChildNodes()) {
+			thumb.removeChild(thumb.firstChild);
+		}
+		var img = new Image();
+		img.src = imgData;
+		thumb.appendChild(img);
+
+		hidden.value = imgData2;
+
+		if (isControlTransform()) {
+			$("#" + mapid + ">*>.gm-style>div:first>div").css({
+				left: 0,
+				top: 0,
+				"transform": transform
+			});
+		}
+
+		txtbox.style.display = "block";
+		drawingManager.setMap(map_zm);
+	});
+}
+// }}}
+
 // {{{ function download_map2img(mapid, filename)
 function download_map2img(mapid, filename)
 {
@@ -382,7 +441,7 @@ function createDrawingManager()
 		drawingMode: google.maps.drawing.OverlayType.PAN,
 		drawingControl: true,                            
 		drawingControlOptions: {
-			position: google.maps.ControlPosition.TOP_CENTER, 
+			position: google.maps.ControlPosition.TOP, 
 			drawingModes: [
 				google.maps.drawing.OverlayType.MARKER,
 				google.maps.drawing.OverlayType.CIRCLE,

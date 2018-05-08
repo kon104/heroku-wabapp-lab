@@ -9,6 +9,9 @@
 -->
 <meta name="viewport" content="width=540" />
 
+<script type="text/javascript" th:inline="javascript">
+</script>
+
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
@@ -116,12 +119,12 @@ body {
 	border: 1px solid #0c0c0c;
 }
 
-#thumb_mapov, #thumb_mapov img,
-#thumb_mapzm, #thumb_mapzm img {
-	width: 300px;
-	height: 300px;
-	max-width: 300px;
-	max-height: 300px;
+#thumb_map_ov, #thumb_map_ov img,
+#thumb_map_zm, #thumb_map_zm img {
+	width: 250px;
+	height: 250px;
+	max-width: 250px;
+	max-height: 250px;
 }
 
 </style>
@@ -156,19 +159,16 @@ $(function(){
 <div class="section" id="section0">
 	<h2>Welcome!!</h2>
 	<img src="/images/logo.png" />
-<!--
 	<div>
 		<p th:text="'#tmpDir = ' + ${tmpdir}"></p>
 		<p th:text="'#tmpPath = ' + ${tmppath}"></p>
 	</div>
--->
 </div>
 
 <div class="section" id="section1">
 	<h2>所在図を作ろう</h2>
 	<div id="map_ov"></div>
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
-	<div><button id="btn_map_ov">描き終えたら地図を画像で保存</button></div>
 </div>
 
 <div class="section" id="section2">
@@ -180,11 +180,11 @@ $(function(){
 		<span><button id="btn_delete_shape"><i class="fas fa-eraser"></i></button></span>
 	</div>
 	<div id="map_zm"></div>
-	<div><button id="btn_map_zm">描き終えたら地図を画像で保存</button></div>
 </div>
 
 <div class="section" id="section3">
 	<h2>申請書を作ろう</h2>
+	<div><button id="btn_map_ov">描き終えたら地図を画像で保存</button></div>
 	<div>
 		<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor">
 		<div><input type="submit" value="upload" /></div>
@@ -192,13 +192,18 @@ $(function(){
 			<table>
 				<tr><th>所在図記載欄</th><th>配置図記載欄</th></tr>
 				<tr>
-					<td><div><input type="file" name="file_mapov" size="30" /></div><div id="thumb_mapov"></div></td>
-					<td><div><input type="file" name="file_mapzm" size="30" /></div><div id="thumb_mapzm"></div></td></tr>
+<!--
+					<td><div><input type="file" name="img_map_ov" size="25" /></div><div id="thumb_map_ov"></div></td>
+					<td><div><input type="file" name="img_map_zm" size="25" /></div><div id="thumb_map_zm"></div></td></tr>
+-->
+					<td><div id="thumb_map_ov"></div></td>
+					<td><div id="thumb_map_zm"></div></td></tr>
 			</table>
 		</div>
+		<div><input type="hidden" id="img_map_ov" name="img_map_ov" value="" /></div>
+		<div><input type="hidden" id="img_map_zm" name="img_map_zm" value="" /></div>
 		</form>
 	</div>
-	<div><button id="btn_test1">テスト1</button></div>
 <!--
 	<div th:replace="grgmap/websearch::srchBox"></div>
 	<table>
@@ -220,104 +225,10 @@ $(function(){
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 
-var file_mapov = document.getElementsByName('file_mapov')[0];
-file_mapov.addEventListener("change", function(){
-	var thumb = document.getElementById('thumb_mapov');
-	showThumbnail(file_mapov, thumb);
-});
-
-var file_mapzm = document.getElementsByName('file_mapzm')[0];
-file_mapzm.addEventListener("change", function(){
-	var thumb = document.getElementById('thumb_mapzm');
-	showThumbnail(file_mapzm, thumb);
-});
-
-
-function showThumbnail(file, thumb)
-{
-	if (thumb.children.length !== 0) {
-		while(thumb.children.length > 0) {
-			thumb.children[0].remove();
-		}
-	}
-	var reader = new FileReader();
-	reader.readAsDataURL(file.files[0]);
-	reader.onload = (function(){
-		return function(e){
-			var img = new Image();
-			img.src = e.target.result;
-			thumb.appendChild(img);
-		}
-	})();
-}
-
-
-var btn_test1 = document.getElementById("btn_test1");
-btn_test1.addEventListener("click" , function(event) {
-	test_method1();
-}, false);
-
-function test_method1()
-{
-console.log('m1: >>>>>>>>>>');
-
-	var content  = 'abc';
-	var mimeType = 'text/plain';
-	var name     = 'test.txt';
-
-	// adding BOM to prevent a text garbling.
-	var bom  = new Uint8Array([0xEF, 0xBB, 0xBF]);
-	var blob = new Blob([bom, content], {type : mimeType});
-
-	var target = 'test_window';
-	var a = document.createElement('a');
-//	a.download = name;
-	a.target   = '_blank';
-	a.target   = target;
-
-	if (window.navigator.msSaveBlob) {
-console.log('m1: a');
-		// for IE
-		window.navigator.msSaveBlob(blob, name)
-	}
-	else if (window.URL && window.URL.createObjectURL) {
-console.log('m1: b');
-		// for Firefox
-		a.href = window.URL.createObjectURL(blob);
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-	}
-	else if (window.webkitURL && window.webkitURL.createObject) {
-console.log('m1: c');
-		// for Chrome
-		a.href = window.webkitURL.createObjectURL(blob);
-		a.click();
-	}
-	else {
-console.log('m1: d');
-		// for Safari
-		window.open('data:' + mimeType + ';base64,' + window.Base64.encode(content), target);
-	}
-
-console.log('m1: <<<<<<<<<<');
-}
-
-
-
-
-
-
 var btn_map_ov = document.getElementById("btn_map_ov");
 btn_map_ov.addEventListener("click" , function(event) {
-//	download_map2img('map_ov', 'location.png');
-	download_map2img('map_ov', 'shozai-chart.png');
-}, false);
-
-var btn_map_zm = document.getElementById("btn_map_zm");
-btn_map_zm.addEventListener("click" , function(event) {
-//	download_map2img('map_zm', 'allocation.png');
-	download_map2img('map_zm', 'haichi-chart.png');
+	putin_mapimg('map_ov');
+	putin_mapimg('map_zm');
 }, false);
 
 var chk_shp_black = document.getElementById("shp_black");
@@ -334,8 +245,6 @@ var chk_shp_red = document.getElementById("shp_red");
 chk_shp_red.addEventListener("change", function(event) {
 	change_shape_color(event);
 }, false);
-
-
 
 var btn_del_sh = document.getElementById("btn_delete_shape");
 btn_del_sh.addEventListener("click" , function(event) {

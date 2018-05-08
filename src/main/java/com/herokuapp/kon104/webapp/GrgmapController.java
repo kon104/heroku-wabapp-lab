@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.util.Base64;
 
 
 /**
@@ -160,8 +161,8 @@ public class GrgmapController
 	@RequestMapping(value = "/pdfeditor", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public ResponseEntity<byte[]> pdfeditor(
-		@RequestParam("file_mapov") MultipartFile img_ov,
-		@RequestParam("file_mapzm") MultipartFile img_zm)
+		@RequestParam("img_map_ov") String img_ov,
+		@RequestParam("img_map_zm") String img_zm)
 	{
 
 		File imgOvFile = null;
@@ -176,10 +177,10 @@ public class GrgmapController
 				System.err.println(e.getMessage());
 			}
 		} else {
+			byte[] imgOvByte = Base64.getDecoder().decode(img_ov);
 			try {
 				String imgOvPath = System.getProperty("java.io.tmpdir") + "zzz1.png";
 				imgOvFile = new File(imgOvPath);
-				byte[] imgOvByte = img_ov.getBytes();
 				BufferedOutputStream imgOvStream = new BufferedOutputStream(new FileOutputStream(imgOvFile));
 				imgOvStream.write(imgOvByte);
 				imgOvStream.close();
@@ -197,10 +198,10 @@ public class GrgmapController
 				System.err.println(e.getMessage());
 			}
 		} else {
+			byte[] imgZmByte = Base64.getDecoder().decode(img_zm);
 			try {
 				String imgZmPath = System.getProperty("java.io.tmpdir") + "zzz2.png";
 				imgZmFile = new File(imgZmPath);
-				byte[] imgZmByte = img_zm.getBytes();
 				BufferedOutputStream imgZmStream = new BufferedOutputStream(new FileOutputStream(imgZmFile));
 				imgZmStream.write(imgZmByte);
 				imgZmStream.close();
@@ -208,7 +209,6 @@ public class GrgmapController
 				System.err.println(e.getMessage());
 			}
 		}
-
 
 		byte[] pdfBytes = null;
 		FileInputStream is = null;
