@@ -212,7 +212,7 @@ public class GrgmapController
 
 		byte[] pdfBytes = null;
 		FileInputStream is = null;
-		String pdfPath = "static/images/kanagawa.pdf";
+		String pdfPath = "/static/images/kanagawa.pdf";
 		Resource pdfRes = resourceLoader.getResource("classpath:" + pdfPath);
 
 		try {
