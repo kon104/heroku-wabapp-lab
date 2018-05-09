@@ -135,6 +135,15 @@ body {
 // {{{ $(function(){
 $(function(){
 
+	// menu
+	$('a[href*="#"].anchor-link').on('click', function() {
+		var speed = 400;
+		var href= $(this).attr("href");
+		var target = $(href == "#" || href == "" ? 'html' : href);
+		var position = target.offset().top;
+		$('body,html').animate({scrollTop:position}, speed, 'swing');
+		return false;
+	});
 
 });
 // }}}
@@ -145,11 +154,11 @@ $(function(){
 </head>
 <body>
 
-<ul id="menu">
-	<li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
-	<li data-menuanchor="step1"><a href="#step1">Step 1</a></li>
-	<li data-menuanchor="step2"><a href="#step2">Step 2</a></li>
-	<li data-menuanchor="step3"><a href="#step3">Step 3</a></li>
+<ul class="anchor-nav">
+	<li><a href="#section0" class="anchor-link">Home</a></li>
+	<li><a href="#section1" class="anchor-link">Step 1</a></li>
+	<li><a href="#section2" class="anchor-link">Step 2</a></li>
+	<li><a href="#section3" class="anchor-link">Step 3</a></li>
 </ul>
 
 <div class="container-fluid">
@@ -169,6 +178,7 @@ $(function(){
 	<h2>所在図を作ろう</h2>
 	<div id="map_ov"></div>
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+	<div><a id="goto_step2" href="#section2" class="anchor-link">Step 2 に進む</a></div>
 </div>
 
 <div class="section" id="section2">
@@ -180,11 +190,11 @@ $(function(){
 		<span><button id="btn_delete_shape"><i class="fas fa-eraser"></i></button></span>
 	</div>
 	<div id="map_zm"></div>
+	<div><a id="goto_step3" href="#section3" class="anchor-link">Step 3 に進む</a></div>
 </div>
 
 <div class="section" id="section3">
 	<h2>申請書を作ろう</h2>
-	<div><button id="btn_map_ov">描き終えたら地図を画像で保存</button></div>
 	<div>
 		<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor">
 		<div><input type="submit" value="upload" /></div>
@@ -196,8 +206,8 @@ $(function(){
 					<td><div><input type="file" name="img_map_ov" size="25" /></div><div id="thumb_map_ov"></div></td>
 					<td><div><input type="file" name="img_map_zm" size="25" /></div><div id="thumb_map_zm"></div></td></tr>
 -->
-					<td><div id="thumb_map_ov"></div></td>
-					<td><div id="thumb_map_zm"></div></td></tr>
+					<td><div id="thumb_map_ov"></div><div><a href="#section1" class="anchor-link">Step 1 に戻る</a></div></td>
+					<td><div id="thumb_map_zm"></div><div><a href="#section2" class="anchor-link">Step 2 に戻る</a></div></td></tr>
 			</table>
 		</div>
 		<div><input type="hidden" id="img_map_ov" name="img_map_ov" value="" /></div>
@@ -225,9 +235,14 @@ $(function(){
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/
 
-var btn_map_ov = document.getElementById("btn_map_ov");
-btn_map_ov.addEventListener("click" , function(event) {
+var ank_step2 = document.getElementById("goto_step2");
+ank_step2.addEventListener("click" , function(event) {
 	putin_mapimg('map_ov');
+}, false);
+
+var ank_step3 = document.getElementById("goto_step3");
+ank_step3.addEventListener("click" , function(event) {
+	unselectShape();
 	putin_mapimg('map_zm');
 }, false);
 
