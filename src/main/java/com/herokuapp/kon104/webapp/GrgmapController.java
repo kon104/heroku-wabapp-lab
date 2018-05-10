@@ -32,6 +32,10 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.Base64;
+import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.io.InputStream;
 
 
 /**
@@ -216,8 +220,8 @@ public class GrgmapController
 		Resource pdfRes = resourceLoader.getResource("classpath:" + pdfPath);
 
 		try {
-			File file = pdfRes.getFile();
-			PDDocument pdfDoc = PDDocument.load(file);
+			InputStream pdfIs = pdfRes.getInputStream();
+			PDDocument pdfDoc = PDDocument.load(pdfIs);
 			pdfDoc.removePage(0);
 			pdfDoc.removePage(0);
 			PDPage page = pdfDoc.getPage(0);
