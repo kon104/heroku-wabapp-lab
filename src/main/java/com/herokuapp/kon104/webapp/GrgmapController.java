@@ -183,7 +183,8 @@ public class GrgmapController
 		} else {
 			byte[] imgOvByte = Base64.getDecoder().decode(img_ov);
 			try {
-				String imgOvPath = System.getProperty("java.io.tmpdir") + "zzz1.png";
+				String imgOvPath = System.getProperty("java.io.tmpdir");
+				imgOvPath += (imgOvPath.endsWith(File.separator) ? "" : File.separator) + "zzz1.png";
 				imgOvFile = new File(imgOvPath);
 				BufferedOutputStream imgOvStream = new BufferedOutputStream(new FileOutputStream(imgOvFile));
 				imgOvStream.write(imgOvByte);
@@ -204,7 +205,8 @@ public class GrgmapController
 		} else {
 			byte[] imgZmByte = Base64.getDecoder().decode(img_zm);
 			try {
-				String imgZmPath = System.getProperty("java.io.tmpdir") + "zzz2.png";
+				String imgZmPath = System.getProperty("java.io.tmpdir");
+				imgZmPath += (imgZmPath.endsWith(File.separator) ? "" : File.separator) + "zzz2.png";
 				imgZmFile = new File(imgZmPath);
 				BufferedOutputStream imgZmStream = new BufferedOutputStream(new FileOutputStream(imgZmFile));
 				imgZmStream.write(imgZmByte);
