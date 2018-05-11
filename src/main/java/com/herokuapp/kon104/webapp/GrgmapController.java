@@ -36,6 +36,7 @@ import java.net.URL;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.InputStream;
+import java.net.URLConnection;
 
 
 /**
@@ -168,62 +169,46 @@ public class GrgmapController
 		@RequestParam("img_map_ov") String img_ov,
 		@RequestParam("img_map_zm") String img_zm)
 	{
+		if (img_ov.isEmpty()) {
+			// TBD
+		}
+		if (img_zm.isEmpty()) {
+			// TBD
+		}
+
+		byte[] imgOvByte = Base64.getDecoder().decode(img_ov);
+		byte[] imgZmByte = Base64.getDecoder().decode(img_zm);
 
 		File imgOvFile = null;
 		File imgZmFile = null;
 
-		if (img_ov.isEmpty()) {
-			String imgOvPath = "static/images/location.png";
-			Resource imgOvRes = resourceLoader.getResource("classpath:" + imgOvPath);
-			try {
-				imgOvFile = imgOvRes.getFile();
-			} catch(IOException e) {
-				System.err.println(e.getMessage());
-			}
-		} else {
-			byte[] imgOvByte = Base64.getDecoder().decode(img_ov);
-			try {
-				String imgOvPath = System.getProperty("java.io.tmpdir");
-				imgOvPath += (imgOvPath.endsWith(File.separator) ? "" : File.separator) + "zzz1.png";
-				imgOvFile = new File(imgOvPath);
-				BufferedOutputStream imgOvStream = new BufferedOutputStream(new FileOutputStream(imgOvFile));
-				imgOvStream.write(imgOvByte);
-				imgOvStream.close();
-			} catch(IOException e) {
-				System.err.println(e.getMessage());
-			}
-		}
-
-		if (img_zm.isEmpty()) {
-			String imgZmPath = "static/images/allocation.png";
-			Resource imgZmRes = resourceLoader.getResource("classpath:" + imgZmPath);
-			try {
-				imgZmFile = imgZmRes.getFile();
-			} catch(IOException e) {
-				System.err.println(e.getMessage());
-			}
-		} else {
-			byte[] imgZmByte = Base64.getDecoder().decode(img_zm);
-			try {
-				String imgZmPath = System.getProperty("java.io.tmpdir");
-				imgZmPath += (imgZmPath.endsWith(File.separator) ? "" : File.separator) + "zzz2.png";
-				imgZmFile = new File(imgZmPath);
-				BufferedOutputStream imgZmStream = new BufferedOutputStream(new FileOutputStream(imgZmFile));
-				imgZmStream.write(imgZmByte);
-				imgZmStream.close();
-			} catch(IOException e) {
-				System.err.println(e.getMessage());
-			}
-		}
-
 		byte[] pdfBytes = null;
-		FileInputStream is = null;
-		String pdfPath = "/static/images/kanagawa.pdf";
-		Resource pdfRes = resourceLoader.getResource("classpath:" + pdfPath);
 
 		try {
-			InputStream pdfIs = pdfRes.getInputStream();
+
+			// create image of map (overview)
+			imgOvFile = File.createTempFile("GrgmapImgOv", ".png");
+			BufferedOutputStream imgOvStream = new BufferedOutputStream(new FileOutputStream(imgOvFile));
+			imgOvStream.write(imgOvByte);
+			imgOvStream.close();
+
+			// create image of map (zoom)
+			imgZmFile = File.createTempFile("GrgmapImgZm", ".png");
+			BufferedOutputStream imgZmStream = new BufferedOutputStream(new FileOutputStream(imgZmFile));
+			imgZmStream.write(imgZmByte);
+			imgZmStream.close();
+
+			// create a pdf covering image of map
+			String pdfAddr = "https://www.police.pref.kanagawa.jp/pdf/f4020_02.pdf";
+			URL pdfUrl = new URL(pdfAddr);
+			URLConnection pdfConn = pdfUrl.openConnection();
+			if (!pdfConn.getContentType().equalsIgnoreCase("application/pdf")) {
+				// ToDo: failuer to get pdf
+			}
+			InputStream pdfIs = pdfUrl.openStream();
 			PDDocument pdfDoc = PDDocument.load(pdfIs);
+			pdfIs.close();
+
 			pdfDoc.removePage(0);
 			pdfDoc.removePage(0);
 			PDPage page = pdfDoc.getPage(0);
@@ -245,12 +230,11 @@ public class GrgmapController
 		} catch(IOException e) {
 			System.err.println(e);
 		} finally {
-			try {
-				if (is != null) {
-					is.close();
-				}
-			} catch(IOException e) {
-				System.err.println(e);
+			if ((imgOvFile != null) && (imgOvFile.exists())) {
+				imgOvFile.delete();
+			}
+			if ((imgZmFile != null) && (imgZmFile.exists())) {
+				imgZmFile.delete();
 			}
 		}
 
