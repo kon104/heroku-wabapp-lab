@@ -37,6 +37,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import com.herokuapp.kon104.webapp.service.GrgmapAppFormService;
+import com.herokuapp.kon104.webapp.domain.GrgmapAppForm;
+import java.util.Map;
 
 
 /**
@@ -52,6 +55,9 @@ public class GrgmapController
 
 	private String gmapApiKey = "AIzaSyBCYBPbwRyLV_urAoagNVlNn2T3BHspQW4";
 //	private String gmapApiKey = "AIzaSyCErcdJQ5Pc1jP5pKhaKsBMruAM0GE8tnI";
+
+	@Autowired
+	GrgmapAppFormService gafservice;
 
 	@Autowired
 	ResourceLoader resourceLoader;
@@ -77,7 +83,7 @@ public class GrgmapController
 		model.addAttribute("tmpdir", tmpDir);
 		model.addAttribute("tmppath", tmpPath);
 
-//		model.addAttribute("appforms", service.getAppForms());
+		model.addAttribute("appforms", gafservice.findAll());
 		model.addAttribute("lat", 35.47131841901187);
 		model.addAttribute("lng", 139.4283853703149);
 		model.addAttribute("gmapApiKey", gmapApiKey);
@@ -167,7 +173,8 @@ public class GrgmapController
 	@ResponseBody
 	public ResponseEntity<byte[]> pdfeditor(
 		@RequestParam("img_map_ov") String img_ov,
-		@RequestParam("img_map_zm") String img_zm)
+		@RequestParam("img_map_zm") String img_zm,
+		@RequestParam("pref") String pref_code)
 	{
 		if (img_ov.isEmpty()) {
 			// TBD
@@ -199,7 +206,10 @@ public class GrgmapController
 			imgZmStream.close();
 
 			// create a pdf covering image of map
-			String pdfAddr = "https://www.police.pref.kanagawa.jp/pdf/f4020_02.pdf";
+			Map<Integer, GrgmapAppForm> appformlist = gafservice.findAll();
+			GrgmapAppForm appform = appformlist.get(Integer.parseInt(pref_code));
+
+			String pdfAddr = appform.url;
 			URL pdfUrl = new URL(pdfAddr);
 			URLConnection pdfConn = pdfUrl.openConnection();
 			if (!pdfConn.getContentType().equalsIgnoreCase("application/pdf")) {
@@ -217,11 +227,19 @@ public class GrgmapController
 			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, pdfDoc);
 			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, pdfDoc);
 
-			float scale = 0.34f;
-			cs.drawImage(imgOv, 70, 170, imgOv.getWidth() * scale, imgOv.getHeight() * scale);
-			cs.drawImage(imgZm, 428, 170, imgZm.getWidth() * scale, imgZm.getHeight() * scale);
-			cs.close();
+			int max_side = appform.max_side;
+			float scale_x = (float) max_side / imgOv.getWidth();
+			float scale_y = (float) max_side / imgZm.getWidth();
+			float scale = Float.MAX_VALUE;
+			scale = (scale < scale_x) ? scale : scale_x;
+			scale = (scale < scale_y) ? scale : scale_y;
 
+			int imgpos_y = appform.imgpos_y;
+			int imgpos_x_ov = appform.imgpos_x_ov;
+			int imgpos_x_zm = appform.imgpos_x_zm;
+			cs.drawImage(imgOv, imgpos_x_ov, imgpos_y, imgOv.getWidth() * scale, imgOv.getHeight() * scale);
+			cs.drawImage(imgZm, imgpos_x_zm, imgpos_y, imgZm.getWidth() * scale, imgZm.getHeight() * scale);
+			cs.close();
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			pdfDoc.save(out);
