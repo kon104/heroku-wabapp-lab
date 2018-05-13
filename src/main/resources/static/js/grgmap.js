@@ -126,8 +126,10 @@ function putin_mapimg(mapid)
 {
 	var txtbox = document.getElementById('pac-input');
 	txtbox.style.display = "none";
-	var map_zm = drawingManager.getMap();
-	drawingManager.setMap(null);
+	var mytool1 = document.getElementById('shp_color_group');
+	var mytool2 = document.getElementById('btn_delete_shape');
+	mytool1.style.display = "none";
+	mytool2.style.display = "none";
 
 	if (isControlTransform()) {
 		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
@@ -175,7 +177,8 @@ function putin_mapimg(mapid)
 		}
 
 		txtbox.style.display = "block";
-		drawingManager.setMap(map_zm);
+		mytool1.style.display = "block";
+		mytool2.style.display = "block";
 	});
 }
 // }}}
@@ -185,8 +188,8 @@ function download_map2img(mapid, filename)
 {
 	var txtbox = document.getElementById('pac-input');
 	txtbox.style.display = "none";
-	var map_zm = drawingManager.getMap();
-	drawingManager.setMap(null);
+	var mytool = document.getElementById('mytool');
+	mytool.style.display = "none";
 
 	if (isControlTransform()) {
 		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
@@ -222,7 +225,7 @@ function download_map2img(mapid, filename)
 		}
 
 		txtbox.style.display = "block";
-		drawingManager.setMap(map_zm);
+		mytool.style.display = "block";
 	});
 }
 // }}}

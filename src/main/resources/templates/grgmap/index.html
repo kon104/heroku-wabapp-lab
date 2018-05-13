@@ -4,10 +4,11 @@
 
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<!--
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
--->
+<!--
 <meta name="viewport" content="width=540" />
+-->
 
 <script type="text/javascript" th:inline="javascript">
 </script>
@@ -19,8 +20,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,900" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" />
 
+<link rel="stylesheet" type="text/css" href="/css/grgmap/boot-adjust.css" th:href="@{/css/grgmap/boot-adjust.css}" />
 <link rel="stylesheet" type="text/css" href="/css/grgmap.css" th:href="@{/css/grgmap.css}" />
 <link rel="stylesheet" type="text/css" href="/css/searchbox.css" th:href="@{/css/searchbox.css}" />
 <script type="text/javascript" src="/js/searchbox.js" th:src="@{/js/searchbox.js}"></script>
@@ -29,35 +33,102 @@
 <style>
 
 body {
-	background-color: #F2F2F2;
+	padding-top: 50px;
+	background: #CEA573 url('https://template-party.com/template/tp_biz50/tp_biz50_kraft_green/images/bg.jpg');
+	font-family:'Lato', 'Noto Sans Japanese', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
 
-.container-fluid {
-	margin-right: auto;
-	margin-left: auto;
-	max-width: 960px;
+#nav_steps {
+	box-shadow:3px 3px 3px;
 }
 
-//	.section h2 {
-//		margin: 5px 0px 5px 400px;
-//	}
+.section {
+	border: solid 1px gray;
+	border-radius: 10px;
+//	box-shadow:3px 3px 3px;
+	margin-top: 15px;
+}
+
+.section h3 {
+	margin: 10px 0px 10px 10px;
+}
+
+#section0 h1 {
+	font-weight: bold;
+	text-align: center;
+	margin: 60px 30px 20px 30px;
+	padding: 10px;
+	box-shadow:5px 5px 10px;
+	color: #010079;
+	text-shadow: 0 0 5px white;
+	border-left: solid 7px #010079;
+	background: -webkit-repeating-linear-gradient(-45deg, #cce7ff, #cce7ff 3px,#e9f4ff 3px, #e9f4ff 7px);
+	background: repeating-linear-gradient(-45deg, #cce7ff, #cce7ff 3px,#e9f4ff 3px, #e9f4ff 7px);
+}
+
+#section0 p {
+	text-align: center;
+	background-color: #FFFFFF;
+	opacity: 0.7;
+}
+
 
 #section0 {
 	background-size: cover;
 	background-image: url(/images/cars.jpg);
+	height: 450px;
 }
 #section1 {
-	background-color: #31B404;
+	background-color: #FFFFFF;
 }
 #section2 {
-	background-color: #58ACFA;
+	background-color: #FFFFFF;
 }
 #section3 {
 	background-color: #FACC2E;
 }
+#section4 {
+	background-color: #FACC2E;
+}
 
-#map_ov {width: 500px; height: 500px;}
-#map_zm {width: 500px; height: 500px;}
+#site_qr { 
+	text-align: center;
+}
+
+#map_ov, #map_zm {
+	border: solid 1px gray;
+}
+
+#map_ov {width: 310px; height: 310px;}
+#map_zm {width: 310px; height: 310px;}
+#pac-input {width: 120px;}
+#thumb_map_ov, #thumb_map_ov img,
+#thumb_map_zm, #thumb_map_zm img {width: 155px; height: 155px; max-width: 155px; max-height: 155px;}
+
+@media screen and (min-width: 375px){
+	#map_ov {width: 365px; height: 365px;}
+	#map_zm {width: 365px; height: 365px;}
+	#pac-input {width: 175px;}
+	#thumb_map_ov, #thumb_map_ov img,
+	#thumb_map_zm, #thumb_map_zm img {width: 182px; height: 182px; max-width: 182px; max-height: 182px;}
+}
+@media screen and (min-width: 414px){
+	#map_ov {width: 404px; height: 404px;}
+	#map_zm {width: 404px; height: 404px;}
+	#pac-input {width: 215px;}
+	#thumb_map_ov, #thumb_map_ov img,
+	#thumb_map_zm, #thumb_map_zm img {width: 202px; height: 202px; max-width: 202px; max-height: 202px;}
+}
+@media screen and (min-width: 510px){
+	#map_ov {width: 500px; height: 500px;}
+	#map_zm {width: 500px; height: 500px;}
+	#pac-input {width: 300px;}
+	#thumb_map_ov, #thumb_map_ov img,
+	#thumb_map_zm, #thumb_map_zm img {width: 250px; height: 250px; max-width: 250px; max-height: 250px;}
+}
+
+
+
 
 #map_zm_mytool {
 	margin-top: 5px;
@@ -111,6 +182,11 @@ body {
 	background-color: #EBEBEB;
 }
 
+#application table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #application table, 
 #application th,
 #application td {
@@ -119,12 +195,8 @@ body {
 	border: 1px solid #0c0c0c;
 }
 
-#thumb_map_ov, #thumb_map_ov img,
-#thumb_map_zm, #thumb_map_zm img {
-	width: 250px;
-	height: 250px;
-	max-width: 250px;
-	max-height: 250px;
+#adsframe {
+	margin-left: 15px;
 }
 
 </style>
@@ -140,7 +212,7 @@ $(function(){
 		var speed = 400;
 		var href= $(this).attr("href");
 		var target = $(href == "#" || href == "" ? 'html' : href);
-		var position = target.offset().top;
+		var position = target.offset().top - $("#nav_steps").height() - 10;
 		$('body,html').animate({scrollTop:position}, speed, 'swing');
 		return false;
 	});
@@ -154,80 +226,93 @@ $(function(){
 </head>
 <body>
 
-<ul class="anchor-nav">
+<nav id="nav_steps" class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+
+<ul class="anchor-nav nav navbar-nav">
 	<li><a href="#section0" class="anchor-link">Home</a></li>
 	<li><a href="#section1" class="anchor-link">Step 1</a></li>
 	<li><a href="#section2" class="anchor-link">Step 2</a></li>
 	<li><a href="#section3" class="anchor-link">Step 3</a></li>
 </ul>
 
+		</div>
+	</div>
+</nav>
+
 <div class="container-fluid">
-	<div class="row">
+	<div class="row row--nopadding">
 		<div class="col-sm-9">
 
 <div class="section" id="section0">
-	<h2>Welcome!!</h2>
-	<img src="/images/logo.png" />
-	<div>
-		<p th:text="'#tmpDir = ' + ${tmpdir}"></p>
-		<p th:text="'#tmpPath = ' + ${tmppath}"></p>
-	</div>
+	<h1>Garage Map Creator</h1>
+	<p>車庫証明の手続きに必要な<br />保管場所の所在図・配置図を作りましょう！</p>
+	<div><a id="goto_step1" href="#section1" class="anchor-link">Step 1 から始める</a></div>
+	<div id="site_qr"><img th:src="@{http://chart.apis.google.com/chart(chs=150x150,cht=qr,chl=${#httpServletRequest.requestURL})}" /></div>
 </div>
 
 <div class="section" id="section1">
-	<h2>所在図を作ろう</h2>
-	<div id="map_ov"></div>
+	<h3>Step 1: 所在図を作ろう</h3>
+	<div id="map_ov" class="center-block"></div>
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
 	<div><a id="goto_step2" href="#section2" class="anchor-link">Step 2 に進む</a></div>
 </div>
 
 <div class="section" id="section2">
-	<h2>配置図を作ろう</h2>
+	<h3>Step 2: 配置図を作ろう</h3>
 	<div id="map_zm_mytool">
 		<span id="shp_color_group">
 			<input type="radio" name="shp_color" value="black" id="shp_black" checked="checked"><label for="shp_black" class="lbl_shp_black"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="bule" id="shp_blue"><label for="shp_blue" class="lbl_shp_blue"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="red" id="shp_red"><label for="shp_red" class="lbl_shp_red"><i class="fas fa-paint-brush"></i></label></input>
 		</span>
 		<span><button id="btn_delete_shape"><i class="fas fa-eraser"></i></button></span>
 	</div>
-	<div id="map_zm"></div>
+	<div id="map_zm" class="center-block"></div>
 	<div><a id="goto_step3" href="#section3" class="anchor-link">Step 3 に進む</a></div>
 </div>
 
 <div class="section" id="section3">
-	<h2>申請書を作ろう</h2>
+	<h3>Step 3: 申請書を作ろう</h3>
 	<div>
 		<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor">
 		<div><input type="submit" value="upload" /></div>
 		<div id="application">
 			<table>
+				<thead>
 				<tr><th>所在図記載欄</th><th>配置図記載欄</th></tr>
+				</thead>
+				<tbody>
 				<tr>
-<!--
-					<td><div><input type="file" name="img_map_ov" size="25" /></div><div id="thumb_map_ov"></div></td>
-					<td><div><input type="file" name="img_map_zm" size="25" /></div><div id="thumb_map_zm"></div></td></tr>
--->
 					<td><div id="thumb_map_ov"></div><div><a href="#section1" class="anchor-link">Step 1 に戻る</a></div></td>
 					<td><div id="thumb_map_zm"></div><div><a href="#section2" class="anchor-link">Step 2 に戻る</a></div></td></tr>
+				</tbody>
 			</table>
 		</div>
 		<div><input type="hidden" id="img_map_ov" name="img_map_ov" value="" /></div>
 		<div><input type="hidden" id="img_map_zm" name="img_map_zm" value="" /></div>
+		<div><input type="text" name="pref" value="14" /></div>
 		</form>
 	</div>
-<!--
-	<div th:replace="grgmap/websearch::srchBox"></div>
-	<table>
+	<table border="1">
 		<tr th:each="entry : ${appforms}">
-			<td th:text="${entry.code}"></td>
-			<td><a th:href="${entry.url}" th:text="${entry.name}"></a></td>
+			<td th:text="${entry.value.code}" /><td th:text="${entry.value.pref}" /><td th:text="${entry.value.url}? 'O' : 'X'" />
 		</tr>
 	</table>
--->
 </div>
+
+<div class="section" id="section4">
+	<h3>Finish: お疲れさまでした！</h3>
+	<div>
+		<p>Goal!!</p>
+	</div>
+</div>
+
 
 		</div>
 		<div class="col-sm-3 hidden-xs">
-<div>advertisement</div>
+			<div id="adsframe">
+<h3>advertisement</h3>
+			</div>
 		</div>
 	</div>
 </div>

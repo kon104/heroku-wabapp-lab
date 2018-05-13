@@ -66,23 +66,6 @@ public class GrgmapController
 	@RequestMapping("/")
 	public String index(Model model)
 	{
-		String tmpDir = System.getProperty("java.io.tmpdir");
-		File tmpFile = null;
-		String tmpPath = null;
-		try {
-			tmpFile = File.createTempFile("prefix", ".suffix");
-			tmpPath = tmpFile.getPath();
-		} catch(IOException e) {
-			System.err.println(e.getMessage());
-		} finally {
-			if (tmpFile != null && tmpFile.exists()) {
-				tmpFile.delete();
-			}
-		}
- 
-		model.addAttribute("tmpdir", tmpDir);
-		model.addAttribute("tmppath", tmpPath);
-
 		model.addAttribute("appforms", gafservice.findAll());
 		model.addAttribute("lat", 35.47131841901187);
 		model.addAttribute("lng", 139.4283853703149);
@@ -219,8 +202,16 @@ public class GrgmapController
 			PDDocument pdfDoc = PDDocument.load(pdfIs);
 			pdfIs.close();
 
-			pdfDoc.removePage(0);
-			pdfDoc.removePage(0);
+//			pdfDoc.removePage(0);
+//			pdfDoc.removePage(0);
+			for (int idx = 1, totalpage = pdfDoc.getNumberOfPages(); idx <= totalpage; idx++){
+				if (idx < appform.page) {
+					pdfDoc.removePage(0);
+				} else
+				if (idx > appform.page) {
+					pdfDoc.removePage(1);
+				}
+			}
 			PDPage page = pdfDoc.getPage(0);
 			PDPageContentStream cs = new PDPageContentStream(pdfDoc, page, PDPageContentStream.AppendMode.APPEND, true);
 

@@ -4,12 +4,15 @@
  * --------------------------------------- */
 #menu li {
 	display:inline-block;
-	margin: 10px 0px 10px 10px;
+//	margin: 10px 0px 10px 10px;
+	margin: 5px 0px 5px 5px;
 	color: #000;
 	background:#fff;
 	background: rgba(255,255,255, 0.5);
-	-webkit-border-radius: 10px;
-	        border-radius: 10px;
+//	-webkit-border-radius: 10px;
+//	        border-radius: 10px;
+	-webkit-border-radius: 7px;
+	        border-radius: 7px;
 }
 #menu li.active{
 	background:#666;
@@ -28,7 +31,8 @@
 }
 #menu li a,
 #menu li.active a{
-	padding: 8px 16px;
+//	padding: 8px 16px;
+	padding: 4px 12px;
 	display:block;
 }
 #menu li.active a{
