@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+	padding-left: 0px;
+	padding-right: 0px;
+    max-width: 960px;
+}
+
+/************************************************
+ * style of grid coulumn without gutter
+ * http://adobe.ly/1OEJviA
+ ***********************************************/
+.row--nopadding {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.row--nopadding > [class*="col-"] {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+/**
+ *
+ */
+
+.nav>li {
+	float: left;
+	display: inline-block;
+}
+.navbar-nav {
+	margin: 0;
+}
+.navbar-nav>li>a {
+	padding-top: 14.5px;
+	padding-bottom: 14.5px;
+}
+
