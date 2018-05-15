@@ -6,9 +6,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<!--
-<meta name="viewport" content="width=540" />
--->
 
 <script type="text/javascript" th:inline="javascript">
 </script>
@@ -89,9 +86,44 @@ body {
 }
 #section4 {
 	background-color: #FACC2E;
+	height: 600px;
+}
+
+.goto_btn_area {
+	text-align: center;
+	margin: 5px 0px;
+}
+
+.anchor-btn {
+    display: inline-block;
+    padding: 0.4em 1em;
+    text-decoration: none;
+	background: #f7f7f7;
+	border: solid 4px #FFA000;
+	border-radius: 15px;
+	color: #ff7c5c;
+	font-size: 1.4em;
+    font-weight: bold;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+}
+.anchor-btn:hover {
+	text-decoration: none;
+	background: #ffc25c;
+	color: #FFFFFF;
+}
+.anchor-btn:active {
+	text-decoration: none;
+    box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
+	color: #FFFFFF;
+    transform: translateY(2px);
+}
+.anchor-btn:focus {
+	text-decoration: none;
+	color: #FFFFFF;
 }
 
 #site_qr { 
+	margin-top: 20px;
 	text-align: center;
 }
 
@@ -102,6 +134,7 @@ body {
 #map_ov {width: 310px; height: 310px;}
 #map_zm {width: 310px; height: 310px;}
 #pac-input {width: 120px;}
+#goto_step2, #goto_step3, #goto_step4 {width:310px;}
 #thumb_map_ov, #thumb_map_ov img,
 #thumb_map_zm, #thumb_map_zm img {width: 155px; height: 155px; max-width: 155px; max-height: 155px;}
 
@@ -109,6 +142,7 @@ body {
 	#map_ov {width: 365px; height: 365px;}
 	#map_zm {width: 365px; height: 365px;}
 	#pac-input {width: 175px;}
+	#goto_step2, #goto_step3, #goto_step4 {width: 365px;}
 	#thumb_map_ov, #thumb_map_ov img,
 	#thumb_map_zm, #thumb_map_zm img {width: 182px; height: 182px; max-width: 182px; max-height: 182px;}
 }
@@ -116,6 +150,7 @@ body {
 	#map_ov {width: 404px; height: 404px;}
 	#map_zm {width: 404px; height: 404px;}
 	#pac-input {width: 215px;}
+	#goto_step2, #goto_step3, #goto_step4 {width: 404px;}
 	#thumb_map_ov, #thumb_map_ov img,
 	#thumb_map_zm, #thumb_map_zm img {width: 202px; height: 202px; max-width: 202px; max-height: 202px;}
 }
@@ -123,6 +158,7 @@ body {
 	#map_ov {width: 500px; height: 500px;}
 	#map_zm {width: 500px; height: 500px;}
 	#pac-input {width: 300px;}
+	#goto_step2, #goto_step3, #goto_step4 {width: 500px;}
 	#thumb_map_ov, #thumb_map_ov img,
 	#thumb_map_zm, #thumb_map_zm img {width: 250px; height: 250px; max-width: 250px; max-height: 250px;}
 }
@@ -248,7 +284,7 @@ $(function(){
 <div class="section" id="section0">
 	<h1>Garage Map Creator</h1>
 	<p>車庫証明の手続きに必要な<br />保管場所の所在図・配置図を作りましょう！</p>
-	<div><a id="goto_step1" href="#section1" class="anchor-link">Step 1 から始める</a></div>
+	<div class="goto_btn_area"><a id="goto_step1" href="#section1" class="anchor-link anchor-btn">Step 1 から始める</a></div>
 	<div id="site_qr"><img th:src="@{http://chart.apis.google.com/chart(chs=150x150,cht=qr,chl=${#httpServletRequest.requestURL})}" /></div>
 </div>
 
@@ -256,7 +292,7 @@ $(function(){
 	<h3>Step 1: 所在図を作ろう</h3>
 	<div id="map_ov" class="center-block"></div>
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
-	<div><a id="goto_step2" href="#section2" class="anchor-link">Step 2 に進む</a></div>
+	<div class="goto_btn_area"><a id="goto_step2" href="#section2" class="anchor-link anchor-btn">Step 2 に進む</a></div>
 </div>
 
 <div class="section" id="section2">
@@ -268,13 +304,13 @@ $(function(){
 		<span><button id="btn_delete_shape"><i class="fas fa-eraser"></i></button></span>
 	</div>
 	<div id="map_zm" class="center-block"></div>
-	<div><a id="goto_step3" href="#section3" class="anchor-link">Step 3 に進む</a></div>
+	<div class="goto_btn_area"><a id="goto_step3" href="#section3" class="anchor-link anchor-btn">Step 3 に進む</a></div>
 </div>
 
 <div class="section" id="section3">
 	<h3>Step 3: 申請書を作ろう</h3>
 	<div>
-		<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor">
+		<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor" name="postappform">
 		<div><input type="submit" value="upload" /></div>
 		<div id="application">
 			<table>
@@ -293,6 +329,7 @@ $(function(){
 		<div><input type="text" name="pref" value="14" /></div>
 		</form>
 	</div>
+	<div class="goto_btn_area"><a id="goto_step4" href="#section4" class="anchor-link anchor-btn">申請書をPDFで出力</a></div>
 	<table border="1">
 		<tr th:each="entry : ${appforms}">
 			<td th:text="${entry.value.code}" /><td th:text="${entry.value.pref}" /><td th:text="${entry.value.url}? 'O' : 'X'" />
@@ -329,6 +366,11 @@ var ank_step3 = document.getElementById("goto_step3");
 ank_step3.addEventListener("click" , function(event) {
 	unselectShape();
 	putin_mapimg('map_zm');
+}, false);
+
+var ank_step4 = document.getElementById("goto_step4");
+ank_step4.addEventListener("click" , function(event) {
+	document.postappform.submit();
 }, false);
 
 var chk_shp_black = document.getElementById("shp_black");
