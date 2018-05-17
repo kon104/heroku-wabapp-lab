@@ -284,7 +284,7 @@ $(function(){
 <div class="section" id="section0">
 	<h1>Garage Map Creator</h1>
 	<p>車庫証明の手続きに必要な<br />保管場所の所在図・配置図を作りましょう！</p>
-	<div class="goto_btn_area"><a id="goto_step1" href="#section1" class="anchor-link anchor-btn">Step 1 から始める</a></div>
+	<div class="goto_btn_area"><a id="goto_step1" href="#section1" class="anchor-link anchor-btn"><i class="far fa-hand-pointer"></i> Step 1 から始める</a></div>
 	<div id="site_qr"><img th:src="@{http://chart.apis.google.com/chart(chs=150x150,cht=qr,chl=${#httpServletRequest.requestURL})}" /></div>
 </div>
 
@@ -292,7 +292,7 @@ $(function(){
 	<h3>Step 1: 所在図を作ろう</h3>
 	<div id="map_ov" class="center-block"></div>
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
-	<div class="goto_btn_area"><a id="goto_step2" href="#section2" class="anchor-link anchor-btn">Step 2 に進む</a></div>
+	<div class="goto_btn_area"><a id="goto_step2" href="#section2" class="anchor-link anchor-btn"><i class="far fa-hand-pointer"></i> Step 2 に進む</a></div>
 </div>
 
 <div class="section" id="section2">
