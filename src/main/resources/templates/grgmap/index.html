@@ -75,10 +75,7 @@ body {
 	background-image: url(/images/cars.jpg);
 	height: 450px;
 }
-#section1 {
-	background-color: #FFFFFF;
-}
-#section2 {
+#section1, #section2 {
 	background-color: #FFFFFF;
 }
 #section3 {
@@ -89,76 +86,94 @@ body {
 	height: 600px;
 }
 
-.goto_btn_area {
+.goto_area {
 	text-align: center;
-	margin: 5px 0px;
+	margin: 5px 0px 10px 0px;
 }
 
-.anchor-btn {
-    display: inline-block;
-    padding: 0.4em 1em;
-    text-decoration: none;
+.goto-btn {
+	display: inline-block;
 	background: #f7f7f7;
 	border: solid 4px #FFA000;
-	border-radius: 15px;
+	border-radius: 5px;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
 	color: #ff7c5c;
-	font-size: 1.4em;
-    font-weight: bold;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
-}
-.anchor-btn:hover {
 	text-decoration: none;
-	background: #ffc25c;
-	color: #FFFFFF;
 }
-.anchor-btn:active {
+.goto-btn:hover {
+//	background: #ffc25c;
+//	color: #FFFFFF;
+	background: #f7f7f7;
+	color: #ff7c5c;
 	text-decoration: none;
-    box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
-	color: #FFFFFF;
-    transform: translateY(2px);
 }
-.anchor-btn:focus {
+.goto-btn:active {
+	background: #f7f7f7;
+	color: #ff7c5c;
 	text-decoration: none;
-	color: #FFFFFF;
+	box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
+	transform: translateY(4px);
 }
+.goto-btn:focus {
+	background: #f7f7f7;
+	color: #ff7c5c;
+	text-decoration: none;
+}
+.goto-btn .btnicon {
+    display: inline-block;
+	background: #FFA000;
+	color: #FFFFFF;
+	padding: 5px 0px;
+}
+
+.goto-btn .btntitle {
+    display: inline-block;
+	width: 430px;
+}
+
+
 
 #site_qr { 
 	margin-top: 20px;
 	text-align: center;
 }
 
-#map_ov, #map_zm {
+.maps {
 	border: solid 1px gray;
 }
 
-#map_ov {width: 310px; height: 310px;}
-#map_zm {width: 310px; height: 310px;}
+.maps {width: 310px; height: 310px;}
 #pac-input {width: 120px;}
-#goto_step2, #goto_step3, #goto_step4 {width:310px;}
+.goto-btn {width:310px;}
+.goto-btn .btnicon {width: 38px;}
+.goto-btn .btntitle {width: 264px;}
 #thumb_map_ov, #thumb_map_ov img,
 #thumb_map_zm, #thumb_map_zm img {width: 155px; height: 155px; max-width: 155px; max-height: 155px;}
 
 @media screen and (min-width: 375px){
-	#map_ov {width: 365px; height: 365px;}
-	#map_zm {width: 365px; height: 365px;}
+	.maps {width: 365px; height: 365px;}
 	#pac-input {width: 175px;}
-	#goto_step2, #goto_step3, #goto_step4 {width: 365px;}
+	.goto-btn {width: 365px;}
+	.goto-btn .btnicon {width: 45px;}
+	.goto-btn .btntitle {width: 312px;}
 	#thumb_map_ov, #thumb_map_ov img,
 	#thumb_map_zm, #thumb_map_zm img {width: 182px; height: 182px; max-width: 182px; max-height: 182px;}
 }
 @media screen and (min-width: 414px){
-	#map_ov {width: 404px; height: 404px;}
-	#map_zm {width: 404px; height: 404px;}
+	.maps {width: 404px; height: 404px;}
 	#pac-input {width: 215px;}
-	#goto_step2, #goto_step3, #goto_step4 {width: 404px;}
+	.goto-btn {width: 404px;}
+	.goto-btn .btnicon {width: 50px;}
+	.goto-btn .btntitle {width: 346px;}
 	#thumb_map_ov, #thumb_map_ov img,
 	#thumb_map_zm, #thumb_map_zm img {width: 202px; height: 202px; max-width: 202px; max-height: 202px;}
 }
 @media screen and (min-width: 510px){
-	#map_ov {width: 500px; height: 500px;}
-	#map_zm {width: 500px; height: 500px;}
+	.maps {width: 500px; height: 500px;}
 	#pac-input {width: 300px;}
-	#goto_step2, #goto_step3, #goto_step4 {width: 500px;}
+	.goto-btn {width: 500px; font-size: 1.8em;}
+	.goto-btn .btnicon {width: 62px;}
+	.goto-btn .btntitle {width: 430px;}
 	#thumb_map_ov, #thumb_map_ov img,
 	#thumb_map_zm, #thumb_map_zm img {width: 250px; height: 250px; max-width: 250px; max-height: 250px;}
 }
@@ -283,16 +298,16 @@ $(function(){
 
 <div class="section" id="section0">
 	<h1>Garage Map Creator</h1>
-	<p>車庫証明の手続きに必要な<br />保管場所の所在図・配置図を作りましょう！</p>
-	<div class="goto_btn_area"><a id="goto_step1" href="#section1" class="anchor-link anchor-btn"><i class="far fa-hand-pointer"></i> Step 1 から始める</a></div>
+	<p>車庫証明の手続きに必要な<br />保管場所の所在図・配置図の作成をサポートします</p>
+	<div class="goto_area"><a id="goto_step1" href="#section1" class="anchor-link goto-btn"><span class="btnicon"><i class="far fa-hand-pointer"></i></span><span class="btntitle">さぁ Step 1 から始めよう</span></a></div>
 	<div id="site_qr"><img th:src="@{http://chart.apis.google.com/chart(chs=150x150,cht=qr,chl=${#httpServletRequest.requestURL})}" /></div>
 </div>
 
 <div class="section" id="section1">
 	<h3>Step 1: 所在図を作ろう</h3>
-	<div id="map_ov" class="center-block"></div>
+	<div id="map_ov" class="maps center-block"></div>
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
-	<div class="goto_btn_area"><a id="goto_step2" href="#section2" class="anchor-link anchor-btn"><i class="far fa-hand-pointer"></i> Step 2 に進む</a></div>
+	<div class="goto_area"><a id="goto_step2" href="#section2" class="anchor-link goto-btn"><span class="btnicon"><i class="far fa-hand-pointer"></i></span><span class="btntitle">描けたらタップし Step 2 に進む</span></a></div>
 </div>
 
 <div class="section" id="section2">
@@ -303,8 +318,8 @@ $(function(){
 		</span>
 		<span><button id="btn_delete_shape"><i class="fas fa-eraser"></i></button></span>
 	</div>
-	<div id="map_zm" class="center-block"></div>
-	<div class="goto_btn_area"><a id="goto_step3" href="#section3" class="anchor-link anchor-btn">Step 3 に進む</a></div>
+	<div id="map_zm" class="maps center-block"></div>
+	<div class="goto_area"><a id="goto_step3" href="#section3" class="anchor-link goto-btn"><span class="btnicon"><i class="far fa-hand-pointer"></i></span><span class="btntitle">描けたらタップし Step 3 に進む</span></a></div>
 </div>
 
 <div class="section" id="section3">
@@ -329,7 +344,7 @@ $(function(){
 		<div><input type="text" name="pref" value="14" /></div>
 		</form>
 	</div>
-	<div class="goto_btn_area"><a id="goto_step4" href="#section4" class="anchor-link anchor-btn">申請書をPDFで出力</a></div>
+	<div class="goto_area"><a id="goto_step4" href="#section4" class="anchor-link goto-btn"><span class="btnicon"><i class="far fa-hand-pointer"></i></span><span class="btntitle">申請書を PDF で出力</span></a></div>
 	<table border="1">
 		<tr th:each="entry : ${appforms}">
 			<td th:text="${entry.value.code}" /><td th:text="${entry.value.pref}" /><td th:text="${entry.value.url}? 'O' : 'X'" />
