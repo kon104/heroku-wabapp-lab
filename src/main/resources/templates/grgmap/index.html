@@ -131,8 +131,6 @@ body {
 	width: 430px;
 }
 
-
-
 #site_qr { 
 	margin-top: 20px;
 	text-align: center;
@@ -141,44 +139,6 @@ body {
 .maps {
 	border: solid 1px gray;
 }
-
-.maps {width: 310px; height: 310px;}
-#pac-input {width: 120px;}
-.goto-btn {width:310px;}
-.goto-btn .btnicon {width: 38px;}
-.goto-btn .btntitle {width: 264px;}
-#thumb_map_ov, #thumb_map_ov img,
-#thumb_map_zm, #thumb_map_zm img {width: 155px; height: 155px; max-width: 155px; max-height: 155px;}
-
-@media screen and (min-width: 375px){
-	.maps {width: 365px; height: 365px;}
-	#pac-input {width: 175px;}
-	.goto-btn {width: 365px;}
-	.goto-btn .btnicon {width: 45px;}
-	.goto-btn .btntitle {width: 312px;}
-	#thumb_map_ov, #thumb_map_ov img,
-	#thumb_map_zm, #thumb_map_zm img {width: 182px; height: 182px; max-width: 182px; max-height: 182px;}
-}
-@media screen and (min-width: 414px){
-	.maps {width: 404px; height: 404px;}
-	#pac-input {width: 215px;}
-	.goto-btn {width: 404px;}
-	.goto-btn .btnicon {width: 50px;}
-	.goto-btn .btntitle {width: 346px;}
-	#thumb_map_ov, #thumb_map_ov img,
-	#thumb_map_zm, #thumb_map_zm img {width: 202px; height: 202px; max-width: 202px; max-height: 202px;}
-}
-@media screen and (min-width: 510px){
-	.maps {width: 500px; height: 500px;}
-	#pac-input {width: 300px;}
-	.goto-btn {width: 500px; font-size: 1.8em;}
-	.goto-btn .btnicon {width: 62px;}
-	.goto-btn .btntitle {width: 430px;}
-	#thumb_map_ov, #thumb_map_ov img,
-	#thumb_map_zm, #thumb_map_zm img {width: 250px; height: 250px; max-width: 250px; max-height: 250px;}
-}
-
-
 
 
 #map_zm_mytool {
@@ -233,22 +193,81 @@ body {
 	background-color: #EBEBEB;
 }
 
-#application table {
+.application {
+	background-color: #FFFFFF;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 10px;
+	padding: 20px;
+
+	-webkit-box-shadow: 0 10px 6px -6px #777;
+	   -moz-box-shadow: 0 10px 6px -6px #777;
+	        box-shadow: 0 10px 6px -6px #777;
 }
 
-#application table, 
-#application th,
-#application td {
-	background-color: #FFFFFF;
-	border-collapse: collapse;
+.application table {
+//	border: 1px solid #0c0c0c;
+//	margin-left: auto;
+//	margin-right: auto;
+}
+
+.application table, 
+.application th,
+.application td {
+//	background-color: #FFFFFF;
+//	border-collapse: collapse;
 	border: 1px solid #0c0c0c;
 }
+
+.application th,
+.application td {
+	padding: 10px;
+}
+
+
 
 #adsframe {
 	margin-left: 15px;
 }
+
+
+
+.maps {width: 310px; height: 310px;}
+#pac-input {width: 120px;}
+.goto-btn {width:310px;}
+.goto-btn .btnicon {width: 38px;}
+.goto-btn .btntitle {width: 264px;}
+.application {width: 310px;}
+.thumb, .thumb img {width: 113px; height: 113px; max-width: 113px; max-height: 113px;}
+
+@media screen and (min-width: 375px){
+	.maps {width: 365px; height: 365px;}
+	#pac-input {width: 175px;}
+	.goto-btn {width: 365px; font-size: 1.2em;}
+	.goto-btn .btnicon {width: 45px;}
+	.goto-btn .btntitle {width: 312px;}
+	.application {width: 365px;}
+	.thumb, .thumb img {width: 140px; height: 140px; max-width: 140px; max-height: 140px;}
+}
+@media screen and (min-width: 414px){
+	.maps {width: 404px; height: 404px;}
+	#pac-input {width: 215px;}
+	.goto-btn {width: 404px; font-size: 1.4em;}
+	.goto-btn .btnicon {width: 50px;}
+	.goto-btn .btntitle {width: 346px;}
+	.application {width: 404px;}
+	.thumb, .thumb img {width: 160px; height: 160px; max-width: 160px; max-height: 160px;}
+}
+@media screen and (min-width: 510px){
+	.maps {width: 500px; height: 500px;}
+	#pac-input {width: 300px;}
+	.goto-btn {width: 500px; font-size: 1.8em;}
+	.goto-btn .btnicon {width: 62px;}
+	.goto-btn .btntitle {width: 430px;}
+	.application {width: 500px;}
+	.thumb, .thumb img {width: 208px; height: 208px; max-width: 208px; max-height: 208px;}
+}
+
 
 </style>
 
@@ -326,16 +345,15 @@ $(function(){
 	<h3>Step 3: 申請書を作ろう</h3>
 	<div>
 		<form action="/grgmap/pdfeditor" method="post" enctype="multipart/form-data" target="pdfeditor" name="postappform">
-		<div><input type="submit" value="upload" /></div>
-		<div id="application">
+		<div class="application">
 			<table>
 				<thead>
 				<tr><th>所在図記載欄</th><th>配置図記載欄</th></tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td><div id="thumb_map_ov"></div><div><a href="#section1" class="anchor-link">Step 1 に戻る</a></div></td>
-					<td><div id="thumb_map_zm"></div><div><a href="#section2" class="anchor-link">Step 2 に戻る</a></div></td></tr>
+					<td><div id="thumb_map_ov" class="thumb"></div><div><a href="#section1" class="anchor-link">Step 1 に戻る</a></div></td>
+					<td><div id="thumb_map_zm" class="thumb"></div><div><a href="#section2" class="anchor-link">Step 2 に戻る</a></div></td></tr>
 				</tbody>
 			</table>
 		</div>
