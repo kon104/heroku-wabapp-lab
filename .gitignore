@@ -23,3 +23,6 @@ hs_err_pid*
 
 # the directory to store artifacts
 target/
+
+# other files
+.DS_Store
