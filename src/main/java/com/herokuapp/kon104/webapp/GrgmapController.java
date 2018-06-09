@@ -192,7 +192,7 @@ public class GrgmapController
 			Map<Integer, GrgmapAppForm> appformlist = gafservice.findAll();
 			GrgmapAppForm appform = appformlist.get(Integer.parseInt(pref_code));
 
-			String pdfAddr = appform.url;
+			String pdfAddr = appform.pdfUrl;
 			URL pdfUrl = new URL(pdfAddr);
 			URLConnection pdfConn = pdfUrl.openConnection();
 			if (!pdfConn.getContentType().equalsIgnoreCase("application/pdf")) {
@@ -218,18 +218,18 @@ public class GrgmapController
 			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, pdfDoc);
 			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, pdfDoc);
 
-			int max_side = appform.max_side;
-			float scale_x = (float) max_side / imgOv.getWidth();
-			float scale_y = (float) max_side / imgZm.getWidth();
+			int maxSide = appform.maxSide;
+			float scale_x = (float) maxSide / imgOv.getWidth();
+			float scale_y = (float) maxSide / imgZm.getWidth();
 			float scale = Float.MAX_VALUE;
 			scale = (scale < scale_x) ? scale : scale_x;
 			scale = (scale < scale_y) ? scale : scale_y;
 
-			int imgpos_y = appform.imgpos_y;
-			int imgpos_x_ov = appform.imgpos_x_ov;
-			int imgpos_x_zm = appform.imgpos_x_zm;
-			cs.drawImage(imgOv, imgpos_x_ov, imgpos_y, imgOv.getWidth() * scale, imgOv.getHeight() * scale);
-			cs.drawImage(imgZm, imgpos_x_zm, imgpos_y, imgZm.getWidth() * scale, imgZm.getHeight() * scale);
+			int imgposY = appform.imgposY;
+			int imgposXov = appform.imgposXov;
+			int imgposXzm = appform.imgposXzm;
+			cs.drawImage(imgOv, imgposXov, imgposY, imgOv.getWidth() * scale, imgOv.getHeight() * scale);
+			cs.drawImage(imgZm, imgposXzm, imgposY, imgZm.getWidth() * scale, imgZm.getHeight() * scale);
 			cs.close();
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();

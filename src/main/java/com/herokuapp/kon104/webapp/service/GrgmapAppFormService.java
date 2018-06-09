@@ -32,20 +32,45 @@ public class GrgmapAppFormService
 	public GrgmapAppFormService()
 	{
 		// 北海道
-		this.appforms.get(1).url = "http://www.police.pref.hokkaido.lg.jp/shinsei/data_pdf/kotu/shako/hokan-1.pdf";
+		this.appforms.get(1).distUrl = "http://www.police.pref.hokkaido.lg.jp/shinsei/shinsei.html#kotu-kisei";
+		this.appforms.get(1).pdfUrl = "http://www.police.pref.hokkaido.lg.jp/shinsei/data_pdf/kotu/shako/hokan-1.pdf";
 		this.appforms.get(1).page = 7;
-		this.appforms.get(1).max_side = 340;
-		this.appforms.get(1).imgpos_y = 120;
-		this.appforms.get(1).imgpos_x_ov = 85;
-		this.appforms.get(1).imgpos_x_zm = 448;
+		this.appforms.get(1).maxSide = 340;
+		this.appforms.get(1).imgposY = 120;
+		this.appforms.get(1).imgposXov = 85;
+		this.appforms.get(1).imgposXzm = 448;
+
+		// 青森県
+		this.appforms.get(2).distUrl = "https://www.police.pref.aomori.jp/koutubu/kisei/b7_syako_syomei.html";
+		this.appforms.get(2).pdfUrl = "https://www.police.pref.aomori.jp/koutubu/kisei/pdf/pdf/6-6.PDF";
+		this.appforms.get(2).page = 1;
+		this.appforms.get(2).maxSide = 310;
+		this.appforms.get(2).imgposY = 144;
+		this.appforms.get(2).imgposXov = 86;
+		this.appforms.get(2).imgposXzm = 431;
+
+		// 岩手県
+		this.appforms.get(3).distUrl = "http://www2.pref.iwate.jp/~hp0802/oshirase/kou-kisei/hokanbasyo/index.html";
+
+		// 宮城県
+		this.appforms.get(4).distUrl = "http://www.police.pref.miyagi.jp/hp/kisei/syako/car.htm";
+		this.appforms.get(4).pdfUrl = "http://www.police.pref.miyagi.jp/hp/kisei/syako/syozaizu.pdf";
+		this.appforms.get(4).page = 1;
+		this.appforms.get(4).maxSide = 280;
+		this.appforms.get(4).imgposY = 190;
+		this.appforms.get(4).imgposXov = 100;
+		this.appforms.get(4).imgposXzm = 460;
+
+
+
 
 		// 神奈川県
-		this.appforms.get(14).url = "https://www.police.pref.kanagawa.jp/pdf/f4020_02.pdf";
+		this.appforms.get(14).pdfUrl = "https://www.police.pref.kanagawa.jp/pdf/f4020_02.pdf";
 		this.appforms.get(14).page = 3;
-		this.appforms.get(14).max_side = 340;
-		this.appforms.get(14).imgpos_y = 170;
-		this.appforms.get(14).imgpos_x_ov = 70;
-		this.appforms.get(14).imgpos_x_zm = 428;
+		this.appforms.get(14).maxSide = 340;
+		this.appforms.get(14).imgposY = 170;
+		this.appforms.get(14).imgposXov = 70;
+		this.appforms.get(14).imgposXzm = 428;
 
 
 	}

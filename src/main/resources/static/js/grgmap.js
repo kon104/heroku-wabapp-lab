@@ -125,11 +125,9 @@ function initMapFully(centerLat, centerLng)
 function putin_mapimg(mapid)
 {
 	var txtbox = document.getElementById('pac-input');
+	var mytool = document.getElementById('map_zm_mytool');
 	txtbox.style.display = "none";
-	var mytool1 = document.getElementById('shp_color_group');
-	var mytool2 = document.getElementById('btn_delete_shape');
-	mytool1.style.display = "none";
-	mytool2.style.display = "none";
+	mytool.style.display = "none";
 
 	if (isControlTransform()) {
 		var transform = $("#" + mapid + ">*>.gm-style>div:first>div").css("transform");
@@ -164,6 +162,7 @@ function putin_mapimg(mapid)
 		}
 		var img = new Image();
 		img.src = imgData;
+		thumb.innerHTML = "";
 		thumb.appendChild(img);
 
 		hidden.value = imgData2;
@@ -177,8 +176,7 @@ function putin_mapimg(mapid)
 		}
 
 		txtbox.style.display = "block";
-		mytool1.style.display = "block";
-		mytool2.style.display = "block";
+		mytool.style.display = "block";
 	});
 }
 // }}}
@@ -518,6 +516,7 @@ var annexPref2Search = function(geocodeResults)
 	});
 	pref = results[0].long_name;
 //	document.getElementById("srchInput").value = pref;
+console.log(results);
 }
 
 

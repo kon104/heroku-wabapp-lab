@@ -4,27 +4,29 @@ public class GrgmapAppForm
 {
 	public int code;
 	public String pref;
-	public String url;
+	public String pdfUrl;
+	public String distUrl;
 	public int page;
-	public int max_side;
-	public int imgpos_y;
-	public int imgpos_x_ov;
-	public int imgpos_x_zm;
+	public int maxSide;
+	public int imgposY;
+	public int imgposXov;
+	public int imgposXzm;
 
 	public GrgmapAppForm(int code, String pref)
 	{
-		this(code, pref, null);
+		this(code, pref, null, null);
 	}
 
-	public GrgmapAppForm(int code, String pref, String url)
+	public GrgmapAppForm(int code, String pref, String distUrl, String pdfUrl)
 	{
 		this.code = code;
 		this.pref = pref;
-		this.url = url;
+		this.distUrl = distUrl;
+		this.pdfUrl = pdfUrl;
 		this.page = 1;
-		this.max_side = Integer.MAX_VALUE;
-		this.imgpos_y = 0;
-		this.imgpos_x_ov = 0;
-		this.imgpos_x_zm = 0;
+		this.maxSide = Integer.MAX_VALUE;
+		this.imgposY = 0;
+		this.imgposXov = 0;
+		this.imgposXzm = 0;
 	}
 }
