@@ -32,7 +32,7 @@ public class GrgmapAppFormService
 	public GrgmapAppFormService()
 	{
 		// 北海道
-		this.appforms.get(1).distUrl = "http://www.police.pref.hokkaido.lg.jp/shinsei/shinsei.html#kotu-kisei";
+		this.appforms.get(1).distUrl = "http://www.police.pref.hokkaido.lg.jp/guide/jidousya/jidousya.html";
 		this.appforms.get(1).pdfUrl = "http://www.police.pref.hokkaido.lg.jp/shinsei/data_pdf/kotu/shako/hokan-1.pdf";
 		this.appforms.get(1).page = 7;
 		this.appforms.get(1).maxSide = 340;
