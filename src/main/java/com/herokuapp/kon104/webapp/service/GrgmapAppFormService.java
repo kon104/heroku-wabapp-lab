@@ -61,8 +61,27 @@ public class GrgmapAppFormService
 		this.appforms.get(4).imgposXov = 100;
 		this.appforms.get(4).imgposXzm = 460;
 
+		// 秋田県
+		this.appforms.get(5).distUrl = "http://www.police.pref.akita.jp/kenkei/tetuzuki/09.html";
+
+		// 山形県
+		this.appforms.get(6).distUrl = "https://www.pref.yamagata.jp/police/procedures/6800032hokanbasho.html";
+		this.appforms.get(6).pdfUrl = "https://www.pref.yamagata.jp/ou/keisatsu/800032/publicfolder20090310/syozaizu.pdf";
+		this.appforms.get(6).page = 1;
+		this.appforms.get(6).maxSide = 280;
+		this.appforms.get(6).imgposY = 190;
+		this.appforms.get(6).imgposXov = 100;
+		this.appforms.get(6).imgposXzm = 460;
 
 
+		// 東京都
+		this.appforms.get(13).distUrl = "http://www.keishicho.metro.tokyo.jp/tetsuzuki/kotsu/hokan/syako_tetsuzuki/jidousha_syomei.html";
+		this.appforms.get(13).pdfUrl = "http://www.keishicho.metro.tokyo.jp/tetsuzuki/kotsu/hokan/syako_tetsuzuki/jidousha_syomei.files/style04.pdf";
+		this.appforms.get(13).page = 1;
+		this.appforms.get(13).maxSide = 340;
+		this.appforms.get(13).imgposY = 170;
+		this.appforms.get(13).imgposXov = 70;
+		this.appforms.get(13).imgposXzm = 428;
 
 		// 神奈川県
 		this.appforms.get(14).pdfUrl = "https://www.police.pref.kanagawa.jp/pdf/f4020_02.pdf";

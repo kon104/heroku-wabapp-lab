@@ -281,6 +281,10 @@ body {
 	height: 100px;
 }
 
+.nonepdf {
+	background-color: #d3d3d3;
+}
+
 .maps {width: 310px; height: 310px;}
 #pac-input {width: 120px;}
 .goto-btn {width:310px;}
@@ -443,9 +447,9 @@ $(function(){
 					<tr><th>都道府県</th><th>説明ページ</th><th>PDF原本</th></tr>
 				</thead>
 				<tbody>
-					<tr th:each="entry : ${appforms}">
+					<tr th:each="entry : ${appforms}" th:classappend="${entry.value.pdfUrl == null} ? 'nonepdf' : '' ">
 						<td><input type="radio" name="pref" th:id="'pref_' + ${entry.value.pref}" th:value="${entry.value.code}" th:disabled="${entry.value.pdfUrl} ? null : '1'" /><label th:for="'pref_' + ${entry.value.pref}" th:text="${entry.value.pref}"></label></td>
-						<td><a th:if="${entry.value.distUrl != null}" th:href="${entry.value.distUrl}" th:text="${entry.value.pref} + '警'" target="_blank"></a><span th:if="${entry.value.distUrl == null}">なし</span></td>
+						<td><a th:if="${entry.value.distUrl != null}" th:href="${entry.value.distUrl}" th:text="${entry.value.code == 13} ? '警視庁' : ${entry.value.pref} + '警'" target="_blank"></a><span th:if="${entry.value.distUrl == null}">なし</span></td>
 						<td><a th:if="${entry.value.pdfUrl != null}" th:href="${entry.value.pdfUrl}" target="_blank"><img src="/images/grgmap/pdf-on.png" /></a><span th:if="${entry.value.pdfUrl == null}">なし</span></td></tr>
 
 				</tbody>
