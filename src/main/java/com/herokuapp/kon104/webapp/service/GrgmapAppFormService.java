@@ -28,7 +28,6 @@ public class GrgmapAppFormService
 		}
 	};
 
-
 	public GrgmapAppFormService()
 	{
 		// 北海道
@@ -69,10 +68,30 @@ public class GrgmapAppFormService
 		this.appforms.get(6).pdfUrl = "https://www.pref.yamagata.jp/ou/keisatsu/800032/publicfolder20090310/syozaizu.pdf";
 		this.appforms.get(6).page = 1;
 		this.appforms.get(6).quadrant = 1;
-		this.appforms.get(6).maxSide = 280;
-		this.appforms.get(6).imgposY = 190;
+		this.appforms.get(6).maxSide = 310;
+		this.appforms.get(6).imgposY = 145;
 		this.appforms.get(6).imgposXov = 100;
-		this.appforms.get(6).imgposXzm = 460;
+		this.appforms.get(6).imgposXzm = 440;
+
+		// 福島県
+		this.appforms.get(7).distUrl = "http://www.police.pref.fukushima.jp/03.tetuduki/-kotu/H29.4.1hokan/29.4.1hokan.html";
+		this.appforms.get(7).pdfUrl = "http://www.police.pref.fukushima.jp/03.tetuduki/-kotu/H29.4.1hokan/290401haitizu.pdf";
+		this.appforms.get(7).page = 1;
+		this.appforms.get(7).maxSide = 260;
+		this.appforms.get(7).imgposY = 195;
+		this.appforms.get(7).imgposXov = 125;
+		this.appforms.get(7).imgposXzm = 460;
+
+		// 茨城県
+		this.appforms.get(8).distUrl = "https://www.pref.ibaraki.jp/kenkei/a06_shinsei/street_traffic/depository/depository01.html";
+		this.appforms.get(8).pdfUrl = "https://www.pref.ibaraki.jp/kenkei/a06_shinsei/street_traffic/depository/pdf/hokan_syozaizu2.pdf";
+		this.appforms.get(8).page = 1;
+		this.appforms.get(8).transform = true;
+		this.appforms.get(8).maxSide = 310;
+		this.appforms.get(8).imgposY = 115;
+		this.appforms.get(8).imgposXov = 105;
+		this.appforms.get(8).imgposXzm = 460;
+
 
 
 		// 東京都

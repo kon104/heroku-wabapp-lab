@@ -8,6 +8,7 @@ public class GrgmapAppForm
 	public String distUrl;
 	public int page;
 	public int quadrant;
+	public boolean transform;
 	public int maxSide;
 	public int imgposY;
 	public int imgposXov;
@@ -26,6 +27,7 @@ public class GrgmapAppForm
 		this.pdfUrl = pdfUrl;
 		this.page = 1;
 		this.quadrant = 0;
+		this.transform = false;
 		this.maxSide = Integer.MAX_VALUE;
 		this.imgposY = 0;
 		this.imgposXov = 0;

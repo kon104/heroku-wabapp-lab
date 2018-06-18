@@ -216,6 +216,10 @@ public class GrgmapController
 				cs.transform(new Matrix(0, 1, -1, 0, page.getMediaBox().getWidth(), 0));
 			}
 
+			if (appform.transform == true) {
+				cs.transform(new Matrix(0, 1, -1, 0, page.getMediaBox().getWidth(), 0));
+			}
+
 			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, newPdfDoc);
 			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, newPdfDoc);
 
