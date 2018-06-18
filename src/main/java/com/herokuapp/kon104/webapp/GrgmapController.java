@@ -40,6 +40,8 @@ import java.net.URLConnection;
 import com.herokuapp.kon104.webapp.service.GrgmapAppFormService;
 import com.herokuapp.kon104.webapp.domain.GrgmapAppForm;
 import java.util.Map;
+import org.apache.pdfbox.util.Matrix;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 
 /**
@@ -199,24 +201,23 @@ public class GrgmapController
 				// ToDo: failuer to get pdf
 			}
 			InputStream pdfIs = pdfUrl.openStream();
-			PDDocument pdfDoc = PDDocument.load(pdfIs);
+			PDDocument srcPdfDoc = PDDocument.load(pdfIs);
 			pdfIs.close();
 
-//			pdfDoc.removePage(0);
-//			pdfDoc.removePage(0);
-			for (int idx = 1, totalpage = pdfDoc.getNumberOfPages(); idx <= totalpage; idx++){
-				if (idx < appform.page) {
-					pdfDoc.removePage(0);
-				} else
-				if (idx > appform.page) {
-					pdfDoc.removePage(1);
-				}
-			}
-			PDPage page = pdfDoc.getPage(0);
-			PDPageContentStream cs = new PDPageContentStream(pdfDoc, page, PDPageContentStream.AppendMode.APPEND, true);
+			PDDocument newPdfDoc = new PDDocument();
 
-			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, pdfDoc);
-			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, pdfDoc);
+			PDPage page = srcPdfDoc.getPage(appform.page - 1);
+			newPdfDoc.addPage(page);
+
+			PDPageContentStream cs = new PDPageContentStream(newPdfDoc, page, PDPageContentStream.AppendMode.APPEND, true);
+
+			if (appform.quadrant > 0) {
+				page.setRotation(appform.quadrant * 90);
+				cs.transform(new Matrix(0, 1, -1, 0, page.getMediaBox().getWidth(), 0));
+			}
+
+			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, newPdfDoc);
+			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, newPdfDoc);
 
 			int maxSide = appform.maxSide;
 			float scale_x = (float) maxSide / imgOv.getWidth();
@@ -233,7 +234,7 @@ public class GrgmapController
 			cs.close();
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			pdfDoc.save(out);
+			newPdfDoc.save(out);
 			pdfBytes = out.toByteArray();
 
 		} catch(IOException e) {

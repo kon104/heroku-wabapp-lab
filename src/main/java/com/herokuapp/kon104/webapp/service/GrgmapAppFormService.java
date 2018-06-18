@@ -68,6 +68,7 @@ public class GrgmapAppFormService
 		this.appforms.get(6).distUrl = "https://www.pref.yamagata.jp/police/procedures/6800032hokanbasho.html";
 		this.appforms.get(6).pdfUrl = "https://www.pref.yamagata.jp/ou/keisatsu/800032/publicfolder20090310/syozaizu.pdf";
 		this.appforms.get(6).page = 1;
+		this.appforms.get(6).quadrant = 1;
 		this.appforms.get(6).maxSide = 280;
 		this.appforms.get(6).imgposY = 190;
 		this.appforms.get(6).imgposXov = 100;
