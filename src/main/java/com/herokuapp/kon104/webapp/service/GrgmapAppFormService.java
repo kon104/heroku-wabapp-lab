@@ -68,6 +68,7 @@ public class GrgmapAppFormService
 		this.appforms.get(6).pdfUrl = "https://www.pref.yamagata.jp/ou/keisatsu/800032/publicfolder20090310/syozaizu.pdf";
 		this.appforms.get(6).page = 1;
 		this.appforms.get(6).quadrant = 1;
+		this.appforms.get(6).transform = true;
 		this.appforms.get(6).maxSide = 310;
 		this.appforms.get(6).imgposY = 145;
 		this.appforms.get(6).imgposXov = 100;
@@ -92,18 +93,37 @@ public class GrgmapAppFormService
 		this.appforms.get(8).imgposXov = 105;
 		this.appforms.get(8).imgposXzm = 460;
 
+		// 栃木県
+		this.appforms.get(9).distUrl = "http://www.pref.tochigi.lg.jp/keisatu/tetuzuki/";
 
+		// 群馬県
+		this.appforms.get(10).distUrl = "https://www.police.pref.gunma.jp/koutuubu/03kisei/hokanbasyo/sinsei.html";
+		this.appforms.get(10).pdfUrl = "https://www.police.pref.gunma.jp/koutuubu/03kisei/hokanbasyo/data/01p.pdf";
+		this.appforms.get(10).page = 1;
+		this.appforms.get(10).transform = true;
+		this.appforms.get(10).maxSide = 310;
+		this.appforms.get(10).imgposY = 165;
+		this.appforms.get(10).imgposXov = 72;
+		this.appforms.get(10).imgposXzm = 410;
+
+		// 埼玉県
+		this.appforms.get(11).distUrl = "https://www.police.pref.saitama.lg.jp/f0040/shinse/hokan.html";
+
+		// 千葉県
+		this.appforms.get(12).distUrl = "http://www.police.pref.chiba.jp/kotsukiseika/window_permiti-11.html";
 
 		// 東京都
 		this.appforms.get(13).distUrl = "http://www.keishicho.metro.tokyo.jp/tetsuzuki/kotsu/hokan/syako_tetsuzuki/jidousha_syomei.html";
-		this.appforms.get(13).pdfUrl = "http://www.keishicho.metro.tokyo.jp/tetsuzuki/kotsu/hokan/syako_tetsuzuki/jidousha_syomei.files/style04.pdf";
+		this.appforms.get(13).pdfUrl = "classpath:data/pdf/tokyo.pdf";
 		this.appforms.get(13).page = 1;
-		this.appforms.get(13).maxSide = 340;
-		this.appforms.get(13).imgposY = 170;
-		this.appforms.get(13).imgposXov = 70;
+		this.appforms.get(13).transform = true;
+		this.appforms.get(13).maxSide = 325;
+		this.appforms.get(13).imgposY = 150;
+		this.appforms.get(13).imgposXov = 80;
 		this.appforms.get(13).imgposXzm = 428;
 
 		// 神奈川県
+		this.appforms.get(14).distUrl = "https://www.police.pref.kanagawa.jp/mes/mesf4020.htm";
 		this.appforms.get(14).pdfUrl = "https://www.police.pref.kanagawa.jp/pdf/f4020_02.pdf";
 		this.appforms.get(14).page = 3;
 		this.appforms.get(14).maxSide = 340;

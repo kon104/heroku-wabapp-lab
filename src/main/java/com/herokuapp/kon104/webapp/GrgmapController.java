@@ -195,33 +195,44 @@ public class GrgmapController
 			GrgmapAppForm appform = appformlist.get(Integer.parseInt(pref_code));
 
 			String pdfAddr = appform.pdfUrl;
-			URL pdfUrl = new URL(pdfAddr);
-			URLConnection pdfConn = pdfUrl.openConnection();
-			if (!pdfConn.getContentType().equalsIgnoreCase("application/pdf")) {
-				// ToDo: failuer to get pdf
+
+			InputStream pdfIs = null;
+			if (pdfAddr.startsWith("http")) {
+				URL pdfUrl = new URL(pdfAddr);
+//				URLConnection pdfConn = pdfUrl.openConnection();
+//				logger.info("URLConnection Content-Type: " + pdfConn.getContentType());
+//				if (!pdfConn.getContentType().equalsIgnoreCase("application/pdf")) {
+//					// ToDo: failuer to get pdf
+//				}
+				pdfIs = pdfUrl.openStream();
+			} else {
+				Resource resource = resourceLoader.getResource(pdfAddr);
+				pdfIs = resource.getInputStream();
 			}
-			InputStream pdfIs = pdfUrl.openStream();
-			PDDocument srcPdfDoc = PDDocument.load(pdfIs);
+			PDDocument pdfDoc = PDDocument.load(pdfIs);
+
 			pdfIs.close();
 
-			PDDocument newPdfDoc = new PDDocument();
-
-			PDPage page = srcPdfDoc.getPage(appform.page - 1);
-			newPdfDoc.addPage(page);
-
-			PDPageContentStream cs = new PDPageContentStream(newPdfDoc, page, PDPageContentStream.AppendMode.APPEND, true);
-
+			for (int idx = 1, totalpage = pdfDoc.getNumberOfPages(); idx <= totalpage; idx++){
+				if (idx < appform.page) {
+					pdfDoc.removePage(0);
+				} else
+				if (idx > appform.page) {
+					pdfDoc.removePage(1);
+				}
+			}
+			PDPage page = pdfDoc.getPage(0);
 			if (appform.quadrant > 0) {
 				page.setRotation(appform.quadrant * 90);
-				cs.transform(new Matrix(0, 1, -1, 0, page.getMediaBox().getWidth(), 0));
 			}
 
+			PDPageContentStream cs = new PDPageContentStream(pdfDoc, page, PDPageContentStream.AppendMode.APPEND, true);
 			if (appform.transform == true) {
 				cs.transform(new Matrix(0, 1, -1, 0, page.getMediaBox().getWidth(), 0));
 			}
 
-			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, newPdfDoc);
-			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, newPdfDoc);
+			PDImageXObject imgOv = PDImageXObject.createFromFileByContent(imgOvFile, pdfDoc);
+			PDImageXObject imgZm = PDImageXObject.createFromFileByContent(imgZmFile, pdfDoc);
 
 			int maxSide = appform.maxSide;
 			float scale_x = (float) maxSide / imgOv.getWidth();
@@ -238,9 +249,8 @@ public class GrgmapController
 			cs.close();
 
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			newPdfDoc.save(out);
+			pdfDoc.save(out);
 			pdfBytes = out.toByteArray();
-
 		} catch(IOException e) {
 			System.err.println(e);
 		} finally {
