@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class App 
 {
 
-/*
     @RequestMapping("/")
     public String index()
     {
-        return "Hello SB!";
+        return "Hello!";
     }
-*/
 
     public static void main( String[] args )
     {
