@@ -19,7 +19,7 @@
 
 var dataTable = new Tabulator("#example-table", {
     layout:"fitColumns",
-	ajaxURL: "http://localhost:8080/webapi/studyeng",
+	ajaxURL: "/webapi/studyeng",
 	placeholder:"No Data Set",
     columns:[
         {title:"Source", field:"source", headerFilter:"select", headerFilterParams:{values:true}, width:100},
