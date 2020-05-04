@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Study English Controller
  */
 @Controller
-@RequestMapping("/studyeng")
 public class StudyEnglishController
 {
-    @RequestMapping("/")
+	@RequestMapping("/studyeng")
     public String index()
     {
         return "studyeng/index";

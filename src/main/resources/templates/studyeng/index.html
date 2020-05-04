@@ -2,47 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8" />
-
 <script
   src="https://code.jquery.com/jquery-3.5.0.min.js"
   integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
   crossorigin="anonymous"></script>
 
-<link href="https://unpkg.com/tabulator-tables@4.6.2/dist/css/tabulator.min.css" rel="stylesheet">
+<link href="https://unpkg.com/tabulator-tables@4.6.2/dist/css/tabulator_site.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.2/dist/js/tabulator.min.js"></script>
-
 </head>
 <body>
 
-<p>start</p>
-
+<p><a href="./..">Return to top page.</a></p>
 <div id="example-table"></div>
 
-<p>end</p>
-
 <script type="text/javascript">
-var tableData = [
-    {id:1, name:"Billy Bob", age:"12", gender:"male", height:1, col:"red", dob:"", cheese:1},
-    {id:2, name:"Mary May", age:"1", gender:"female", height:2, col:"blue", dob:"14/05/1982", cheese:true},
-]
 
 var dataTable = new Tabulator("#example-table", {
-/*
-    data:tableData,
     layout:"fitColumns",
-*/
-	ajaxURL: "https://script.google.com/macros/s/AKfycbwrw0vNfCfjA-rm1aa3U4eTHu3FFRLiN_to0U5mGfpoU4aeJb8/exec",
+	ajaxURL: "http://localhost:8080/webapi/studyeng",
+	placeholder:"No Data Set",
     columns:[
-        {title:"jp", field:"japanese"},
-/*
-        {title:"Name", field:"name"},
-        {title:"Age", field:"age"},
-        {title:"Gender", field:"gender"},
-        {title:"Height", field:"height"},
-        {title:"Favourite Color", field:"col"},
-        {title:"Date Of Birth", field:"dob"},
-        {title:"Cheese Preference", field:"cheese"},
-*/
+        {title:"Source", field:"source", headerFilter:"select", headerFilterParams:{values:true}, width:100},
+        {title:"Japanese", field:"japanese", formatter:"textarea", headerFilter:"input"},
+        {title:"English", field:"english", formatter:"textarea", headerFilter:"input"},
     ],
 })
 </script>
