@@ -114,7 +114,7 @@ public class GrgmapAppFormService
 
 		// 東京都
 		this.appforms.get(13).distUrl = "http://www.keishicho.metro.tokyo.jp/tetsuzuki/kotsu/hokan/syako_tetsuzuki/jidousha_syomei.html";
-		this.appforms.get(13).pdfUrl = "classpath:data/pdf/tokyo.pdf";
+		this.appforms.get(13).pdfUrl = "/data/grgmap/pdf/tokyo.pdf";
 		this.appforms.get(13).page = 1;
 		this.appforms.get(13).transform = true;
 		this.appforms.get(13).maxSide = 325;
