@@ -1,4 +1,4 @@
-package com.herokuapp.kon104.webapp;
+package com.herokuapp.kon104.webapp.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,7 +37,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import com.herokuapp.kon104.webapp.service.GrgmapAppFormService;
+import com.herokuapp.kon104.webapp.domain.GrgmapAppFormService;
 import com.herokuapp.kon104.webapp.domain.GrgmapAppForm;
 import java.util.Map;
 import org.apache.pdfbox.util.Matrix;

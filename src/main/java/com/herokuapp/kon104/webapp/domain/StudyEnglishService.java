@@ -1,12 +1,14 @@
-package com.herokuapp.kon104.webapp;
+package com.herokuapp.kon104.webapp.domain;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+//	import org.springframework.web.bind.annotation.RestController;
+//	import org.springframework.web.bind.annotation.RequestMapping;
+//	import org.springframework.web.bind.annotation.RequestMethod;
+//	import org.springframework.web.bind.annotation.ResponseBody;
+//	import org.springframework.http.HttpHeaders;
+//	import org.springframework.http.HttpStatus;
+//	import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,25 +23,12 @@ import java.util.ArrayList;
 
 import com.herokuapp.kon104.webapp.SentenceJpn2Eng;
 
-
-/**
- * Study English for WebAPI Controller
- */
-@RestController
-public class WebapiStudyEnglishController
+@Service
+public class StudyEnglishService
 {
 
-    // {{{ public List<SentenceJpn2Eng> getStudyEnglish()
-	@RequestMapping(path = "/webapi/studyeng", method = RequestMethod.GET)
-    public List<SentenceJpn2Eng> getStudyEnglish()
-    {
-		List<SentenceJpn2Eng> resultList = this.main();
-		return resultList;
-    }
-	// }}}
-
-    // {{{ private List<SentenceJpn2Eng> main()
-    private List<SentenceJpn2Eng> main()
+    // {{{ public List<SentenceJpn2Eng> main()
+    public List<SentenceJpn2Eng> main()
 	{
 		String url = "https://spreadsheets.google.com/"
 			+ "feeds/list/"

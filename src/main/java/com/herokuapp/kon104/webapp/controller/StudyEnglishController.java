@@ -1,4 +1,4 @@
-package com.herokuapp.kon104.webapp;
+package com.herokuapp.kon104.webapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

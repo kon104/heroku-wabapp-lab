@@ -1,4 +1,4 @@
-package com.herokuapp.kon104.webapp.service;
+package com.herokuapp.kon104.webapp.domain;
 
 import com.herokuapp.kon104.webapp.domain.GrgmapAppForm;
 import java.util.Map;
