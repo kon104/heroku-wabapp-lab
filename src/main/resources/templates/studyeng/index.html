@@ -6,7 +6,7 @@
 
 <style>
 body {
-	font-family:'Lato', 'Noto Sans Japanese', '$B^b%4%7%C%/(B Medium', '$B^b%4%7%C%/BN(B', 'Yu Gothic Medium', YuGothic, '$B%R%i%.%N3Q%4(B ProN', 'Hiragino Kaku Gothic ProN', '$B%a%$%j%*(B', Meiryo, '$B#M#S(B $B#P%4%7%C%/(B', 'MS PGothic', sans-serif;
+    font-family:'Lato', 'Noto Sans Japanese', '游ゴシック Medium', '游ゴシック体', 'Yu Gothic Medium', YuGothic, 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
 }
 
 </style>
@@ -21,14 +21,17 @@ body {
 </head>
 <body>
 
-<p><a href="./..">Return to top page.</a></p>
+<div><a href="./..">Return to top page.</a></div>
+<div><button type="button" id="reload-trigger">Reload</button></div>
 <div id="example-table"></div>
 
 <script type="text/javascript">
 
+var urlSentence = "/webapi/studyeng";
+
 var dataTable = new Tabulator("#example-table", {
     layout:"fitColumns",
-	ajaxURL: "/webapi/studyeng",
+	ajaxURL: urlSentence,
 	placeholder:"No Data Set",
     columns:[
         {title:"Source", field:"source", headerFilter:"select", headerFilterParams:{values:true}, width:100},
@@ -36,6 +39,11 @@ var dataTable = new Tabulator("#example-table", {
         {title:"English", field:"english", formatter:"textarea", headerFilter:"input"},
     ],
 })
+
+document.getElementById("reload-trigger").addEventListener("click", function(){
+	dataTable.setData(urlSentence);
+});
+
 </script>
 
 </body>

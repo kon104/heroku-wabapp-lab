@@ -3,15 +3,15 @@ package com.herokuapp.kon104.webapp;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 /**
- * Index Controller
+ * Portal Controller
  *
  */
 @Controller
-public class IndexController
+public class PortalController
 {
     @RequestMapping("/")
     public String index()
     {
-        return "index";
+        return "portal/index";
     }
 }
