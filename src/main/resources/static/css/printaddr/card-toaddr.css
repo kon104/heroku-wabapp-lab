@@ -1,0 +1,15 @@
+
+.toaddr1, .toaddr2, .toaddr3 {
+	font-size: 18pt;
+	white-space: nowrap;
+	writing-mode: vertical-rl;
+	-webkit-writing-mode: vertical-rl;
+	position: absolute;
+	top: 23mm;
+	width: 7.0mm;
+	height: 105mm;
+}
+.toaddr1 { left: 88.6mm; }
+.toaddr2 { left: 81.3mm; }
+.toaddr3 { left: 74.0mm; }
+

@@ -1,0 +1,30 @@
+
+@media screen {
+	body {
+		background: #e0e0e0;
+	}
+	.card {
+		box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+		margin: 5mm;
+	}
+}
+
+@media print {
+	body {
+		width:100mm;	// needed for Chrome.
+		height:148mm;	// needed for Chrome.
+	}
+	.no_print{
+		display: none;
+	}
+	#main {
+		padding-top: 0px;
+	}
+}
+
+@page {
+	size: 100mm 148mm;
+	margin: 0;	// disable the page header and footer for Chrome.
+	padding: 0;	// disable the page header and footer for Chrome.
+}
+

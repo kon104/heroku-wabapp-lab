@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<style>
+#aaaamain { padding-top: 100px; }
+</style>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../css/main.css" th:href="@{/css/printaddr/main.css}" />
+<link rel="stylesheet" type="text/css" href="../css/card-tozip.css" th:href="@{/css/printaddr/card-tozip.css}" />
+<link rel="stylesheet" type="text/css" href="../css/card-toaddr.css" th:href="@{/css/printaddr/card-toaddr.css}" />
+<link rel="stylesheet" type="text/css" href="../css/card-toname.css" th:href="@{/css/printaddr/card-toname.css}" />
+<link rel="stylesheet" type="text/css" href="../css/card-fmaddr.css" th:href="@{/css/printaddr/card-fmaddr.css}" />
+<link rel="stylesheet" type="text/css" href="../css/card-fmname.css" th:href="@{/css/printaddr/card-fmname.css}" />
+<link rel="stylesheet" type="text/css" href="../css/card-fmzip.css" th:href="@{/css/printaddr/card-fmzip.css}" />
+<link rel="stylesheet" type="text/css" href="../css/card-namespacing.css" th:href="@{/css/printaddr/card-namespacing.css}"/>
+<link rel="stylesheet" type="text/css" href="../css/atrule.css" th:href="@{/css/printaddr/atrule.css}" />
+<link rel="stylesheet" type="text/css" href="../css/header.css" th:href="@{/css/printaddr/header.css}" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|M+PLUS+1p|M+PLUS+Rounded+1c|Noto+Sans+JP|Noto+Serif+JP|Sawarabi+Gothic|Sawarabi+Mincho&display=swap" />
+<title>宛名</title>
+</head>
+<body>
+
+<!--- アプリ領域開始 --->
+<header>
+<div>Printing Address on New Year's Greeting Card!</div>
+<div><form name="formcsv"><input name="csvfile" type="file" /></form></div>
+<div>
+	<form name="formfont">
+	<select name="selectfont">
+		<option value="">(Default Font)</option>
+		<option value="'Noto Sans JP', sans-serif">Noto Sans JP</option>
+		<option value="'Noto Serif JP', serif">Noto Serif JP</option>
+		<option value="'M PLUS 1p', sans-serif">M PLUS 1p</option>
+		<option value="'Sawarabi Mincho', sans-serif">Sawarabi Mincho</option>
+		<option value="'M PLUS Rounded 1c', sans-serif">M PLUS Rounded 1c</option>
+		<option value="'Sawarabi Gothic', sans-serif">Sawarabi Gothic</option>
+		<option value="'Kosugi Maru', sans-serif">Kosugi Maru</option>
+		<option value="'Kosugi', sans-serif">Kosugi</option>
+	</select>
+	</form>
+</div>
+<div><a href="#" onclick="window.print(); return false;">印刷する</a></div>
+</header>
+<!--- アプリ領域終了 --->
+
+<div id="main">
+<div id="cards">
+<section class="card">
+	<div class="tozip3-1"><p class="t-c">0</p></div>
+	<div class="tozip3-2"><p class="t-c">2</p></div>
+	<div class="tozip3-3"><p class="t-c">3</p></div>
+	<div class="tozip4-1"><p class="t-c">4</p></div>
+	<div class="tozip4-2"><p class="t-c">5</p></div>
+	<div class="tozip4-3"><p class="t-c">6</p></div>
+	<div class="tozip4-4"><p class="t-c">7</p></div>
+	<div class="toaddr1"><p class="t-l">神奈川県横浜市保土ヶ谷区西神奈川</p></div>
+	<div class="toaddr2"><p class="t-r">四－五六七－八九</p></div>
+	<div class="toaddr3"><p class="t-r">グランドマンション一二三号室</p></div>
+	<div class="toname1"><p><span class="toname-ls5">佐藤　悠真</span></p></div>
+	<div class="totitle1">様</div>
+	<div class="toname2"><p><span class="toname-ls6">　　　明日香</span></p></div>
+	<div class="totitle2">様</div>
+	<div class="toname3"><p><span class="toname-ls4">　　　翼</span></p></div>
+	<div class="totitle3">様</div>
+	<div class="fmaddr1"><p class="t-l">福岡県北九州市小倉南区北九州海岸</p></div>
+	<div class="fmaddr2"><p class="t-r">九－八七六－五四－参弐壱号室</p></div>
+	<div class="fmname1"><p><span class="fmname-ls7">鈴木　壱弐参四</span></p></div>
+	<div class="fmname2"><p><span class="fmname-ls5">　　　結菜</span></p></div>
+	<div class="fmname3"><p><span class="fmname-ls6">　　　一太郎</span></p></div>
+	<div class="fmzip3-1"><p class="t-c">9</p></div>
+	<div class="fmzip3-2"><p class="t-c">8</p></div>
+	<div class="fmzip3-3"><p class="t-c">7</p></div>
+	<div class="fmzip4-1"><p class="t-c">6</p></div>
+	<div class="fmzip4-2"><p class="t-c">5</p></div>
+	<div class="fmzip4-3"><p class="t-c">4</p></div>
+	<div class="fmzip4-4"><p class="t-c">3</p></div>
+</section>
+</div>
+</div>
+
+<script src="../js/eventlistener.js" th:src="@{/js/printaddr/eventlistener.js}"></script>
+<script src="../js/main.js" th:src="@{/js/printaddr/main.js}"></script>
+<script src="../js/utility.js" th:src="@{/js/printaddr/utility.js}"></script>
+
+</body>
+</html>

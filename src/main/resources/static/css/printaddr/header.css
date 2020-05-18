@@ -1,0 +1,23 @@
+
+header {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 10000;
+	background: white;
+	box-shadow: 2px 2px 4px gray;
+}
+
+#main {
+	padding-top: 100px;
+}
+
+@media print {
+	header {
+		display: none;
+	}
+	#main {
+		padding-top: 0px;
+	}
+}
+

@@ -1,0 +1,14 @@
+
+.fmaddr1, .fmaddr2 {
+	font-size: 11pt;
+	white-space: nowrap;
+	writing-mode: vertical-rl;
+	-webkit-writing-mode: vertical-rl;
+	position: absolute;
+	top: 58.0mm;
+	widht: 5.0mm;
+	height: 64.5mm;
+}
+.fmaddr1 { left: 28.5mm; }
+.fmaddr2 { left: 23.5mm; }
+

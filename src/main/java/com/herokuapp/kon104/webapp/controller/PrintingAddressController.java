@@ -5,18 +5,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Study English Controller
+ * Printing Address Controller
  */
 @Controller
-@RequestMapping("/studyeng")
-public class StudyEnglishController
+@RequestMapping("/printaddr")
+public class PrintingAddressController
 {
 
     // {{{ public String index()
 	@GetMapping("/")
     public String index()
     {
-        return "studyeng/index";
+        return "printaddr/index";
     }
 	// }}}
 

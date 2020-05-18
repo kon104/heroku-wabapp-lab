@@ -1,0 +1,27 @@
+
+body {
+	margin: 0;
+	padding:0;
+}
+
+.card {
+	background-image: url('/images/printaddr/card-image.png');
+	background-size: 100% 100%;
+	width:100mm;
+	height:148mm;
+	position: relative;
+	page-break-after: always;
+}
+
+section div {
+//	border-style: solid;
+	border-width: 1px;
+	border-color: silver;
+}
+section p    { margin: 0; padding: 0; }
+section span { margin: 0; padding: 0; }
+
+.t-c { text-align: center; }
+.t-l { text-align: left; }
+.t-r { text-align: right; }
+

@@ -1,0 +1,17 @@
+
+.tozip3-1, .tozip3-2, .tozip3-3,
+.tozip4-1, .tozip4-2, .tozip4-3, .tozip4-4 {
+	font-size: 16pt;
+	position: absolute;
+	top: 12.0mm;
+	height: 8.3mm;
+	width: 5.7mm;
+}
+.tozip3-1 { left: 44.4mm; }
+.tozip3-2 { left: 51.7mm; }
+.tozip3-3 { left: 58.8mm; }
+.tozip4-1 { left: 66.0mm; }
+.tozip4-2 { left: 72.9mm; }
+.tozip4-3 { left: 79.8mm; }
+.tozip4-4 { left: 86.7mm; }
+
