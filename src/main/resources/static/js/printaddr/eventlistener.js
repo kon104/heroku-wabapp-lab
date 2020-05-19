@@ -24,8 +24,8 @@ formfont.selectfont.addEventListener('change', function(e) {
 //	for (var i = 0; i < sections.length; i++) {
 //		sections[i].style.fontFamily = this.value;
 //	}
-	var main = document.getElementById('main');
-	main.style.fontFamily = this.value;
+	var article = document.getElementsByTagName('article');
+	article[0].style.fontFamily = this.value;
 });
 // }}}
 

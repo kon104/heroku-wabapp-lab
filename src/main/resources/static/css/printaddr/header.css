@@ -8,15 +8,15 @@ header {
 	box-shadow: 2px 2px 4px gray;
 }
 
-#main {
-	padding-top: 100px;
+article {
+	padding-top: 50px;
 }
 
 @media print {
 	header {
 		display: none;
 	}
-	#main {
+	article {
 		padding-top: 0px;
 	}
 }

@@ -17,9 +17,6 @@
 	.no_print{
 		display: none;
 	}
-	#main {
-		padding-top: 0px;
-	}
 }
 
 @page {

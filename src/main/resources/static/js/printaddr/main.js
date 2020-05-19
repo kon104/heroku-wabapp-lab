@@ -47,8 +47,8 @@ function refreshCardsNode() {
 
 	var cardsNew = document.createElement('div');
 	cardsNew.id = 'cards';
-	var main = document.getElementById('main');
-	main.appendChild(cardsNew);
+	var article = document.getElementsByTagName('article');
+	article[0].appendChild(cardsNew);
 
 	return cardsNew;
 }
