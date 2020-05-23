@@ -1,10 +1,21 @@
 
-// uploading the csv file
-var formcsv = document.forms.formcsv;
+// selecting the download file
+var selectdownload = document.getElementById('selectdownload');
 
-// {{{ formcsv.csvfile.addEventListener('change', function(e) {});
-formcsv.csvfile.addEventListener('change', function(e) {
-	var char = formcsv.selectchar.value;
+// {{{ selectdownload.addEventListener('change', function(e) {});
+selectdownload.addEventListener('change', function(e) {
+	changeCsvFile(this);
+});
+// }}}
+
+// uploading the csv file
+var csvfile = document.getElementById('csvfile');
+var selectchar = document.getElementById('selectchar');
+
+// {{{ csvfile.addEventListener('change', function(e){});
+csvfile.addEventListener('change', function(e) {
+//	var char = document.getElementById('selectchar').value;
+	var char = selectchar.value;
 	var file = e.target.files[0];
 	var reader = new FileReader();
 	reader.readAsText(file, char);
@@ -16,17 +27,37 @@ formcsv.csvfile.addEventListener('change', function(e) {
 });
 // }}}
 
-// selecting font
-var formfont = document.forms.formfont;
+// {{{ selectchar.addEventListener('change', function(e){});
+selectchar.addEventListener('change', function(e) {
+	var download = document.getElementById('selectdownload');
+	download.options[this.selectedIndex].selected = true;
+	changeCsvFile(download);
+});
+// }}}
 
-// {{{ formfont.selectfont.addEventListener('change', function(e) {});
-formfont.selectfont.addEventListener('change', function(e) {
-//	var sections = document.getElementsByTagName('section');
-//	for (var i = 0; i < sections.length; i++) {
-//		sections[i].style.fontFamily = this.value;
-//	}
+// selecting font
+var selectfont = document.getElementById('selectfont');
+
+// {{{ selectfont.addEventListener('change', function(e) {});
+selectfont.addEventListener('change', function(e) {
 	var article = document.getElementsByTagName('article');
 	article[0].style.fontFamily = this.value;
 });
+// }}}
+
+// {{{ sub routine: function changeCsvFile(selectdownload)
+function changeCsvFile(selectdownload) {
+	document.getElementById('downloadlink').href = selectdownload.value;
+
+	var soft = document.getElementById('software');
+	var char = document.getElementById('selectchar');
+	if (selectdownload.selectedIndex === 0) {
+		soft.firstChild.nodeValue = 'Googleスプレッドシート';
+		char.options[0].selected = true;
+	} else {
+		soft.firstChild.nodeValue = 'Excel';
+		char.options[1].selected = true;
+	}
+}
 // }}}
 
