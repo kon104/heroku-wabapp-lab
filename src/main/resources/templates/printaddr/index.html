@@ -166,6 +166,25 @@ header .menu.open {
 	height: 40px;
 }
 
+.stamp-sample {
+	position: absolute;
+	top: 65.0mm;
+	left: 35.0mm;
+	width: 30.0mm;
+	line-height: 10.0mm;
+	color: #d94236;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+	border-style: solid;
+	border-width: 4px;
+//	border-color: red;
+	border-color: #d94236;
+	border-radius: 5px;
+	text-shadow: 1px 1px 2px gray;
+	box-shadow: 1px 1px 2px gray;
+}
+
 </style>
 <script
   src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -182,6 +201,7 @@ $(function(){
 		$('.menu').removeClass('open');
 	});
 });
+
 </script>
 
 <header>
@@ -194,16 +214,25 @@ $(function(){
 <nav class="menu">
 <div><span class="material-icons close-menu close-menu-btn">cancel_presentation</span></div>
 <ol>
-	<li><a href="../data/address-template.xlsx" th:href="@{/data/printaddr/address-template.xlsx}" class="menu-btn"><span class="menu-btn-font material-icons">get_app</span></a>住所録のひな型をダウンロード</li>
-	<li>Excelなどで住所録を編集</li>
+	<li><form name="formdownload">
+		<a href="../data/address-template-utf8.csv" th:href="@{/data/printaddr/address-template-utf8.csv}" id="downloadlink" class="menu-btn"><span class="menu-btn-font material-icons">get_app</span></a>
+		<select name="selectdownload" id="selectdownload" class="select-wrap">
+			<option value="../data/address-template-utf8.csv" th:value="@{/data/printaddr/address-template-utf8.csv}">UTF-8</option>
+			<option value="../data/address-template-sjis.csv" th:value="@{/data/printaddr/address-template-sjis.csv}">Shift_JIS</option>
+			<option value="../data/address-template.xlsx" th:value="@{/data/printaddr/address-template.xlsx}">Excel</option>
+		</select>
+		<span>住所録の雛型を取得</span>
+		</form></li>
+	<li>住所録を<span id="software">Googleスプレッドシート</span>で開く</li>
+	<li>住所録の差出人と宛先を編集</li>
 	<li>住所録をCSVで保存</li>
 	<li><form name="formcsv">
 		<input id="csvfile" name="csvfile" type="file" accept=".csv" /><label for="csvfile" class="menu-btn"><span class="menu-btn-font material-icons">folder_open</span></label>
-		<select name="selectcharcode" class="select-wrap">
+		<select id="selectchar" name="selectchar" class="select-wrap">
 			<option value="UTF-8">UTF-8</option>
 			<option value="Shift_JIS">Shift_JIS</option>
 		</select>
-		<label class="filepath" id="filepath">でCSVを読み込む</label>
+		<label class="filepath" id="filepath">CSVを読み込む</label>
 		</form></li>
 	<li><form name="formfont">
 		<a href="#!" class="menu-btn" onclick="document.formfont.selectfont.focus(); return false;"><span class="menu-btn-font material-icons">text_format</span></a>
@@ -262,30 +291,40 @@ $(function(){
 	</section>
 	</div>
 </article>
-<style type="text/css">
-.stamp-sample {
-	position: absolute;
-	top: 65.0mm;
-	left: 35.0mm;
-	width: 30.0mm;
-	line-height: 10.0mm;
-	color: #d94236;
-	font-size: 30px;
-	font-weight: bold;
-	text-align: center;
-	border-style: solid;
-	border-width: 4px;
-//	border-color: red;
-	border-color: #d94236;
-	border-radius: 5px;
-	text-shadow: 1px 1px 2px gray;
-	box-shadow: 1px 1px 2px gray;
-}
-</style>
 
 <script src="../js/eventlistener.js" th:src="@{/js/printaddr/eventlistener.js}"></script>
 <script src="../js/main.js" th:src="@{/js/printaddr/main.js}"></script>
 <script src="../js/utility.js" th:src="@{/js/printaddr/utility.js}"></script>
+<script>
+
+var formdownload = document.forms.formdownload;
+formdownload.selectdownload.addEventListener('change', function(e) {
+	changeCsvFile(this);
+});
+
+var formcsv = document.forms.formcsv;
+formcsv.selectchar.addEventListener('change', function(e) {
+	var download = document.getElementById('selectdownload');
+	download.options[this.selectedIndex].selected = true;
+	changeCsvFile(download);
+
+});
+
+function changeCsvFile(selectdownload) {
+	document.getElementById('downloadlink').href = selectdownload.value;
+
+	var soft = document.getElementById('software');
+	var char = document.getElementById('selectchar');
+	if (selectdownload.selectedIndex === 0) {
+		soft.firstChild.nodeValue = 'Googleスプレッドシート';
+		char.options[0].selected = true;
+	} else {
+		soft.firstChild.nodeValue = 'Excel';
+		char.options[1].selected = true;
+	}
+}
+
+</script>
 
 </body>
 </html>

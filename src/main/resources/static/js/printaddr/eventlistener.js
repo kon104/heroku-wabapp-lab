@@ -4,7 +4,7 @@ var formcsv = document.forms.formcsv;
 
 // {{{ formcsv.csvfile.addEventListener('change', function(e) {});
 formcsv.csvfile.addEventListener('change', function(e) {
-	var char = formcsv.selectcharcode.value;
+	var char = formcsv.selectchar.value;
 	var file = e.target.files[0];
 	var reader = new FileReader();
 	reader.readAsText(file, char);
