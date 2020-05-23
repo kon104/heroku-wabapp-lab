@@ -4,13 +4,14 @@ var formcsv = document.forms.formcsv;
 
 // {{{ formcsv.csvfile.addEventListener('change', function(e) {});
 formcsv.csvfile.addEventListener('change', function(e) {
-
+	var char = formcsv.selectcharcode.value;
 	var file = e.target.files[0];
 	var reader = new FileReader();
-	reader.readAsText(file);
+	reader.readAsText(file, char);
 	reader.addEventListener('load', function() {
 		createCards(this);
 	});
+	document.getElementById('filepath').firstChild.nodeValue = file.name;
 	this.value = '';
 });
 // }}}

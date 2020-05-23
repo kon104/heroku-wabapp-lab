@@ -1,0 +1,8 @@
+
+
+* Google Fonts
+ - https://fonts.google.com/
+
+* Material icons
+ - https://material.io/resources/icons/?style=baseline
+
