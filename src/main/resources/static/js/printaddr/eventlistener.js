@@ -1,16 +1,16 @@
 
 // selecting the download file
-var selectdownload = document.getElementById('selectdownload');
+var selectDownload = document.getElementById('selectdownload');
 
-// {{{ selectdownload.addEventListener('change', function(e) {});
-selectdownload.addEventListener('change', function(e) {
+// {{{ selectDownload.addEventListener('change', function(e) {});
+selectDownload.addEventListener('change', function(e) {
 	changeCsvFile(this);
 });
 // }}}
 
 // uploading the csv file
 var csvfile = document.getElementById('csvfile');
-var selectchar = document.getElementById('selectchar');
+var selectChar = document.getElementById('selectchar');
 
 // {{{ csvfile.addEventListener('change', function(e){});
 csvfile.addEventListener('change', function(e) {
@@ -27,37 +27,38 @@ csvfile.addEventListener('change', function(e) {
 });
 // }}}
 
-// {{{ selectchar.addEventListener('change', function(e){});
-selectchar.addEventListener('change', function(e) {
-	var download = document.getElementById('selectdownload');
-	download.options[this.selectedIndex].selected = true;
-	changeCsvFile(download);
+// {{{ selectChar.addEventListener('change', function(e){});
+selectChar.addEventListener('change', function(e) {
+	var selectDownload = document.getElementById('selectdownload');
+	selectDownload.options[this.selectedIndex].selected = true;
+	changeCsvFile(selectDownload);
 });
 // }}}
 
 // selecting font
-var selectfont = document.getElementById('selectfont');
+var selectFont = document.getElementById('selectfont');
 
-// {{{ selectfont.addEventListener('change', function(e) {});
-selectfont.addEventListener('change', function(e) {
+// {{{ selectFont.addEventListener('change', function(e) {});
+selectFont.addEventListener('change', function(e) {
 	var article = document.getElementsByTagName('article');
 	article[0].style.fontFamily = this.value;
 });
 // }}}
 
-// {{{ sub routine: function changeCsvFile(selectdownload)
-function changeCsvFile(selectdownload) {
-	document.getElementById('downloadlink').href = selectdownload.value;
+// {{{ sub routine: function changeCsvFile(selectDownload)
+function changeCsvFile(selectDownload) {
+	document.getElementById('downloadlink').href = selectDownload.value;
 
 	var soft = document.getElementById('software');
 	var char = document.getElementById('selectchar');
-	if (selectdownload.selectedIndex === 0) {
-		soft.firstChild.nodeValue = 'Googleスプレッドシート';
-		char.options[0].selected = true;
+	var softName;
+	if (selectDownload.selectedIndex === 0) {
+		softName = 'Excel';
 	} else {
-		soft.firstChild.nodeValue = 'Excel';
-		char.options[1].selected = true;
+		softName = 'Googleスプレッドシート';
 	}
+	soft.firstChild.nodeValue = softName;
+	char.options[selectDownload.selectedIndex].selected = true;
 }
 // }}}
 

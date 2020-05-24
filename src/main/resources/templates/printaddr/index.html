@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../css/card-fmname.css" th:href="@{/css/printaddr/card-fmname.css}" />
 <link rel="stylesheet" type="text/css" href="../css/card-fmzip.css" th:href="@{/css/printaddr/card-fmzip.css}" />
 <link rel="stylesheet" type="text/css" href="../css/card-namespacing.css" th:href="@{/css/printaddr/card-namespacing.css}"/>
+<link rel="stylesheet" type="text/css" href="../css/card-stamp-sample.css" th:href="@{/css/printaddr/card-stamp-sample.css}"/>
 <link rel="stylesheet" type="text/css" href="../css/atrule.css" th:href="@{/css/printaddr/atrule.css}" />
 <link rel="stylesheet" type="text/css" href="../css/header.css" th:href="@{/css/printaddr/header.css}" />
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|M+PLUS+1p|M+PLUS+Rounded+1c|Noto+Sans+JP|Noto+Serif+JP|Sawarabi+Gothic|Sawarabi+Mincho|Material+Icons&display=swap" />
@@ -34,45 +35,48 @@
 <!--- アプリ領域開始 --->
 <style type="text/css">
 header h1 {
-	font-size: 28px;
-	font-family: 'Kosugi Maru';
+	background: linear-gradient(to right, #ca0813, #f3cccf);
+	line-height: 50px;
 	margin: 0px;
 	padding-left: 60px;
-	line-height: 50px;
+	color: white;
+	box-shadow: 2px 2px 4px gray;
+	font-size: 28px;
+	font-family: 'Kosugi Maru';
 }
 header .hamburger {
+	background: white;
+	position: absolute;
 	top: 0px;
 	left: 0px;
 	width: 30px;
 	height: 30px;
-	padding-top: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 15px;
-	background: #000;
+	padding: 4px 9px 14px 9px;
+	border: solid 1px gray;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: absolute;
 }
 header .hamburger:hover {
 	cursor: pointer;
 }
 header .hamburger::after {
 	position: absolute;
-	bottom: 2px;
-	content: 'MENU';
-	color: #fff;
-	font-size: 10px;
+	bottom: 3px;
+	content: 'MANUAL';
+	color: #ca0813;
+	font-size: 9px;
+	font-weight: bold;
 }
 header .hamburger.active::after {
 	content: 'CLOSE';
 }
 header .hamburger span {
-	background: #fff;
-	width: 25px;
-	height: 2px;
+	background: #ca0813;
 	position: absolute;
+	width: 30px;
+	height: 3px;
+	border-radius: 2px;
 	transition: 0.3s ease-out;
 }
 header .hamburger span:nth-of-type(1) {
@@ -81,13 +85,12 @@ header .hamburger span:nth-of-type(1) {
 header .hamburger span:nth-of-type(3) {
 	bottom: 20px;
 }
-
 header .hamburger.active span:nth-of-type(1) {
-	transform: translateY(9px) rotate(-45deg);
+	transform: translateY(7.9px) rotate(-45deg);
 	transition: 0.3s ease-out;
 }
 header .hamburger.active span:nth-of-type(3) {
-	transform: translateY(-9px) rotate(45deg);
+	transform: translateY(-7.9px) rotate(45deg);
 	transition: 0.3s ease-out;
 }
 header .hamburger.active span:nth-of-type(2) {
@@ -95,15 +98,15 @@ header .hamburger.active span:nth-of-type(2) {
 }
 
 header .menu {
-	width: 96%;
-	margin: 1%;
-	padding: 1%;
 	background: #fff;
+	border: solid 0.5px #ca0813;
+	box-shadow: 2px 2px 4px gray;
+	border-radius: 10px;
 	position: absolute;
+	width: 450px;
+	margin: 2.5mm;
 	transform: translateX(-105%);
 	transition: 0.3s ease-out;
-	border-radius: 5px;
-	box-shadow: 2px 2px 4px gray;
 }
 header .menu.open {
 	transform: translateX(0);
@@ -111,51 +114,78 @@ header .menu.open {
 }
 .menu .close-menu {
 }
-.menu .close-menu-btn:hover {
+
+.menu .menu-win-bar {
+	display: table;
+	background: #ca0813;
+	border-radius: 10px 10px 0px 0px;
+	padding: 0px 7.5px;
+//	width: 436px;
+	width: 96.8%;
+	line-height: 25px;
+}
+.menu .menu-win-title {
+	display: table-cell;
+	text-align: left;
+	color: white;
+	vertical-align: middle;
+	font-size: 16px;
+}
+.menu .menu-win-close {
+	display: table-cell;
+	text-align: right;
+	color: white;
+	font-size: 24px;
+	vertical-align: middle;
+}
+.menu .menu-win-close:hover {
 	cursor: pointer;
 }
 
 .menu ol {
-	margin: 0px;
-	padding-left: 25px;
+	margin: 8px 0px 16px 0px;
+	padding-left: 30px;
+	font-size: 16px;
 }
 .menu li {
-	line-height: 40px;
-	padding-bottom: 5px;
+	line-height: 36px;
+	margin-bottom: 6px;
 }
 
 .menu .menu-btn {
 	display: inline-block;
-	background: #f7f7f7;
-	border: solid 2px #FFA000;
+	border: solid 1px #ca0813;
 	border-radius: 5px;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
-	color: #ff7c5c;
-	text-decoration: none;
-	margin-right: 5px;
+	color: #ca0813;
+	margin-right: 3px;
 }
 .menu .menu-btn:hover {
-	background: #f7f7f7;
-	color: #ff7c5c;
-	text-decoration: none;
+	background: #dd6972;
+	color: white;
 	cursor: pointer;
 }
 .menu .menu-btn:active {
-	background: #f7f7f7;
-	color: #ff7c5c;
-	text-decoration: none;
+	background: none;
+	color: #ca0813;
 	box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
 	transform: translateY(4px);
 }
-
 .menu .menu-btn-font {
-	font-size: 36px;
+	font-size: 32px;
 	vertical-align: middle;
 }
 
+.menu select {
+//	border: 1px solid #c5c5c5;
+//	border-radius: 3px;
+	font-size: 16px;
+//	height: 40px;
+}
 .menu input[type="file"] {
 	display: none;
 }
+/*
 .menu .filepath {
 	display: inline-block;
 	width: 150px;
@@ -164,32 +194,17 @@ header .menu.open {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+*/
 
-.menu select {
-	border: 1px solid #c5c5c5;
-	border-radius: 3px;
-	font-size: 16px;
-	height: 40px;
+@media screen and (max-width: 480px) {
+	header .menu {
+		width: 98%;
+		margin: 1% 1% 1% 1%;
+	}
+	.menu .menu-win-bar {
+		width: 96.5%;
+	}
 }
-
-.stamp-sample {
-	position: absolute;
-	top: 65.0mm;
-	left: 35.0mm;
-	width: 30.0mm;
-	line-height: 10.0mm;
-	color: #d94236;
-	font-size: 30px;
-	font-weight: bold;
-	text-align: center;
-	border-style: solid;
-	border-width: 4px;
-	border-color: #d94236;
-	border-radius: 5px;
-	text-shadow: 1px 1px 2px gray;
-	box-shadow: 1px 1px 2px gray;
-}
-
 </style>
 
 <script>
@@ -213,28 +228,25 @@ $(function(){
 	<span></span>
 </a>
 <nav class="menu">
-<div><span class="material-icons close-menu close-menu-btn">cancel_presentation</span></div>
+<div class="menu-win-bar"><span class="menu-win-title">MANUAL</span><span class="material-icons close-menu menu-win-close">cancel_presentation</span></div>
 <ol>
-	<li>
-		<a id="downloadlink" href="../data/address-template-utf8.csv" th:href="@{/data/printaddr/address-template-utf8.csv}" class="menu-btn"><span class="menu-btn-font material-icons">get_app</span></a>
+	<li><a id="downloadlink" href="../data/address-template.xlsx" th:href="@{/data/printaddr/address-template.xlsx}" class="menu-btn"><span class="menu-btn-font material-icons">get_app</span></a>
 		<select id="selectdownload">
-			<option value="../data/address-template-utf8.csv" th:value="@{/data/printaddr/address-template-utf8.csv}">UTF-8</option>
-			<option value="../data/address-template-sjis.csv" th:value="@{/data/printaddr/address-template-sjis.csv}">Shift_JIS</option>
 			<option value="../data/address-template.xlsx" th:value="@{/data/printaddr/address-template.xlsx}">Excel</option>
+
+			<option value="../data/address-template-utf8.csv" th:value="@{/data/printaddr/address-template-utf8.csv}">CSV(UTF-8)</option>
 		</select>
 		<span>住所録の雛型を取得</span></li>
-	<li>住所録を<span id="software">Googleスプレッドシート</span>で開く</li>
-	<li>住所録の差出人と宛先を編集</li>
+	<li><a href="#!" class="menu-btn"><span class="menu-btn-font material-icons">info</span></a><span id="software">Excel</span>で住所録編集</li>
+	<li>住所録へ差出人と宛先のリストを更新</li>
 	<li>住所録をCSVで保存</li>
-	<li>
-		<input id="csvfile" type="file" accept=".csv" /><label for="csvfile" class="menu-btn"><span class="menu-btn-font material-icons">folder_open</span></label>
+	<li><input id="csvfile" type="file" accept=".csv" /><label for="csvfile" class="menu-btn"><span class="menu-btn-font material-icons">folder_open</span></label>
 		<select id="selectchar">
-			<option value="UTF-8">UTF-8</option>
 			<option value="Shift_JIS">Shift_JIS</option>
+			<option value="UTF-8">UTF-8</option>
 		</select>
 		<label id="filepath" class="filepath">CSVを読み込む</label></li>
-	<li>
-		<a href="#!" class="menu-btn" onclick="document.getElementById('selectfont').focus(); return false;"><span class="menu-btn-font material-icons">text_format</span></a>
+	<li><a href="#!" class="menu-btn" onclick="document.getElementById('selectfont').focus(); return false;"><span class="menu-btn-font material-icons">text_format</span></a>
 		<select id="selectfont">
 			<option value="" hidden>フォントを選択</option>
 			<option value="">(Default Font)</option>
@@ -247,8 +259,8 @@ $(function(){
 			<option value="'Kosugi Maru', sans-serif">Kosugi Maru</option>
 			<option value="'Kosugi', sans-serif">Kosugi</option>
 		</select></li>
-	<li><a href="#!" class="menu-btn close-menu"><span class="menu-btn-font material-icons">pageview</span></a>できあがりを確認</li>
-	<li><a href="#!" class="menu-btn" onclick="window.print(); return false;"><span class="menu-btn-font material-icons">print</span></a>印刷</li>
+	<li><a href="#!" class="menu-btn close-menu"><span class="menu-btn-font material-icons">pageview</span></a>MANUALを閉じて出来上がりを確認</li>
+	<li><a href="#!" class="menu-btn" onclick="window.print(); return false;"><span class="menu-btn-font material-icons">print</span></a>はがき(100x148mm)サイズで印刷</li>
 </ol>
 </nav>
 </header>
