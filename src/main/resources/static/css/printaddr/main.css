@@ -14,9 +14,7 @@ body {
 }
 
 section div {
-//	border-style: solid;
-	border-width: 1px;
-	border-color: silver;
+//	border: solid 1px silver;
 }
 section p    { margin: 0; padding: 0; }
 section span { margin: 0; padding: 0; }

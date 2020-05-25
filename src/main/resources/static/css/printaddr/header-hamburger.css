@@ -1,0 +1,54 @@
+
+header .hamburger {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 30px;
+	height: 30px;
+	padding: 4px 9px 14px 9px;
+	border: solid 1px gray;
+	background: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+header .hamburger:hover {
+	cursor: pointer;
+}
+header .hamburger::after {
+	position: absolute;
+	bottom: 3px;
+	content: 'MANUAL';
+	color: #ca0813;
+	font-size: 9px;
+	font-weight: bold;
+}
+header .hamburger.active::after {
+	content: 'CLOSE';
+}
+header .hamburger span {
+	position: absolute;
+	width: 30px;
+	height: 3px;
+	border-radius: 2px;
+	background: #ca0813;
+	transition: 0.3s ease-out;
+}
+header .hamburger span:nth-of-type(1) {
+	top: 10px;
+}
+header .hamburger span:nth-of-type(3) {
+	bottom: 20px;
+}
+header .hamburger.active span:nth-of-type(1) {
+	transform: translateY(7.9px) rotate(-45deg);
+	transition: 0.3s ease-out;
+}
+header .hamburger.active span:nth-of-type(3) {
+	transform: translateY(-7.9px) rotate(45deg);
+	transition: 0.3s ease-out;
+}
+header .hamburger.active span:nth-of-type(2) {
+	opacity: 0;
+}
+

@@ -6,16 +6,18 @@ header {
 	z-index: 1;
 }
 
-article {
-	padding-top: 50px;
+header h1 {
+	background: linear-gradient(to right, #ca0813, #f3cccf);
+	line-height: 50px;
+	margin: 0px;
+	padding-left: 60px;
+	box-shadow: 2px 2px 4px gray;
+	color: white;
+	font-size: 28px;
+	font-family: 'Kosugi Maru';
 }
 
-@media print {
-	header {
-		display: none;
-	}
-	article {
-		padding-top: 0px;
-	}
+article {
+	padding-top: 50px;
 }
 

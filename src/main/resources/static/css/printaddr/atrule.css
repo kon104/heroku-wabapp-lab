@@ -9,13 +9,26 @@
 	}
 }
 
+@media screen and (max-width: 480px) {
+	header .manual {
+		width: 98%;
+		margin: 1% 1% 1% 1%;
+	}
+	.manual .manual-win-bar {
+		width: 96.5%;
+	}
+}
+
 @media print {
+	.no_print{
+		display: none;
+	}
 	body {
 		width:100mm;	// needed for Chrome.
 		height:148mm;	// needed for Chrome.
 	}
-	.no_print{
-		display: none;
+	article {
+		padding-top: 0px;
 	}
 }
 
