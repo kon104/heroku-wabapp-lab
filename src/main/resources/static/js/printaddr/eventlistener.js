@@ -47,8 +47,14 @@ selectFont.addEventListener('change', function(e) {
 
 // {{{ sub routine: function changeCsvFile(selectDownload)
 function changeCsvFile(selectDownload) {
-	document.getElementById('downloadlink').href = selectDownload.value;
 
+	var urlEditHelp = [
+		"https://sites.google.com/view/printaddr/edit#h.oqx50h8ys5u1",
+		"https://sites.google.com/view/printaddr/edit#h.u2n3oznv9nfb"
+	];
+
+	var dLink = document.getElementById('downloadlink');
+	var eLink = document.getElementById('edithelplink');
 	var soft = document.getElementById('software');
 	var char = document.getElementById('selectchar');
 	var softName;
@@ -57,6 +63,9 @@ function changeCsvFile(selectDownload) {
 	} else {
 		softName = 'Googleスプレッドシート';
 	}
+
+	dLink.href = selectDownload.value;
+	eLink.href = urlEditHelp[selectDownload.selectedIndex];
 	soft.firstChild.nodeValue = softName;
 	char.options[selectDownload.selectedIndex].selected = true;
 }
