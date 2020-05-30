@@ -44,23 +44,23 @@
 <nav class="manual">
 <div class="manual-win-bar"><span class="manual-win-title">手順</span><span class="material-icons close-manual manual-win-close">cancel_presentation</span></div>
 <ol>
-	<li><a id="downloadlink" href="../data/address-template.xlsx" th:href="@{/data/printaddr/address-template.xlsx}" class="manual-btn"><span class="manual-btn-font material-icons">get_app</span></a>
+	<li><a id="downloadlink" href="../data/address-template.xlsx" th:href="@{/data/printaddr/address-template.xlsx}" class="manual-btn manual-btn-func"><span class="manual-btn-font material-icons">get_app</span></a>
 		<select id="selectdownload">
 			<option value="../data/address-template.xlsx" th:value="@{/data/printaddr/address-template.xlsx}">Excel</option>
 
 			<option value="../data/address-template-utf8.csv" th:value="@{/data/printaddr/address-template-utf8.csv}">CSV(UTF-8)</option>
 		</select>
 		<span>住所録の雛型を取得</span></li>
-	<li><!-- <a href="#!" class="manual-btn"><span class="manual-btn-font material-icons">info</span></a> --><span id="software">Excel</span>で住所録編集</li>
+	<li><a href="#!" class="manual-btn manual-btn-info"><span class="manual-btn-font material-icons">info</span></a><span id="software">Excel</span>で住所録編集</li>
 	<li>住所録へ差出人と宛先のリストを更新</li>
 	<li>住所録をCSVで保存</li>
-	<li><input id="csvfile" type="file" accept=".csv" /><label for="csvfile" class="manual-btn"><span class="manual-btn-font material-icons">folder_open</span></label>
+	<li><input id="csvfile" type="file" accept=".csv" /><label for="csvfile" class="manual-btn manual-btn-func"><span class="manual-btn-font material-icons">folder_open</span></label>
 		<select id="selectchar">
 			<option value="Shift_JIS">Shift_JIS</option>
 			<option value="UTF-8">UTF-8</option>
 		</select>
 		<label id="filepath" class="filepath">CSVを読み込む</label></li>
-	<li><a href="#!" class="manual-btn" onclick="document.getElementById('selectfont').focus(); return false;"><span class="manual-btn-font material-icons">text_format</span></a>
+	<li><a href="#!" class="manual-btn manual-btn-func" onclick="document.getElementById('selectfont').focus(); return false;"><span class="manual-btn-font material-icons">text_format</span></a>
 		<select id="selectfont">
 			<option value="" hidden>フォントを選択</option>
 			<option value="">(Default Font)</option>
@@ -73,8 +73,8 @@
 			<option value="'Kosugi Maru', sans-serif">Kosugi Maru</option>
 			<option value="'Kosugi', sans-serif">Kosugi</option>
 		</select></li>
-	<li><a href="#!" class="manual-btn close-manual"><span class="manual-btn-font material-icons">pageview</span></a>手順を閉じて出来上がりを確認</li>
-	<li><a href="#!" class="manual-btn" onclick="window.print(); return false;"><span class="manual-btn-font material-icons">print</span></a>はがき(100x148mm)サイズで印刷</li>
+	<li><a href="#!" class="manual-btn manual-btn-func close-manual"><span class="manual-btn-font material-icons">pageview</span></a>手順を閉じて出来上がりを確認</li>
+	<li><a href="#!" class="manual-btn manual-btn-info"><span class="manual-btn-font material-icons">info</span></a><a href="#!" class="manual-btn manual-btn-func" onclick="window.print(); return false;"><span class="manual-btn-font material-icons">print</span></a>はがき(100x148mm)サイズで印刷</li>
 </ol>
 </nav>
 </header>

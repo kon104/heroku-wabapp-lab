@@ -19,7 +19,7 @@ header .hamburger:hover {
 }
 header .hamburger::after {
 	position: absolute;
-	bottom: 0px;
+	bottom: -1px;
 	content: '手順';
 	color: #ca0813;
 	font-size: 12px;
