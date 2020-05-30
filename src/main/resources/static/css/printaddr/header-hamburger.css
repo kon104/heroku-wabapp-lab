@@ -1,4 +1,6 @@
 
+@charset "utf-8";
+
 header .hamburger {
 	position: absolute;
 	top: 0px;
@@ -17,14 +19,14 @@ header .hamburger:hover {
 }
 header .hamburger::after {
 	position: absolute;
-	bottom: 3px;
-	content: 'MANUAL';
+	bottom: 0px;
+	content: '手順';
 	color: #ca0813;
-	font-size: 9px;
+	font-size: 12px;
 	font-weight: bold;
 }
 header .hamburger.active::after {
-	content: 'CLOSE';
+	content: '閉じる';
 }
 header .hamburger span {
 	position: absolute;
