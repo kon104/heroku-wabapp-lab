@@ -24,7 +24,7 @@ function createCards(reader) {
 			var childName = fields[4];
 			fmNames = buildNameList(lastName, firstName, wifeName, childName);
 			// from: zip
-			fmZip = fields[5].split('-');
+			fmZip = splitZip(fields[5]);
 			// from: address
 			var state = fields[6];
 			var city = fields[7];
@@ -62,7 +62,7 @@ function createCardSection(fields, fmZip, fmAddrs, fmNames) {
 	card.className = 'card';
 
 	// receiver's zip code
-	var toZip = fields[5].split('-');
+	var toZip = splitZip(fields[5]);
 	putPartsOfZip(toZip[0], card, 'tozip3', 3);
 	putPartsOfZip(toZip[1], card, 'tozip4', 4);
 
@@ -106,6 +106,17 @@ function createCardSection(fields, fmZip, fmAddrs, fmNames) {
 	}
 
 	return card;
+}
+// }}}
+
+// {{{ function splitZip(zipValue)
+function splitZip(zipValue) {
+	var zips = zipValue.split('-');
+	if (zips.length < 2) {
+		zips[0] = zipValue.substr(0, 3);
+		zips[1] = zipValue.substr(3, 4);
+	}
+	return zips;
 }
 // }}}
 
