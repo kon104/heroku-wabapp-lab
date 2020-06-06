@@ -13,13 +13,14 @@ header .hamburger {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-family: 'Kosugi Maru';
 }
 header .hamburger:hover {
 	cursor: pointer;
 }
 header .hamburger::after {
 	position: absolute;
-	bottom: -1px;
+	bottom: 3px;
 	content: '手順';
 	color: #ca0813;
 	font-size: 12px;
