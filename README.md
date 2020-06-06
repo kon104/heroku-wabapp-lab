@@ -1,5 +1,5 @@
-# heroku-wabapp
-myself app which execute in Heroku!
+# heroku-wabapp-lab
+myself laboratory works which execute in Heroku!
 
 created this site referencing these informations.
 
