@@ -306,6 +306,7 @@ function createMapOverview(name, latlng)
 	var map = new google.maps.Map(document.getElementById(name), {
         center: latlng,
 		zoom: 17,
+		tilt: 0,
 		scaleControl: true,
 		clickableIcons: false,
 		rotateControlOptions: true,
@@ -320,6 +321,7 @@ function createMapZoom(name, latlng)
 	map = new google.maps.Map(document.getElementById(name), {
 		center: latlng,
 		zoom: 21,
+		tilt: 0,
 		scaleControl: true,
 		clickableIcons: false,
 		mapTypeControlOptions: {
