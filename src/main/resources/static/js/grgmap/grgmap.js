@@ -6,13 +6,13 @@ var activeDraw = {shape: null, type: null};
 // {{{ function initMapFully(centerLat, centerLng)
 function initMapFully(centerLat, centerLng)
 {
-	var centerPos = {lat: centerLat, lng: centerLng};
+	var centerLatLng = {lat: centerLat, lng: centerLng};
 
 	//----------
 	// map
 	//----------
-	var map_ov = createMapOverview('map_ov', centerPos);
-	var map_zm = createMapZoom('map_zm', centerPos);
+	var map_ov = createMapOverview('map_ov', centerLatLng);
+	var map_zm = createMapZoom('map_zm', centerLatLng);
 
 	//----------
 	// setting configurations of 1st map
@@ -78,11 +78,11 @@ function initMapFully(centerLat, centerLng)
 	//----------
 	// setting configurations of 2nd map
 	//----------
-	drawingManager = createDrawingManager();
+	var posDrawTool = google.maps.ControlPosition.TOP_LEFT;
+	drawingManager = createDrawingManager(posDrawTool);
 	drawingManager.setMap(map_zm);
 	var mytool = document.getElementById('map_zm_mytool');
-	map_zm.controls[google.maps.ControlPosition.TOP].push(mytool);
-
+	map_zm.controls[posDrawTool].push(mytool);
 
 	google.maps.event.addListener(dRend, 'directions_changed', function(){
 		var directions = dRend.getDirections();
@@ -95,8 +95,10 @@ function initMapFully(centerLat, centerLng)
 
 		if (type == google.maps.drawing.OverlayType.MARKER) {
 			var statement = prompt("表示する文字を入力してください");
-			var iw = new google.maps.InfoWindow({content: statement});
-			iw.open(map_zm, shape);
+			var url = 'https://chart.googleapis.com/chart?chst=d_bubble_text_small&chld=bb|';
+			url += encodeURIComponent(statement);
+			url += '|FFFFFF|000000';
+			shape.icon.url = url;
 		} else {
 			selectShape(shape, type);
 		}
@@ -298,11 +300,11 @@ function deleteShape()
 }
 // }}}
 
-// {{{ function createMapOverview(name, position)
-function createMapOverview(name, position)
+// {{{ function createMapOverview(name, latlng)
+function createMapOverview(name, latlng)
 {
 	var map = new google.maps.Map(document.getElementById(name), {
-        center: position,
+        center: latlng,
 		zoom: 17,
 		scaleControl: true,
 		clickableIcons: false,
@@ -312,14 +314,17 @@ function createMapOverview(name, position)
 }
 // }}}
 
-// {{{ function createMapZoom(name, position)
-function createMapZoom(name, position)
+// {{{ function createMapZoom(name, latlng)
+function createMapZoom(name, latlng)
 {
 	map = new google.maps.Map(document.getElementById(name), {
-		center: position,
+		center: latlng,
 		zoom: 21,
 		scaleControl: true,
 		clickableIcons: false,
+		mapTypeControlOptions: {
+			position: google.maps.ControlPosition.TOP_RIGHT
+		},
 	});
 	return map;
 }
@@ -435,14 +440,14 @@ function convMarker2Geocode(marker, callback)
 }
 // }}}
 
-// {{{ function createDrawingManager()
-function createDrawingManager()
+// {{{ function createDrawingManager(posCtrl)
+function createDrawingManager(posCtrl)
 {
 	var manager = new google.maps.drawing.DrawingManager({
 		drawingMode: google.maps.drawing.OverlayType.PAN,
 		drawingControl: true,                            
 		drawingControlOptions: {
-			position: google.maps.ControlPosition.TOP, 
+			position: posCtrl,
 			drawingModes: [
 				google.maps.drawing.OverlayType.MARKER,
 				google.maps.drawing.OverlayType.CIRCLE,
