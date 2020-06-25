@@ -24,8 +24,6 @@
 <link rel="stylesheet" type="text/css" href="/css/grgmap/boot-adjust.css" th:href="@{/css/grgmap/boot-adjust.css}" />
 <link rel="stylesheet" type="text/css" href="/css/grgmap/grgmap.css" th:href="@{/css/grgmap/grgmap.css}" />
 <link rel="stylesheet" type="text/css" href="/css/grgmap/searchbox.css" th:href="@{/css/grgmap/searchbox.css}" />
-<script type="text/javascript" src="/js/grgmap/searchbox.js" th:src="@{/js/grgmap/searchbox.js}"></script>
-<script type="text/javascript" src="/js/grgmap/grgmap.js" th:src="@{/js/grgmap/grgmap.js}"></script>
 
 <style>
 
@@ -496,38 +494,24 @@ ank_step4.addEventListener("click" , function(event) {
 	document.postappform.submit();
 }, false);
 
-var chk_shp_black = document.getElementById("shp_black");
-chk_shp_black.addEventListener("change", function(event) {
-	change_shape_color(event);
-}, false);
+/*]]>*/
+</script>
 
-var chk_shp_blue = document.getElementById("shp_blue");
-chk_shp_blue.addEventListener("change", function(event) {
-	change_shape_color(event);
-}, false);
-
-var chk_shp_red = document.getElementById("shp_red");
-chk_shp_red.addEventListener("change", function(event) {
-	change_shape_color(event);
-}, false);
-
-var btn_del_sh = document.getElementById("btn_delete_shape");
-btn_del_sh.addEventListener("click" , function(event) {
-	deleteShape();
-}, false);
-
+<script>
 // {{{ function initMap()
 function initMap()
 {
 	var lat = /*[[${lat}]]*/ 35.45481104743612;
 	var lng = /*[[${lng}]]*/ 139.63120803716913;
-
 	initMapFully(lat, lng);
 }
 // }}}
-
-/*]]>*/
 </script>
+
+<script type="text/javascript" src="/js/grgmap/searchbox.js" th:src="@{/js/grgmap/searchbox.js}"></script>
+<script type="text/javascript" src="/js/grgmap/grgmap.js" th:src="@{/js/grgmap/grgmap.js}"></script>
+<script type="text/javascript" src="/js/grgmap/map-event.js" th:src="@{/js/grgmap/map-event.js}"></script>
+
 <script th:src="'https://maps.googleapis.com/maps/api/js?callback=initMap&amp;key=' + ${gmapApiKey} + '&amp;libraries=drawing,places,geometry&amp;v=3.30'"></script>
 
 </body>

@@ -67,7 +67,7 @@ function initMapFully(centerLat, centerLng)
 	markerHome.addListener('dragend', function(arg) {
 		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
 		renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
-		convMarker2Geocode(markerHome, annexPref2Search);
+//		convMarker2Geocode(markerHome, annexPref2Search);
 	});
 	markerGrge.addListener('dragend', function(arg) {
 		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
