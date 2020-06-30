@@ -77,6 +77,21 @@ public class GrgmapController
 	}
 	// }}}
 
+	// {{{ public String new(Model model)
+	@RequestMapping("/new")
+	public String index2(Model model)
+	{
+		model.addAttribute("appforms", gafservice.findAll());
+		model.addAttribute("lat", 35.47131841901187);
+		model.addAttribute("lng", 139.4283853703149);
+		model.addAttribute("gmapApiKey", gmapApiKey);
+
+		return "grgmap/new";
+	}
+	// }}}
+
+
+
 	// {{{ public ResponseEntity<byte[]> text() throws IOException
 	@RequestMapping(value = "/text", method = RequestMethod.GET)
 	@ResponseBody

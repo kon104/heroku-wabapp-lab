@@ -2,6 +2,12 @@
 
 function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend, plineMarkers)
 {
+	behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, plineMarkers);
+	renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
+}
+
+function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, plineMarkers)
+{
 	// Create the search box and link it to the UI element.
 	var input = document.getElementById('pac-input');
 	var searchBox = new google.maps.places.SearchBox(input);
@@ -62,7 +68,6 @@ function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend,
 
 		initMarker(map_ov, markerHome, markerGrge);
 		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
-		renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
 		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 }

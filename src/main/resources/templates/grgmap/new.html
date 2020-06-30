@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1.0,minimum-scale=1.0" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" />
+<style type="text/css">
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 1;
+}
+header h1 {
+	background: #ffffff;
+	line-height: 50px;
+	margin: 0px;
+	box-shadow: 2px 2px 4px gray;
+	font-size: 28px;
+}
+
+.map_frm1, .map_frm2 {
+	float: left;
+}
+.clear {
+	clear: both;
+}
+
+.maps {
+	border: solid 1px gray;
+	width: 120mm;
+	height: 120mm;
+}
+
+.maps div > img {
+	position: absolute;
+}
+
+#pac-input {
+	width: 225px;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding: 7.5px;
+	border: 1px solid silver;
+	border-radius: 5px;
+	box-shadow: 1px 1px 2px gray;
+}
+
+#map_zm_mytool {
+	margin-top: 6px;
+}
+
+#shp_color_group input[type="radio"] {
+	display: none;
+}
+
+#shp_color_group label {
+	background-color: #ffffff;
+	border-top: solid 1px silver;
+	border-bottom: solid 1px silver;
+	border-right: solid 1px silver;
+	padding: 4.5px;
+}
+
+#shp_color_group > label:first-of-type {
+	border-left: solid 1px silver;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+#shp_color_group > label:last-of-type {
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+#shp_color_group input[type="radio"]:checked + label {
+	background-color: #cccccc;
+}
+
+#shp_color_group .lbl_shp_black {
+	color: #000000;
+}
+#shp_color_group .lbl_shp_blue {
+	color: #0000ff;
+}
+#shp_color_group .lbl_shp_red {
+	color: #ff0000;
+}
+
+#btn_delete_shape {
+	color: #000000;
+	background-color: #FFFFFF;
+	border: 1px solid silver;
+	border-radius: 2px;
+	padding: 4px;
+}
+
+#btn_delete_shape:hover {
+	color: #343434;
+	background-color: #EBEBEB;
+}
+
+@page {
+	size: A4 landscape;
+//	size: 297mm 210mm landscape;
+	margin: 1px;	// disable the page header and footer for Chrome.
+	padding: 0;		// disable the page header and footer for Chrome.
+}
+</style>
+
+<style type="text/css" media="screen">
+body {
+	background: #e0e0e0;
+}
+
+#appform {
+	display: none;
+}
+
+article {
+	padding-top: 55px;
+	width: 930px;
+}
+
+article h2 {
+	margin: 0 0 4px 0;
+}
+
+.map_frm1, .map_frm2 {
+	margin-left: 8px;
+	margin-bottom: 8px;
+}
+#map_ov, #map_zm {
+	box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+}
+</style>
+
+<style type="text/css" media="screen and (max-width: 480px)">
+article {
+	width: 100%;
+}
+
+.map_frm1, .map_frm2 {
+	float: none;
+}
+.maps {
+	width: 97.5%;
+}
+</style>
+
+<style type="text/css" media="print">
+body {
+	margin: 0;
+	padding: 0;
+	width: 297mm;
+	height: 210mm;
+}
+#appform {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+article {
+	padding-top: 27.5mm;
+}
+#map_ov {
+	margin-left: 25mm;
+}
+#map_zm {
+	margin-left: 6mm;
+}
+
+#pac-input, #map_zm_mytool {
+	display: none;
+}
+.noprt {
+	display: none;
+}
+</style>
+
+</head>
+<body>
+<header class="noprt">
+	<h1>Garage Map Maker</h1>
+</header>
+
+<div>
+	<img id="appform" src="../images/grgmap/application-form.png" th:src="@{/images/grgmap/application-form.png}"></img>
+</div>
+
+<article>
+<div class="noprt">車庫証明の手続きに必要な保管場所の所在図・配置図の作成をサポートします</div>
+<div class="map_frm1">
+	<h2 class="noprt">所在図</h2><div id="map_ov" class="maps"></div></div>
+<div class="map_frm2">
+	<h2 class="noprt">配置図</h2><div id="map_zm" class="maps"></div></div>
+<div class="clear"></div>
+
+<input id="pac-input" class="controls" type="text" placeholder="マップを検索する" />
+<div id="map_zm_mytool">
+	<span id="shp_color_group">
+		<input type="radio" name="shp_color" value="black" id="shp_black" checked="checked"><label for="shp_black" class="lbl_shp_black"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="bule" id="shp_blue"><label for="shp_blue" class="lbl_shp_blue"><i class="fas fa-paint-brush"></i></label></input><input type="radio" name="shp_color" value="red" id="shp_red"><label for="shp_red" class="lbl_shp_red"><i class="fas fa-paint-brush"></i></label></input>
+	</span>
+	<span><button id="btn_delete_shape"><i class="fas fa-eraser"></i></button></span>
+</div>
+
+</article>
+
+<script>
+// {{{ function initMap()
+function initMap()
+{
+	var lat = /*[[${lat}]]*/ 35.45481104743612;
+	var lng = /*[[${lng}]]*/ 139.63120803716913;
+	initMapFully(lat, lng);
+}
+// }}}
+</script>
+<script type="text/javascript" src="../js/grgmap/grgmap.js" th:src="@{/js/grgmap/grgmap.js}"></script>
+<script type="text/javascript" src="../js/grgmap/grgmap-overview.js" th:src="@{/js/grgmap/grgmap-overview.js}"></script>
+<script type="text/javascript" src="../js/grgmap/grgmap-zoom.js" th:src="@{/js/grgmap/grgmap-zoom.js}"></script>
+<script type="text/javascript" src="../js/grgmap/searchbox.js" th:src="@{/js/grgmap/searchbox.js}"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?callback=initMap&amp;key=AIzaSyBCYBPbwRyLV_urAoagNVlNn2T3BHspQW4&amp;libraries=drawing,places,geometry&amp;v=3.30"
+	th:src="'https://maps.googleapis.com/maps/api/js?callback=initMap&amp;key=' + ${gmapApiKey} + '&amp;libraries=drawing,places,geometry&amp;v=3.30'"></script>
+
+</body>
+</html>
