@@ -23,21 +23,7 @@ function initMapOverview(map_ov, map_zm)
 	//----------
 	// assigne events to markers.
 	//----------
-	markerHome.addListener('click', function(){
-		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
-		infoHome.open(map_ov, markerHome);
-	});
-	markerGrge.addListener('click', function(){
-		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
-		infoGrge.open(map_ov, markerGrge);
-	});
-	markerHome.addListener('dragend', function(arg) {
-		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
-	});
-	markerGrge.addListener('dragend', function(arg) {
-		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
-		synchronizeCenter2Zoom(markerGrge, map_zm);
-	});
+	addListeners(map_ov, map_zm, markerHome, infoHome, markerGrge, infoGrge, arrowLine);
 
 	//----------
 	// synchronize from overview to zoom map
@@ -93,6 +79,46 @@ function initMarker(map, markerH, markerG)
 	};
 	markerH.setPosition(homePos);
 	markerG.setPosition(gragPos);
+}
+// }}}
+
+// {{{ function addListeners(map_ov, map_zm, markerHome, infoHome, markerGrge, infoGrge, arrowLine)
+function addListeners(map_ov, map_zm, markerHome, infoHome, markerGrge, infoGrge, arrowLine)
+{
+	markerHome.addListener('click', function(){
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
+		infoHome.open(map_ov, markerHome);
+	});
+	markerGrge.addListener('click', function(){
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
+		infoGrge.open(map_ov, markerGrge);
+	});
+	markerHome.addListener('dblclick', function(arg){
+		replacePinCaption(markerHome);
+	});
+	markerGrge.addListener('dblclick', function(arg){
+		replacePinCaption(markerGrge);
+	});
+	markerHome.addListener('dragend', function(arg) {
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
+	});
+	markerGrge.addListener('dragend', function(arg) {
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
+		synchronizeCenter2Zoom(markerGrge, map_zm);
+	});
+}
+// }}}
+
+// {{{ function replacePinCaption(marker)
+function replacePinCaption(marker)
+{
+	const msg = 'ピンに表示する文字を入力してください（一文字のみ）';
+	var label = marker.getLabel();
+	var text = prompt(msg, label.text);
+	if ((text != null) && (text != '')) {
+		label.text = text.substr(0, 1);
+		marker.setLabel(label);
+	}
 }
 // }}}
 
