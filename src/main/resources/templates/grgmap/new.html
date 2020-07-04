@@ -18,11 +18,26 @@ header {
 	z-index: 1;
 }
 header h1 {
-	background: #ffffff;
+	background-image: url('../images/grgmap/checker.png');
 	line-height: 50px;
-	margin: 0px;
+	margin: 0;
+	padding-left: 10px;
 	box-shadow: 2px 2px 4px gray;
-	font-size: 28px;
+	font-size: 32px;
+/*
+	text-shadow: 3px 3px 0 #BBFFFF, -3px -3px 0 #BBFFFF,
+		-3px 3px 0 #BBFFFF, 3px -3px 0 #BBFFFF,
+		 0px 3px 0 #BBFFFF, 0 -3px 0 #BBFFFF,
+		-3px 0 0 #BBFFFF, 3px 0 0 #BBFFFF;
+*/
+
+	color: #FF0000;
+	text-shadow: 4px 4px 0 #FFF, -4px -4px 0 #FFF,
+		-4px 4px 0 #FFF, 4px -4px 0 #FFF,
+		 0px 4px 0 #FFF, 0 -4px 0 #FFF,
+		-4px 0 0 #FFF, 4px 0 0 #FFF;
+
+	white-space: nowrap;
 }
 
 .map_frm1, .map_frm2 {
@@ -125,6 +140,7 @@ body {
 
 article {
 	padding-top: 55px;
+	margin-left: 8px;
 	width: 930px;
 }
 
@@ -133,7 +149,7 @@ article h2 {
 }
 
 .map_frm1, .map_frm2 {
-	margin-left: 8px;
+	margin-right: 8px;
 	margin-bottom: 8px;
 }
 #map_ov, #map_zm {
@@ -145,7 +161,9 @@ article h2 {
 article {
 	width: 100%;
 }
-
+.desc {
+	width: 97.5%;
+}
 .map_frm1, .map_frm2 {
 	float: none;
 }
@@ -197,7 +215,7 @@ article {
 </div>
 
 <article>
-<div class="noprt">車庫証明の手続きに必要な保管場所の所在図・配置図の作成をサポートします</div>
+<div class="desc noprt">車庫証明の手続きに必要な保管場所の所在図・配置図の作成をサポートします</div>
 <div class="map_frm1">
 	<h2 class="noprt">所在図</h2><div id="map_ov" class="maps"></div></div>
 <div class="map_frm2">

@@ -1,66 +1,41 @@
 
+var distDirect = '---';
+
 // {{{ function initMapOverview(map_ov, map_zm)
 function initMapOverview(map_ov, map_zm)
 {
-//	//----------
-//	// setting configurations of 1st map
-//	//----------
-//	var dServ = new google.maps.DirectionsService(); 
-//	var dRend = new google.maps.DirectionsRenderer({
-//		map: map_ov,
-//		preserveViewport: true,
-//		draggable: true,
-//		suppressMarkers: true,
-//		polylineOptions: {
-//			strokeWeight: 5,
-//			strokeColor: "black",
-//			strokeOpacity: 0.5,
-//		}
-//	});
-
-//	google.maps.event.addListener(dRend, 'directions_changed', function(){
-//		var directions = dRend.getDirections();
-//		showRouteDistance(directions);
-//	});
-
 	//----------
-	// created markes.
+	// create markes.
 	//----------
-	var markerHome = createPieceMarker(map_ov, '宅');
-	var markerGrge = createPieceMarker(map_ov, '駐');
-	var infoHome = makeBollowInfo(map_ov, markerHome, 'hm');
-	var infoGrge = makeBollowInfo(map_ov, markerGrge, 'gr');
-	var plineMarkers = new google.maps.Polyline({map: map_ov, strokeColor: 'red', strokeWeight: 2, icons: [
+	var markerHome = createPinMarker(map_ov, '宅');
+	var markerGrge = createPinMarker(map_ov, '駐');
+	var arrowLine = new google.maps.Polyline({map: map_ov, strokeColor: 'red', strokeWeight: 2, icons: [
 			{icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, scale: 2}, offset: '100%'}
 		]});
 	initMarker(map_ov, markerHome, markerGrge);
+	renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
+	behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, arrowLine);
 
-	renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
-//	renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
-
-//	behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, dServ, dRend, plineMarkers);
-	behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, plineMarkers);
+	// add bollow to marker
+	var infoHome = makeBollowInfo(map_ov, markerHome, 'hm');
+	var infoGrge = makeBollowInfo(map_ov, markerGrge, 'gr');
 
 	//----------
-	// assigned events to markers.
+	// assigne events to markers.
 	//----------
 	markerHome.addListener('click', function(){
-		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
-	//	renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
 		infoHome.open(map_ov, markerHome);
 	});
 	markerGrge.addListener('click', function(){
-		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
-	//	renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
 		infoGrge.open(map_ov, markerGrge);
 	});
 	markerHome.addListener('dragend', function(arg) {
-		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
-	//	renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
 	});
 	markerGrge.addListener('dragend', function(arg) {
-		renderPoint2PointDirect(markerHome, markerGrge, plineMarkers);
-	//	renderPoint2PointRoute(dServ, dRend, markerHome, markerGrge);
+		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
 		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 
@@ -71,14 +46,16 @@ function initMapOverview(map_ov, map_zm)
 }
 // }}}
 
-// {{{ function createPieceMarker(map, position, caption)
-function createPieceMarker(map, caption)
+// {{{ function createPinMarker(map, position, caption)
+function createPinMarker(map, caption)
 {
 	var marker = new google.maps.Marker( {
 		map: map,
 		draggable: true ,
 		label: {
 			text: caption,
+			fontSize: "17px",
+			fontWeight: "bold",
 			color: "#FFFFFF",
 		}
 	});
@@ -91,7 +68,7 @@ function makeBollowInfo(map, marker, prefix)
 {
 	var content
 		= '<table>'
-		+ '<tr><th>直線距離</th><td><div id="' + prefix + '-direct">---</div><td></tr>'
+		+ '<tr><th>直線距離</th><td><div id="' + prefix + '-direct">' + distDirect + '</div><td></tr>'
 //		+ '<tr><th>道程距離</th><td><div id="' + prefix + '-route">---</div><td></tr>'
 		+ '</table>';
 	var info = new google.maps.InfoWindow({content: content});
@@ -119,25 +96,69 @@ function initMarker(map, markerH, markerG)
 }
 // }}}
 
-// {{{ function renderPoint2PointDirect(markerHome, markerGrge, polyline)
-function renderPoint2PointDirect(markerHome, markerGrge, polyline)
+// {{{ function renderPoint2PointDirect(markerHome, markerGrge, arrow)
+function renderPoint2PointDirect(markerHome, markerGrge, arrow)
 {
-	var distDirect = (Math.round(
+	var distance = (Math.round(
 		google.maps.geometry.spherical.computeDistanceBetween(
 		markerHome.getPosition(), markerGrge.getPosition())))
 		.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') + ' m';
+	distDirect = distance;
+
 	var elemHD = document.getElementById("hm-direct");
 	var elemGD = document.getElementById("gr-direct");
 	if (elemHD != null) {
-		elemHD.innerHTML = distDirect;
+		elemHD.innerHTML = distance;
 	}
 	if (elemGD != null) {
-		elemGD.innerHTML = distDirect;
+		elemGD.innerHTML = distance;
 	}
 	var paths = new Array();
 	paths[0] = markerHome.getPosition();
 	paths[1] = markerGrge.getPosition();
-	polyline.setOptions({path: paths});
+	arrow.setOptions({path: paths});
+}
+// }}}
+
+// {{{ function synchronizeCenter2Zoom(marker, map)
+function synchronizeCenter2Zoom(marker, map)
+{
+	map.setCenter(marker.getPosition());
+}
+// }}}
+
+// ------------------------------
+// abolished functions
+// ------------------------------
+
+// {{{ function createDirectService()
+function createDirectService()
+{
+	var dServ = new google.maps.DirectionsService(); 
+	return dServ;
+}
+// }}}
+
+// {{{ function createDirectRenderer(map)
+function createDirectRenderer(map)
+{
+	var dRend = new google.maps.DirectionsRenderer({
+		map: map,
+		preserveViewport: true,
+		draggable: true,
+		suppressMarkers: true,
+		polylineOptions: {
+			strokeWeight: 5,
+			strokeColor: "black",
+			strokeOpacity: 0.5,
+		}
+	});
+
+	google.maps.event.addListener(dRend, 'directions_changed', function(){
+		var directions = dRend.getDirections();
+		showRouteDistance(directions);
+	});
+	return dRend;
 }
 // }}}
 
@@ -167,13 +188,6 @@ function showRouteDistance(directions)
 	var elemGW = document.getElementById("gr-route");
 	if (elemHW != null) elemHW.innerHTML = distRoute;
 	if (elemGW != null) elemGW.innerHTML = distRoute;
-}
-// }}}
-
-// {{{ function synchronizeCenter2Zoom(marker, map)
-function synchronizeCenter2Zoom(marker, map)
-{
-	map.setCenter(marker.getPosition());
 }
 // }}}
 
