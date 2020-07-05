@@ -1,0 +1,7 @@
+
+@page {
+	size: A4 landscape;
+	margin: 1px;    // disable the page header and footer for Chrome.
+	padding: 0;     // disable the page header and footer for Chrome.
+}
+

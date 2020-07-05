@@ -1,0 +1,75 @@
+
+.map_frm1, .map_frm2 {
+	float: left;
+}
+.clear {
+	clear: both;
+}
+
+.maps {
+	border: solid 1px gray;
+	width: 120mm;
+	height: 120mm;
+}
+.maps div > img {
+	position: absolute;
+}
+
+#pac-input {
+	width: 225px;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding: 7.5px;
+	border: 1px solid silver;
+	border-radius: 5px;
+	box-shadow: 1px 1px 2px gray;
+}
+
+#map_zm_mytool {
+	margin-top: 6px;
+}
+
+#shp_color_group input[type="radio"] {
+	display: none;
+}
+#shp_color_group label {
+	background-color: #ffffff;
+	border-top: solid 1px silver;
+	border-bottom: solid 1px silver;
+	border-right: solid 1px silver;
+	padding: 4.5px;
+}
+#shp_color_group > label:first-of-type {
+	border-left: solid 1px silver;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+#shp_color_group > label:last-of-type {
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+#shp_color_group input[type="radio"]:checked + label {
+	background-color: #cccccc;
+}
+#shp_color_group .lbl_shp_black {
+	color: #000000;
+}
+#shp_color_group .lbl_shp_blue {
+	color: #0000ff;
+}
+#shp_color_group .lbl_shp_red {
+	color: #ff0000;
+}
+
+#btn_delete_shape {
+	color: #000000;
+	background-color: #FFFFFF;
+	border: 1px solid silver;
+	border-radius: 2px;
+	padding: 4px;
+}
+#btn_delete_shape:hover {
+	color: #343434;
+	background-color: #EBEBEB;
+}
+

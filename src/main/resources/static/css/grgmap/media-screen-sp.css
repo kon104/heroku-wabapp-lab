@@ -1,0 +1,25 @@
+
+header .menu {
+	width: 80%;
+}
+
+article {
+	margin: 0;
+	width: 100%;
+}   
+//	.desc {
+//		width: 97.5%;
+//	}
+
+.map_frm1, .map_frm2 {
+	margin: 0;
+	float: none;
+}
+.maps {
+	width: 100%;
+}
+
+
+
+
+

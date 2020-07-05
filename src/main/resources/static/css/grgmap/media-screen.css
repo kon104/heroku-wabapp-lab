@@ -1,0 +1,29 @@
+
+body {
+	background: #e0e0e0;
+}
+
+article {
+	padding-top: 55px;
+	margin-left: 8px;
+	width: 930px;
+}
+
+article h2 {
+	margin: 0 0 4px 0;
+}
+
+.map_frm1, .map_frm2 {
+	margin-right: 8px;
+	margin-bottom: 8px;
+}
+#map_ov, #map_zm {
+	box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+}
+
+.no-screen {
+	display: none;
+}
+
+
+

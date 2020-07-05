@@ -1,0 +1,24 @@
+
+header {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 1;
+}
+
+header h1 {
+	margin: 0;
+	padding-left: 60px;
+	line-height: 50px;
+	background: ghostwhite;
+	background-image: url('../../image/grgmap/checker.png');
+	box-shadow: 2px 2px 4px gray;
+	font-size: 30px;
+	color: #ca0813;
+	text-shadow: 3px 3px 0 #FFF, -3px -3px 0 #FFF,
+		-3px 3px 0 #FFF, 3px -3px 0 #FFF,
+		0px 3px 0 #FFF, 0 -3px 0 #FFF,
+		-3px 0 0 #FFF, 3px 0 0 #FFF;
+	white-space: nowrap;
+}
+
