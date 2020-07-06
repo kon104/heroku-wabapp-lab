@@ -6,7 +6,7 @@ header .menu {
 	position: absolute;
 	width: 400px;
 	margin: 8px;
-	transform: translateY(-125%);
+	transform: translateY(-110%);
 	transition: 0.3s ease-out;
 }
 header .menu.open {
@@ -17,14 +17,13 @@ header .menu.open {
 .menu .menu-win-bar {
 	display: table;
 	background: #000;
-	padding: 0px 7.5px;
-//	width: 436px;
-	width: 96.8%;
+	width: 100%;
 	line-height: 25px;
 }
 .menu .menu-win-title {
 	display: table-cell;
 	text-align: left;
+	padding-left: 5px;
 	color: white;
 	vertical-align: middle;
 	font-size: 16px;
@@ -32,15 +31,17 @@ header .menu.open {
 .menu .menu-win-close {
 	display: table-cell;
 	text-align: right;
+	width: 25px;
+	padding-right: 5px;
 	color: white;
-	font-size: 24px;
 	vertical-align: middle;
+	font-size: 24px;
 }
 .menu .menu-win-close:hover {
 	cursor: pointer;
 }
 
-.menu ul {
+.menu ol {
 	margin: 8px 0px 16px 0px;
 	padding-left: 30px;
 	font-size: 16px;

@@ -10,7 +10,11 @@ article {
 }
 
 article h2 {
-	margin: 0 0 4px 0;
+	margin-left: 0;
+	margin-right: 0;
+	margin-bottom: 4px;
+	margin-top: -55px;
+	padding-top: 55px;
 }
 
 .map_frm1, .map_frm2 {

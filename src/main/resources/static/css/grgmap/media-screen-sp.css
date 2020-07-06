@@ -1,15 +1,15 @@
 
 header .menu {
-	width: 80%;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
 }
 
 article {
-	margin: 0;
-	width: 100%;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	width: 95%;
 }   
-//	.desc {
-//		width: 97.5%;
-//	}
 
 .map_frm1, .map_frm2 {
 	margin: 0;
@@ -18,8 +18,4 @@ article {
 .maps {
 	width: 100%;
 }
-
-
-
-
 

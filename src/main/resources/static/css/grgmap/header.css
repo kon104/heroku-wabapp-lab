@@ -20,5 +20,7 @@ header h1 {
 		0px 3px 0 #FFF, 0 -3px 0 #FFF,
 		-3px 0 0 #FFF, 3px 0 0 #FFF;
 	white-space: nowrap;
+	position: relative;
+	z-index: 2;
 }
 

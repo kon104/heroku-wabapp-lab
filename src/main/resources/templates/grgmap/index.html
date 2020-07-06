@@ -31,10 +31,12 @@
 </a>
 <nav class="menu open">
 <div class="menu-win-bar"><span class="menu-win-title">MENU</span><span class="material-icons menu-win-close close-menu">cancel_presentation</span></div>
-<ul>
+<ol start="0">
 	<li><a href="https://sites.google.com/view/grgmap/" target="_new" class="menu-btn menu-btn-info"><span class="menu-btn-font material-icons">info</span></a>Garage Map Maker について</li>
+	<li><a href="#sec1" class="menu-btn menu-btn-func close-menu"><span class="menu-btn-font material-icons">edit_location</span></a>所在図を描く</li>
+	<li><a href="#sec2" class="menu-btn menu-btn-func close-menu"><span class="menu-btn-font material-icons">edit_road</span></a>配置図を書く</li>
 	<li><a href="#!" class="menu-btn menu-btn-func" onclick="window.print(); return false;"><span class="menu-btn-font material-icons">print</span></a>A4(210 x 297mm)サイズで印刷</li>
-</ul>
+</ol>
 </nav>
 </header>
 
@@ -45,9 +47,9 @@
 <article class="close-menu">
 <div class="desc no-print">車庫証明の手続きに必要な保管場所の所在図・配置図の作成をサポートします</div>
 <div class="map_frm1">
-	<h2 class="no-print">所在図</h2><div id="map_ov" class="maps"></div></div>
+	<h2 id="sec1" class="no-print">所在図</h2><div id="map_ov" class="maps"></div></div>
 <div class="map_frm2">
-	<h2 class="no-print">配置図</h2><div id="map_zm" class="maps"></div></div>
+	<h2 id="sec2" class="no-print">配置図</h2><div id="map_zm" class="maps"></div></div>
 <div class="clear"></div>
 
 <input id="pac-input" class="no-print" type="text" placeholder="マップを検索する" />
