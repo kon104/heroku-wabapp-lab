@@ -10,8 +10,9 @@ header h1 {
 	margin: 0;
 	padding-left: 60px;
 	line-height: 50px;
-	background: ghostwhite;
-	background-image: url('../../image/grgmap/checker.png');
+	background:
+		linear-gradient(to right, rgba(0, 255, 255, 0.8), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)),
+		url('../../image/grgmap/checker.png');
 	box-shadow: 2px 2px 4px gray;
 	font-size: 30px;
 	color: #ca0813;
