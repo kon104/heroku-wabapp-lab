@@ -11,11 +11,12 @@ header h1 {
 	padding-left: 60px;
 	line-height: 50px;
 	background:
-		linear-gradient(to right, rgba(0, 255, 255, 0.8), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)),
+		linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)),
 		url('../../image/grgmap/checker.png');
 	box-shadow: 2px 2px 4px gray;
 	font-size: 30px;
-	color: #ca0813;
+//	color: #ca0813;
+	color: #f00;
 	text-shadow: 3px 3px 0 #FFF, -3px -3px 0 #FFF,
 		-3px 3px 0 #FFF, 3px -3px 0 #FFF,
 		0px 3px 0 #FFF, 0 -3px 0 #FFF,

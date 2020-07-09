@@ -5,7 +5,8 @@ header .menu {
 	box-shadow: 2px 2px 4px gray;
 	position: absolute;
 	width: 400px;
-	margin: 8px;
+	margin-top: 8px;
+	margin-left: 32px;
 	transform: translateY(-110%);
 	transition: 0.3s ease-out;
 }
