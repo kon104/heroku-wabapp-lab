@@ -11,22 +11,33 @@ article {
 	width: 930px;
 }
 
-article h2 {
-	margin: 4px 0 4px 0;
-	padding-left: 7px;
-	border-left: double 10px #000;
-	border-bottom: solid 2px #000;
-}
-
 #sec1, #sec2 {
 	margin-top: -55px;
 	padding-top: 55px;
+}
+
+article h2 {
+//	margin: 4px 0 4px 0;
+//	padding-left: 7px;
+//	border-left: double 10px #000;
+//	border-bottom: solid 2px #000;
 }
 
 .map_frm1, .map_frm2 {
 	margin-right: 8px;
 	margin-bottom: 8px;
 }
+
+.map_title {
+    display: table;
+	margin: 4px 0;
+	border-left: double 10px #000;
+}
+.map_title_cell {
+    display: table-cell;
+	padding-left: 5px;
+}
+
 #map_ov, #map_zm {
 	box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
 }
@@ -34,6 +45,4 @@ article h2 {
 .no-screen {
 	display: none;
 }
-
-
 
