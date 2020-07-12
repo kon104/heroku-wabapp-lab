@@ -3,10 +3,9 @@ const DIFF_DIST_FROM_CENTER_MARKER = 0.001;
 const STORAGE_KEY_HOME_LAT = 'grgmap.home.lat';
 const STORAGE_KEY_HOME_LNG = 'grgmap.home.lng';
 
-// {{{ function initMapFully(centerLat, centerLng)
-function initMapFully(centerLat, centerLng)
+// {{{ function initMap()
+function initMap()
 {
-//	var centerLatLng = {lat: centerLat, lng: centerLng};
 	var centerLatLng = acquireCenterLatLng();
 
 	var map_ov = createMapOverview('map_ov', centerLatLng);
