@@ -68,6 +68,7 @@ function behaviorSearchBox(map_ov, map_zm, markerHome, markerGrge, arrowLine)
 
 		initMarker(map_ov, markerHome, markerGrge);
 		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
+		storeHomeMarkerLocation(markerHome);
 		synchronizeCenter2Zoom(markerGrge, map_zm);
 	});
 }

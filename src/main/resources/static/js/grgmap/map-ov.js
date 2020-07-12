@@ -67,15 +67,16 @@ function makeBollowInfo(map, marker, prefix)
 // {{{ function initMarker(map, markerH, markerG)
 function initMarker(map, markerH, markerG)
 {
-	const DIFF_DIST_FROM_CENTER = 0.001;
 	var mapPos = map.getCenter();
 	var homePos = {
-		lat: (mapPos.lat() + DIFF_DIST_FROM_CENTER / 2),
-		lng: (mapPos.lng() - DIFF_DIST_FROM_CENTER),
+//		lat: (mapPos.lat() + DIFF_DIST_FROM_CENTER_MARKER / 2),
+		lat: mapPos.lat(),
+		lng: (mapPos.lng() - DIFF_DIST_FROM_CENTER_MARKER),
 	};
 	var gragPos = {
-		lat: (mapPos.lat() - DIFF_DIST_FROM_CENTER / 2),
-		lng: (mapPos.lng() + DIFF_DIST_FROM_CENTER),
+//		lat: (mapPos.lat() - DIFF_DIST_FROM_CENTER_MARKER / 2),
+		lat: mapPos.lat(),
+		lng: (mapPos.lng() + DIFF_DIST_FROM_CENTER_MARKER),
 	};
 	markerH.setPosition(homePos);
 	markerG.setPosition(gragPos);
@@ -101,6 +102,7 @@ function addListeners(map_ov, map_zm, markerHome, infoHome, markerGrge, infoGrge
 	});
 	markerHome.addListener('dragend', function(arg) {
 		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
+		storeHomeMarkerLocation(markerHome);
 	});
 	markerGrge.addListener('dragend', function(arg) {
 		renderPoint2PointDirect(markerHome, markerGrge, arrowLine);
@@ -143,6 +145,16 @@ function renderPoint2PointDirect(markerHome, markerGrge, arrow)
 	paths[0] = markerHome.getPosition();
 	paths[1] = markerGrge.getPosition();
 	arrow.setOptions({path: paths});
+}
+// }}}
+
+// {{{ function storeHomeMarkerLocation(marker)
+function storeHomeMarkerLocation(marker)
+{
+	var pos = marker.getPosition();
+	var storage = localStorage;
+	storage.setItem(STORAGE_KEY_HOME_LAT, pos.lat());
+	storage.setItem(STORAGE_KEY_HOME_LNG, pos.lng());
 }
 // }}}
 
